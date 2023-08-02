@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">ThreadsApp</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="let_s_sign_you_in">Let’s sign you in</string>
+    <string name="we_ve_missed_you">We’ve missed you</string>
+    <string name="your_email">Your email</string>
+    <string name="password">Password</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="log_in">Log in</string>
+    <string name="login_with_google">Login with Google</string>
+    <string name="dont_have_an_account_yet">Dont have an account yet?</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="or">or</string>
 </resources>
