@@ -29,5 +29,11 @@ class CodeVerificationFragment : Fragment() {
         binding.btnBack.setOnClickListener {
             findNavController().navigate(R.id.action_codeVerificationFragment_to_resetPasswordFragment)
         }
+        binding.btnContinue.setOnClickListener {
+            findNavController().navigate(R.id.action_codeVerificationFragment_to_createPasswordFragment)
+        }
+        binding.sendAgainBtn.setOnClickListener {
+            // TODO
+        }
     }
 }

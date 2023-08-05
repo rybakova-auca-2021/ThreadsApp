@@ -27,10 +27,13 @@ class LoginFragment : Fragment() {
 
     private fun setupNavigation() {
         binding.loginButton.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_codeVerificationFragment)
+            // TODO
         }
         binding.btnForgotPassword.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_resetPasswordFragment)
+        }
+        binding.signUp.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_signUpFragment)
         }
     }
 }

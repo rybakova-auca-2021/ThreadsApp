@@ -29,7 +29,7 @@ class ResetPasswordFragment : Fragment() {
         binding.btnBack.setOnClickListener {
             findNavController().navigate(R.id.action_resetPasswordFragment_to_loginFragment)
         }
-        binding.btnEmail.setOnClickListener {
+        binding.btnContinue.setOnClickListener {
             findNavController().navigate(R.id.action_resetPasswordFragment_to_codeVerificationFragment)
         }
     }
