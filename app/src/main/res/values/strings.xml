@@ -25,4 +25,21 @@
     <string name="create_account">Create account</string>
     <string name="create_new_password">Create new password</string>
     <string name="your_new_password_must_be_different_from_previous_used_passwords">Your new password must be different from previous used passwords</string>
+    <string name="name">Name</string>
+    <string name="username">username</string>
+    <string name="followers">followers</string>
+    <string name="edit_profile">Edit profile</string>
+    <string name="share_profile">Share profile</string>
+    <string name="threads">Threads</string>
+    <string name="Username">Username</string>
+    <string name="write_username">+ Write username</string>
+    <string name="Name">Name</string>
+    <string name="write_name">+ Write name</string>
+    <string name="bio">Bio</string>
+    <string name="write_bio">+ Write bio</string>
+    <string name="link">Link</string>
+    <string name="write_link">+ Write link</string>
+    <string name="private_profile">Private profile</string>
+    <string name="done">Done</string>
+    <string name="edit_photo">Edit photo</string>
 </resources>
