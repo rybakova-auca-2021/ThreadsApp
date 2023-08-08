@@ -42,4 +42,6 @@
     <string name="private_profile">Private profile</string>
     <string name="done">Done</string>
     <string name="edit_photo">Edit photo</string>
+    <string name="new_profile_picture">New profile picture</string>
+    <string name="remove_current_picture">Remove current picture</string>
 </resources>
