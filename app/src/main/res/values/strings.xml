@@ -44,4 +44,6 @@
     <string name="edit_photo">Edit photo</string>
     <string name="new_profile_picture">New profile picture</string>
     <string name="remove_current_picture">Remove current picture</string>
+    <string name="copy_link">Copy link</string>
+    <string name="share_via">Share via...</string>
 </resources>
