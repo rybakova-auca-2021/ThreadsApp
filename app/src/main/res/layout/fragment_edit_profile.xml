@@ -210,6 +210,8 @@
             android:layout_height="wrap_content"
             android:minWidth="48dp"
             android:minHeight="48dp"
+            android:thumb="@drawable/thumb"
+            app:track="@drawable/track"
             app:layout_constraintBottom_toBottomOf="@+id/private_profile"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/private_profile"
