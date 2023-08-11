@@ -18,4 +18,9 @@
     <style name="bottomSheetBackground" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/rounded_top_corners</item>
     </style>
+
+    <style name="BottomNavStyle" parent="Widget.Design.BottomNavigationView">
+        <item name="itemIconTint">@color/color_selector</item>
+    </style>
+
 </resources>
