@@ -38,7 +38,7 @@
     <string name="bio">Bio</string>
     <string name="write_bio">+ Write bio</string>
     <string name="link">Link</string>
-    <string name="write_link">+ Write link</string>
+    <string name="write_link">+ Add link</string>
     <string name="private_profile">Private profile</string>
     <string name="done">Done</string>
     <string name="edit_photo">Edit photo</string>

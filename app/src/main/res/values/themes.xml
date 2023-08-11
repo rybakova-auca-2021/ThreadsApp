@@ -8,7 +8,7 @@
 
     <style name="LightDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:textColor">@android:color/primary_text_light</item>
-        <item name="colorAccent">@color/primary</item>
+        <item name="colorAccent">@color/black</item>
     </style>
 
     <style name="BottomSheetDialogStyle" parent="Theme.Design.Light.BottomSheetDialog">

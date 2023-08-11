@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:src="@drawable/rectangle"
+            android:src="@drawable/divider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -46,7 +46,7 @@
             android:gravity="center_vertical"
             android:minHeight="48dp"
             android:text="@string/new_profile_picture"
-            android:textColor="@color/primary"
+            android:textColor="@color/black"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@+id/gallery_img"
             app:layout_constraintStart_toEndOf="@+id/gallery_img"

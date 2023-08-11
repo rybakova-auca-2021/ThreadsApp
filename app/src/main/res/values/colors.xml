@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#141414</color>
+    <color name="black">#141414</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="grey_auth">#8C8C8C</color>
+    <color name="grey_profile">#999999</color>
+    <color name="blue">#0095F6</color>
+    <color name="red">#FF453A</color>
 </resources>

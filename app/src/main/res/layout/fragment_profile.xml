@@ -73,67 +73,70 @@
         app:layout_constraintStart_toStartOf="@+id/username"
         app:layout_constraintTop_toBottomOf="@+id/username" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/edit_profile_btn"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="36dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/white"
+        android:background="@drawable/rounded_rectangle"
         android:text="@string/edit_profile"
         android:textSize="16sp"
         android:textAllCaps="false"
-        android:textColor="@color/primary"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/num_of_followers"
         app:layout_constraintWidth_percent="0.4" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/share_profile_btn"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="15dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/white"
+        android:background="@drawable/rounded_rectangle"
         android:text="@string/share_profile"
-        android:textSize="16sp"
         android:textAllCaps="false"
-        android:textColor="@color/primary"
+        android:textColor="@color/black"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/num_of_followers"
         app:layout_constraintWidth_percent="0.4" />
 
-    <ImageView
+    <View
         android:id="@+id/line"
         android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:layout_marginTop="70dp"
-        android:src="@drawable/line"
+        android:layout_height="2dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_profile_btn" />
+        app:layout_constraintTop_toBottomOf="@+id/threads" />
 
     <TextView
         android:id="@+id/threads"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:layout_marginBottom="5dp"
         android:fontFamily="@font/sfmedium"
         android:text="@string/threads"
-        android:textColor="@color/primary"
+        android:textColor="@color/black"
         android:textSize="17sp"
-        app:layout_constraintBottom_toTopOf="@+id/line"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_profile_btn" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/line" />
+        app:layout_constraintTop_toBottomOf="@+id/line"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

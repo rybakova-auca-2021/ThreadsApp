@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="HeaderTextStyle">
+        <item name="android:textSize">34sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/sfbold</item>
+    </style>
+
+    <style name="InfoTextStyle">
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@color/grey_auth</item>
+        <item name="android:fontFamily">@font/sfregular</item>
+    </style>
+
+    <style name="EditTextStyle">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#999999</item>
+        <item name="android:fontFamily">@font/sfregular</item>
+    </style>
+</resources>
