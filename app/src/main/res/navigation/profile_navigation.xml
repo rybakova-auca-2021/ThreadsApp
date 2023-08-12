@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_profileFragment_to_editProfileFragment"
             app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_followFragment"
+            app:destination="@id/followFragment" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
@@ -21,6 +24,15 @@
         tools:layout="@layout/fragment_edit_profile" >
         <action
             android:id="@+id/action_editProfileFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/followFragment"
+        android:name="com.example.threadsapp.view.followers.FollowFragment"
+        android:label="fragment_follow"
+        tools:layout="@layout/fragment_follow" >
+        <action
+            android:id="@+id/action_followFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
     </fragment>
 </navigation>

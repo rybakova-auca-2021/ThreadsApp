@@ -36,6 +36,9 @@ class ProfileFragment : Fragment() {
         binding.logoutBtn.setOnClickListener {
             showLogoutDialog()
         }
+        binding.numOfFollowers.setOnClickListener {
+            findNavController().navigate(R.id.followFragment)
+        }
         binding.shareProfileBtn.setOnClickListener {
             showImageOptionsBottomSheet()
         }
@@ -51,8 +54,8 @@ class ProfileFragment : Fragment() {
 
     private fun showImageOptionsBottomSheet() {
         val dialog = createBottomSheetDialog()
-        val copyBtn = dialog.findViewById<View>(R.id.btn_copy)
-        val shareBtn = dialog.findViewById<View>(R.id.btn_share)
+        val copyBtn = dialog.findViewById<View>(R.id.btn_copy_link)
+        val shareBtn = dialog.findViewById<View>(R.id.btn_share_via)
 
         copyBtn?.setOnClickListener {
             dialog.dismiss()
