@@ -46,4 +46,6 @@
     <string name="remove_current_picture">Remove current picture</string>
     <string name="copy_link">Copy link</string>
     <string name="share_via">Share via...</string>
+    <string name="quote">Quote</string>
+    <string name="remove">Remove</string>
 </resources>

@@ -35,13 +35,14 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/btn_copy_link"
+            android:id="@+id/button"
             style="@style/DialogTextStyle"
+            android:textColor="@color/red"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@android:color/transparent"
-            android:drawableLeft="@drawable/lucide_share"
-            android:text="@string/copy_link"
+            android:text="@string/remove"
+            android:drawableRight="@drawable/repost"
             android:textAlignment="viewStart"
             app:layout_constraintBottom_toTopOf="@+id/view"
             app:layout_constraintEnd_toEndOf="parent"
@@ -51,19 +52,19 @@
             app:layout_constraintVertical_bias="1.0" />
 
         <Button
-            android:id="@+id/btn_share_via"
+            android:id="@+id/button2"
             style="@style/DialogTextStyle"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@android:color/transparent"
-            android:drawableLeft="@drawable/mdi_link"
-            android:text="@string/share_via"
+            android:text="@string/quote"
+            android:drawableRight="@drawable/quote"
             android:textAlignment="viewStart"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_copy_link" />
+            app:layout_constraintTop_toBottomOf="@+id/button" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
