@@ -16,7 +16,7 @@
     </style>
 
     <style name="bottomSheetBackground" parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@drawable/rounded_top_corners</item>
+        <item name="android:backgroundDimAmount">1</item>
     </style>
 
     <style name="BottomNavStyle" parent="Widget.Design.BottomNavigationView">
