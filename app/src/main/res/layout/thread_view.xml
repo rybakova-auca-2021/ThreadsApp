@@ -39,7 +39,7 @@
             android:layout_marginStart="12dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="16dp"
-            android:text="When I look at you, I see someone who’s working hard"
+            android:text="@string/quote1"
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/avatar"
@@ -86,7 +86,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="2 replies"
+            android:text="@string/_2_replies"
             app:layout_constraintStart_toStartOf="@+id/like_btn"
             app:layout_constraintTop_toBottomOf="@+id/like_btn" />
 
@@ -95,7 +95,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="941 likes"
+            android:text="@string/_941_likes"
             app:layout_constraintStart_toEndOf="@+id/divider"
             app:layout_constraintTop_toTopOf="@+id/replies" />
 
@@ -104,7 +104,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="•"
+            android:text="@string/dot"
             app:layout_constraintStart_toEndOf="@+id/replies"
             app:layout_constraintTop_toTopOf="@+id/replies" />
 
@@ -113,7 +113,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="50dp"
-            android:text="2h"
+            android:text="@string/_2h"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/username" />
 
