@@ -2,6 +2,7 @@ package com.example.threadsapp
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -21,7 +22,7 @@ class ProfileActivity : AppCompatActivity() {
         bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.btn_home -> {
-                    // TODO navigate to home screen
+                    navController.navigate(R.id.homeFragment)
                     true
                 }
 
