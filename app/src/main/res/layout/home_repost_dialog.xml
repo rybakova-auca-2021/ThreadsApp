@@ -3,9 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="220dp"
+    android:layout_height="160dp"
     app:behavior_hideable="true"
-    app:cardCornerRadius="6dp"
     app:layout_behavior="@string/bottom_sheet_behavior">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,76 +17,55 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
             android:src="@drawable/divider"
-            app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout"
+            android:id="@+id/constraintLayout2"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="96dp"
             android:layout_gravity="center"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:background="@drawable/rounded_edittext"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/rectangle">
 
-
-            <RadioButton
-                android:id="@+id/btn_default"
+            <Button
+                android:id="@+id/btn_repost"
                 style="@style/DialogTextStyle"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_gravity="right"
                 android:background="@android:color/transparent"
-                android:button="@null"
-                android:drawableRight="@android:drawable/btn_radio"
-                android:paddingHorizontal="10dp"
-                android:text="Default"
-                app:layout_constraintBottom_toTopOf="@+id/btn_latest"
+                android:drawableRight="@drawable/repost_btn"
+                android:text="@string/repost"
+                android:textAlignment="viewStart"
+                app:layout_constraintBottom_toTopOf="@+id/btn_quote"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
 
-            <RadioButton
-                android:id="@+id/btn_latest"
+            <Button
+                android:id="@+id/btn_quote"
                 style="@style/DialogTextStyle"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_gravity="right"
                 android:background="@android:color/transparent"
-                android:button="@null"
-                android:drawableRight="@android:drawable/btn_radio"
-                android:paddingHorizontal="10dp"
-                android:text="Latest first"
-                app:layout_constraintBottom_toTopOf="@+id/btn_earliest"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_default" />
-
-            <RadioButton
-                android:id="@+id/btn_earliest"
-                style="@style/DialogTextStyle"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_gravity="right"
-                android:background="@android:color/transparent"
-                android:button="@null"
-                android:drawableRight="@android:drawable/btn_radio"
-                android:paddingHorizontal="10dp"
-                android:text="Earliest first"
+                android:drawableRight="@drawable/quote"
+                android:text="@string/quote"
+                android:textAlignment="viewStart"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_latest" />
+                app:layout_constraintTop_toBottomOf="@+id/btn_repost" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
