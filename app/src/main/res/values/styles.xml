@@ -24,4 +24,10 @@
         <item name="android:fontFamily">@font/sfbold</item>
         <item name="android:textAllCaps">false</item>
     </style>
+
+    <style name="PageNameTextStyle">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/sfbold</item>
+    </style>
 </resources>

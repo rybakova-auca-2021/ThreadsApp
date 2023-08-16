@@ -55,4 +55,13 @@
     <string name="_941_likes">941 likes</string>
     <string name="dot">•</string>
     <string name="_2h">2h</string>
+    <string name="thread">Thread</string>
+    <string name="reply">Reply</string>
+    <string name="add_another_reply">Add another reply</string>
+    <string name="anyone_can_reply">Anyone can reply</string>
+    <string name="post">Post</string>
+    <string name="reply_to_kayou">Reply to kayou...</string>
+    <string name="thread_msg">Focusing is something impossible for people with ADHD</string>
+    <string name="username_exapmle">malevicz</string>
+    <string name="username_example">kayou</string>
 </resources>
