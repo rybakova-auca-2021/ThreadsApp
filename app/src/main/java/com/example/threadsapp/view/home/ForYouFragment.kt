@@ -2,12 +2,12 @@ package com.example.threadsapp.view.home
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.threadsapp.R
 import com.example.threadsapp.adapters.ThreadsAdapter
@@ -54,23 +54,13 @@ class ForYouFragment : Fragment() {
 
         threadsAdapter.onClickListener = object : ThreadsAdapter.ListClickListener<ThreadData> {
             override fun onClick(data: ThreadData, position: Int) {
-                val fragment = ThreadFragment().apply {
-                    arguments = Bundle().apply { putParcelable("threads", data) }
-                }
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.hostFragment, fragment)
-                    .addToBackStack(null)
-                    .commit()
+                val action = HomeFragmentDirections.actionToThreadFragment(data)
+                findNavController().navigate(action)
             }
 
             override fun onCommentClick(data: ThreadData, position: Int) {
-                val fragment = ReplyFragment().apply {
-                    arguments = Bundle().apply { putParcelable("threads", data) }
-                }
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.hostFragment, fragment)
-                    .addToBackStack(null)
-                    .commit()
+                val action = HomeFragmentDirections.actionToReplyFragment(data)
+                findNavController().navigate(action)
             }
 
             override fun onRepostClick(data: ThreadData, position: Int) {

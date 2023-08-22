@@ -35,9 +35,39 @@
             android:id="@+id/action_followFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/threadFragment"
+        android:name="com.example.threadsapp.view.home.ThreadFragment"
+        android:label="ThreadFragment"
+        tools:layout="@layout/fragment_thread"/>
+
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.threadsapp.view.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home">
+            <action
+                android:id="@+id/action_to_thread_fragment"
+                app:destination="@id/threadFragment">
+                <argument
+                    android:name="threads"
+                    app:argType="com.example.threadsapp.model.ThreadData"
+                    app:nullable="true"/>
+            </action>
+            <action
+            android:id="@+id/action_to_replyFragment"
+            app:destination="@id/replyFragment">
+                <argument
+                    android:name="threads"
+                    app:argType="com.example.threadsapp.model.ThreadData"
+                    app:nullable="true"/>
+            </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/replyFragment"
+        android:name="com.example.threadsapp.view.home.ReplyFragment"
+        android:label="fragment_reply"
+        tools:layout="@layout/fragment_reply" />
 </navigation>
