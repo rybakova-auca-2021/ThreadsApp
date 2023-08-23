@@ -48,6 +48,10 @@ class ForYouFragment : Fragment() {
         val sampleThreads = listOf(
             ThreadData(R.drawable.avatar, "kamiloyy", "Opportunities don't happen, you create them.", "1h", "20 replies", "400 likes", R.drawable.thread_img),
             ThreadData(R.drawable.avatar, "alinoyy", "Opportunities don't happen, you create them.", "2h", "40 replies", "100 likes", R.drawable.image),
+            ThreadData(R.drawable.avatar, "kamiloyy", "Opportunities don't happen, you create them.", "1h", "20 replies", "400 likes", R.drawable.thread_img),
+            ThreadData(R.drawable.avatar, "alinoyy", "Opportunities don't happen, you create them.", "2h", "40 replies", "100 likes", R.drawable.image),
+            ThreadData(R.drawable.avatar, "kamiloyy", "Opportunities don't happen, you create them.", "1h", "20 replies", "400 likes", R.drawable.thread_img),
+            ThreadData(R.drawable.avatar, "alinoyy", "Opportunities don't happen, you create them.", "2h", "40 replies", "100 likes", R.drawable.image),
             )
 
         threadsAdapter.threads = sampleThreads
