@@ -118,12 +118,15 @@
             app:layout_constraintStart_toStartOf="@+id/username"
             app:layout_constraintTop_toBottomOf="@+id/username" />
 
-        <TextView
+        <EditText
             android:id="@+id/reply_to"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:background="@color/white"
+            android:textColor="@color/grey_profile"
             android:layout_marginTop="4dp"
-            android:text="@string/reply_to_kayou"
+            android:hint="@string/reply_to_kayou"
             app:layout_constraintStart_toStartOf="@+id/my_username"
             app:layout_constraintTop_toBottomOf="@+id/my_username" />
 
@@ -131,12 +134,12 @@
             android:id="@+id/add_media"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="10dp"
             android:clickable="true"
             android:focusable="true"
             android:src="@drawable/mdi_paperclip"
             app:layout_constraintStart_toStartOf="@+id/reply_to"
-            app:layout_constraintTop_toBottomOf="@+id/reply_to" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
         <View
             android:id="@+id/view6"
@@ -168,11 +171,10 @@
             android:id="@+id/profile_photo_thread"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginTop="50dp"
             android:src="@drawable/profile_photo"
             app:layout_constraintEnd_toEndOf="@+id/my_photo"
             app:layout_constraintStart_toStartOf="@+id/my_photo"
-            app:layout_constraintTop_toBottomOf="@+id/my_photo" />
+            app:layout_constraintTop_toBottomOf="@+id/add_media" />
 
         <TextView
             android:id="@+id/add_apply"
@@ -209,6 +211,17 @@
             android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@+id/guideline_bottom"
             app:layout_constraintEnd_toEndOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/thread_img"
+            app:layout_constraintHeight_max="300dp"
+            app:layout_constraintWidth_max="300dp"
+            app:layout_constraintStart_toStartOf="@+id/reply_to"
+            app:layout_constraintTop_toBottomOf="@+id/reply_to" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
