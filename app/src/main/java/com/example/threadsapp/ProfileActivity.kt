@@ -27,7 +27,7 @@ class ProfileActivity : AppCompatActivity() {
                 }
 
                 R.id.btn_search -> {
-                    // TODO navigate to search screen
+                    navController.navigate(R.id.searchFragment)
                     true
                 }
 
