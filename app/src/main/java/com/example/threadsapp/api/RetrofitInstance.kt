@@ -28,6 +28,10 @@ class RetrofitInstance {
         val authApi by lazy {
             retrofit.create(AuthInterface::class.java)
         }
+
+        val profileApi by lazy {
+            retrofit.create(ProfileInterface::class.java)
+        }
     }
 }
 
