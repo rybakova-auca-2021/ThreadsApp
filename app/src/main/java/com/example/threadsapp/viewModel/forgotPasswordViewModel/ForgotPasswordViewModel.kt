@@ -58,5 +58,29 @@ class ForgotPasswordViewModel: ViewModel() {
         })
     }
 
+    fun createPassword(
+        email: String,
+        otp: Int,
+        password: String,
+        password2: String,
+        onSuccess: () -> Unit,
+        onError: () -> Unit
+    ) {
+        val request = ForgotPasswordUpdate(email, otp, password, password2)
+        val apiInterface = RetrofitInstance.authApi
 
+        val call = apiInterface.forgotPasswordUpdate(request)
+        call.enqueue(object : Callback<DetailResponse> {
+            override fun onResponse(call: Call<DetailResponse>, response: Response<DetailResponse>) {
+                if (response.isSuccessful) {
+                    onSuccess.invoke()
+                } else {
+                    onError.invoke()
+                }
+            }
+            override fun onFailure(call: Call<DetailResponse>, t: Throwable) {
+                onError.invoke()
+            }
+        })
+    }
 }
