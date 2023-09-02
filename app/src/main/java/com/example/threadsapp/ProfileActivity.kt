@@ -32,7 +32,7 @@ class ProfileActivity : AppCompatActivity() {
                 }
 
                 R.id.btn_post -> {
-                    // TODO navigate to post screen
+                    navController.navigate(R.id.createNewThreadFragment)
                     true
                 }
 

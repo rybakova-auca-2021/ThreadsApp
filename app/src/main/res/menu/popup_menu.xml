@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/optionAnyone"
+        android:title="Anyone"
+        android:icon="@drawable/anyone_img"/>
+    <item
+        android:id="@+id/optionProfilesFollow"
+        android:title="Profiles You Follow"
+        android:icon="@drawable/mdi_account_multiple"/>
+    <item
+        android:id="@+id/optionMentionedOnly"
+        android:title="Mentioned Only"
+        android:icon="@drawable/mdi_at"/>
+</menu>
