@@ -1,6 +1,8 @@
 package com.example.threadsapp.api
 
 import com.example.threadsapp.util.Constants.Companion.BASE_URL
+import com.example.threadsapp.util.Utils
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -14,6 +16,7 @@ class RetrofitInstance {
             logging.setLevel(HttpLoggingInterceptor.Level.BODY)
             val client = OkHttpClient.Builder()
                 .addInterceptor(logging)
+                .addInterceptor(AuthorizationInterceptor())
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
                 .writeTimeout(30, TimeUnit.SECONDS)
@@ -31,6 +34,27 @@ class RetrofitInstance {
 
         val profileApi by lazy {
             retrofit.create(ProfileInterface::class.java)
+        }
+
+        private class AuthorizationInterceptor : Interceptor {
+            override fun intercept(chain: Interceptor.Chain): okhttp3.Response {
+                val request = chain.request()
+                val newRequest = if (requiresAuthorization(request)) {
+                    val token = Utils.token
+                    val authHeader = "Bearer $token"
+                    request.newBuilder()
+                        .header("Authorization", authHeader)
+                        .build()
+                } else {
+                    request
+                }
+                return chain.proceed(newRequest)
+            }
+
+            private fun requiresAuthorization(request: okhttp3.Request): Boolean {
+                val path = request.url.encodedPath
+                return path.endsWith("me/") || path.endsWith("update/")
+            }
         }
     }
 }

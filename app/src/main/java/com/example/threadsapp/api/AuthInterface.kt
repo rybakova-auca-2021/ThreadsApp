@@ -8,6 +8,7 @@ import com.example.threadsapp.model.AuthModel.ForgotPasswordUpdate
 import com.example.threadsapp.model.AuthModel.ForgotPasswordVerify
 import com.example.threadsapp.model.AuthModel.GoogleLogin
 import com.example.threadsapp.model.AuthModel.Login
+import com.example.threadsapp.model.AuthModel.LoginResponse
 import com.example.threadsapp.model.AuthModel.SignUp
 import retrofit2.Call
 import retrofit2.http.Body
@@ -16,7 +17,7 @@ import retrofit2.http.PUT
 
 interface AuthInterface {
     @POST("sign_in/")
-    fun login(@Body request: Login): Call<Unit>
+    fun login(@Body request: Login): Call<LoginResponse>
 
     @POST("sign_in/google/")
     fun loginViaGoogle(@Body request: GoogleLogin): Call<Unit>
