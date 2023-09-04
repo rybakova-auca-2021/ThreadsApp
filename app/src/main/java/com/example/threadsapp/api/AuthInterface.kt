@@ -23,7 +23,7 @@ interface AuthInterface {
     fun loginViaGoogle(@Body request: GoogleLogin): Call<Unit>
 
     @POST("sign_up/")
-    fun signUp(@Body request: SignUp): Call<Unit>
+    fun signUp(@Body request: SignUp): Call<LoginResponse>
 
     @POST("forgot_password/")
     fun forgotPassword(@Body request: ForgotPassword): Call<DetailResponse>
@@ -37,7 +37,7 @@ interface AuthInterface {
     @POST("confirm_email/")
     fun confirmEmail(@Body request: ConfirmEmail): Call<DetailResponse>
 
-    @PUT("confirm_email/")
+    @PUT("confirm_email/update/")
     fun confirmEmailUpdate(@Body request: ConfirmEmailUpdate): Call<DetailResponse>
 
 }

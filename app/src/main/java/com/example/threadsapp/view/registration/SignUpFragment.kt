@@ -1,12 +1,12 @@
 package com.example.threadsapp.view.registration
 
+import android.content.Context
 import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -76,8 +76,8 @@ class SignUpFragment : Fragment() {
             viewModel.register(
                 email, username, password, passwordRepeat,
                 onSuccess = {
-                    navigateToLogin()
-                    showToast("Registration successful")
+                    handleSendingEmail()
+                    saveEmailToSharedPreferences(email, username)
                 },
                 onError = {
                     showToast("Registration failed. Please try again.")
@@ -85,6 +85,30 @@ class SignUpFragment : Fragment() {
             )
         }
     }
+
+    private fun handleSendingEmail() {
+        val email = binding.btnEmail.text.toString()
+
+        viewModel.sendEmail(
+            email,
+            onSuccess = {
+                navigateToLogin()
+                showToast("Confirm your mail.")
+            },
+            onError = {
+                showToast("Please try again.")
+            }
+        )
+    }
+
+    private fun saveEmailToSharedPreferences(email: String, username: String) {
+        val sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("email", email)
+        editor.putString("username", username)
+        editor.apply()
+    }
+
 
     private fun areFieldsValid(
         email: String,
@@ -100,7 +124,7 @@ class SignUpFragment : Fragment() {
     }
 
     private fun navigateToLogin() {
-        findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
+        findNavController().navigate(R.id.action_signUpFragment_to_confirmEmailFragment)
     }
 
     private fun showToast(message: String) {
