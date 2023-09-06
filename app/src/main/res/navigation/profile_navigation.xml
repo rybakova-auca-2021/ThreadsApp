@@ -79,4 +79,9 @@
         android:id="@+id/createNewThreadFragment"
         android:name="com.example.threadsapp.view.newThread.CreateNewThreadFragment"
         android:label="CreateNewThreadFragment" />
+    <fragment
+        android:id="@+id/activityFragment"
+        android:name="com.example.threadsapp.view.activity.ActivityFragment"
+        android:label="fragment_activity"
+        tools:layout="@layout/fragment_activity" />
 </navigation>

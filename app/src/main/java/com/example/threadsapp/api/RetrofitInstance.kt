@@ -36,6 +36,10 @@ class RetrofitInstance {
             retrofit.create(ProfileInterface::class.java)
         }
 
+        val searchApi by lazy {
+            retrofit.create(SearchInterface::class.java)
+        }
+
         private class AuthorizationInterceptor : Interceptor {
             override fun intercept(chain: Interceptor.Chain): okhttp3.Response {
                 val request = chain.request()
@@ -56,7 +60,8 @@ class RetrofitInstance {
                 return  path.endsWith("forgot_password/verify/") ||
                         path.endsWith("confirm_email/") ||
                         path.endsWith("me/") ||
-                        path.endsWith("update/")
+                        path.endsWith("update/") ||
+                        path.endsWith("edit_photo/")
             }
         }
     }
