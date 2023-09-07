@@ -14,12 +14,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.example.neobis_android_chapter8.viewModels.AuthViewModel.UserInfoViewModel
 import com.example.threadsapp.R
 import com.example.threadsapp.databinding.FragmentEditProfileBinding
 import com.example.threadsapp.util.Utils
 import com.example.threadsapp.viewModel.profileViewModel.EditProfileViewModel
 import com.example.threadsapp.viewModel.profileViewModel.PhotoViewModel
-import com.example.threadsapp.viewModel.profileViewModel.UserInfoViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class EditProfileFragment : Fragment() {
@@ -42,6 +42,7 @@ class EditProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupNavigation()
         showUserData()
+        getDataViewModel.getInfo()
     }
 
     private fun setupNavigation() {
@@ -61,30 +62,34 @@ class EditProfileFragment : Fragment() {
     }
 
     private fun showUserData() {
-        getDataViewModel.getData(
-            onSuccess = { userProfile ->
-                if (userProfile != null) {
-                    val usernameText = userProfile.username ?: ""
-                    val fullName = userProfile.full_name ?: ""
-                    val bioText = userProfile.bio ?: ""
-                    val websiteText = userProfile.website ?: ""
+        getDataViewModel.profileData.observe(viewLifecycleOwner) { profile ->
+            profile?.let {
+                val usernameText = profile.username ?: ""
+                val fullName = profile.full_name ?: ""
+                val bioText = profile.bio ?: ""
+                val websiteText = profile.website ?: ""
 
-                    val usernameEditable = Editable.Factory.getInstance().newEditable(usernameText)
-                    val fullNameEditable = Editable.Factory.getInstance().newEditable(fullName)
-                    val bioEditable = Editable.Factory.getInstance().newEditable(bioText)
-                    val websiteEditable = Editable.Factory.getInstance().newEditable(websiteText)
+                val usernameEditable = Editable.Factory.getInstance().newEditable(usernameText)
+                val fullNameEditable = Editable.Factory.getInstance().newEditable(fullName)
+                val bioEditable = Editable.Factory.getInstance().newEditable(bioText)
+                val websiteEditable = Editable.Factory.getInstance().newEditable(websiteText)
 
-                    binding.etUsername.text = usernameEditable
-                    binding.etName.text = fullNameEditable
-                    binding.etBio.text = bioEditable
-                    binding.etLink.text = websiteEditable
-                }
-            },
-            onError = {
-                showToast("Unable to load profile data")
+                binding.etUsername.text = usernameEditable
+                binding.etName.text = fullNameEditable
+                binding.etBio.text = bioEditable
+                binding.etLink.text = websiteEditable
+//                profile.photo.let { photoUrl ->
+//                    if (it.photo.isNullOrEmpty()) {
+//                        Glide.with(this).load(R.drawable.profile_photo).into(binding.profilePhoto)
+//                    } else {
+//                        val photoUrl = it.photo
+//                        Glide.with(this).load(photoUrl).circleCrop().into(binding.profilePhoto)
+//                    }
+//                }
             }
-        )
+        }
     }
+
 
     private fun setPhoto() {
         photoViewModel.editPhoto(requireContext(),
