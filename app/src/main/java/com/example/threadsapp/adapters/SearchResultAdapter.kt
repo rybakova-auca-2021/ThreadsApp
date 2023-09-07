@@ -2,40 +2,59 @@ package com.example.threadsapp.adapters
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.threadsapp.R
-import com.example.threadsapp.model.SearchResult
+import com.example.threadsapp.databinding.SearchCardBinding
+import com.example.threadsapp.model.UserResult
 
-class SearchResultAdapter(private val results: List<SearchResult>) :
+class SearchResultAdapter(private var results: List<UserResult>) :
     RecyclerView.Adapter<SearchResultAdapter.ViewHolder>() {
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val followerNameTextView = itemView.findViewById<TextView>(R.id.followerName)
-        val jobTextView = itemView.findViewById<TextView>(R.id.job)
-        val followersTextView = itemView.findViewById<TextView>(R.id.num_of_followers)
-        val followButton = itemView.findViewById<Button>(R.id.followButton)
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.search_card, parent, false)
-        return ViewHolder(view)
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = SearchCardBinding.inflate(inflater, parent, false)
+        return ViewHolder(binding)
     }
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val result = results[position]
 
-        holder.followerNameTextView?.text = result.username
-        holder.jobTextView?.text = result.job
-        holder.followersTextView?.text = result.followers + " followers"
+        holder.bind(result)
     }
 
     override fun getItemCount(): Int {
         return results.size
+    }
+
+    fun updateData(newList: List<UserResult>) {
+        val diffResult = DiffUtil.calculateDiff(ProductDiffCallback(results, newList))
+        results = newList
+        diffResult.dispatchUpdatesTo(this)
+    }
+
+    inner class ViewHolder(private val binding: SearchCardBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(result: UserResult) {
+            with(binding) {
+                username.text = result.username
+            }
+        }
+    }
+    class ProductDiffCallback(
+        private val oldList: List<UserResult>,
+        private val newList: List<UserResult>
+    ) : DiffUtil.Callback() {
+
+        override fun getOldListSize() = oldList.size
+
+        override fun getNewListSize() = newList.size
+
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) =
+            oldList[oldItemPosition].pk == newList[newItemPosition].pk
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int) =
+            oldList[oldItemPosition] == newList[newItemPosition]
     }
 }
