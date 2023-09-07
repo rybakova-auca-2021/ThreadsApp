@@ -1,10 +1,13 @@
 package com.example.threadsapp
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class ProfileActivity : AppCompatActivity() {
 
@@ -18,6 +21,7 @@ class ProfileActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView)
+        bottomNavigationView.setupWithNavController(navController)
 
         bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
@@ -37,7 +41,7 @@ class ProfileActivity : AppCompatActivity() {
                 }
 
                 R.id.btn_like -> {
-                    // TODO navigate to activity screen
+                    navController.navigate(R.id.activityFragment)
                     true
                 }
 
@@ -49,5 +53,14 @@ class ProfileActivity : AppCompatActivity() {
                 else -> false
             }
         }
+    }
+    fun hideBtmNav() {
+        val navBar = findViewById<View>(R.id.bottomNavigationView)
+        navBar.visibility = View.GONE
+    }
+
+    fun showBtmNav() {
+        val navBar = findViewById<View>(R.id.bottomNavigationView)
+        navBar.visibility = View.VISIBLE
     }
 }
