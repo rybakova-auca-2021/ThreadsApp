@@ -2,23 +2,26 @@ package com.example.threadsapp.view.search
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.threadsapp.adapters.SearchResultAdapter
 import com.example.threadsapp.databinding.FragmentSearchBinding
+import com.example.threadsapp.model.UserResult
+import com.example.threadsapp.viewModel.profileViewModel.SomeoneProfileViewModel
 import com.example.threadsapp.viewModel.searchViewModel.SearchViewModel
 
 class SearchFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
     private lateinit var recyclerView: RecyclerView
     private val viewModel: SearchViewModel by viewModels()
+    private val userInfoViewModel: SomeoneProfileViewModel by viewModels()
     private lateinit var adapter: SearchResultAdapter
 
     override fun onCreateView(
@@ -33,7 +36,14 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = SearchResultAdapter(emptyList())
+        adapter = SearchResultAdapter(emptyList(), userInfoViewModel)
+
+        adapter.setOnItemClickListener(object : SearchResultAdapter.OnItemClickListener {
+            override fun onItemClick(userResult: UserResult) {
+                val action = SearchFragmentDirections.actionToSomeoneProfile(userResult.username)
+                findNavController().navigate(action)
+            }
+        })
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
 

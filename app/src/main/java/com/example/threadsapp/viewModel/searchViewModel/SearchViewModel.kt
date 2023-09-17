@@ -22,17 +22,19 @@ class SearchViewModel : ViewModel() {
         val authHeader = "Bearer $token"
 
         val call = apiInterface.searchUsers(authHeader, searchObj)
-        call.enqueue(object : Callback<List<UserResult>> {
-            override fun onResponse(call: Call<List<UserResult>>, response: Response<List<UserResult>>) {
+        call.enqueue(object : Callback<SearchUserResult> {
+            override fun onResponse(call: Call<SearchUserResult>, response: Response<SearchUserResult>) {
                 if (response.isSuccessful) {
-                    val searchResults = response.body() ?: emptyList()
-                    onSuccess.invoke(searchResults)
+                    val searchResults = response.body()
+                    if (searchResults != null) {
+                        onSuccess.invoke(searchResults.results)
+                    }
                 } else {
                     onError.invoke("Error fetching search results")
                 }
             }
 
-            override fun onFailure(call: Call<List<UserResult>>, t: Throwable) {
+            override fun onFailure(call: Call<SearchUserResult>, t: Throwable) {
                 onError.invoke("Network error")
             }
         })

@@ -74,7 +74,16 @@
         android:id="@+id/searchFragment"
         android:name="com.example.threadsapp.view.search.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_to_someoneProfile"
+            app:destination="@id/someoneProfileFragment">
+            <argument
+                android:name="username"
+                app:argType="string" />
+        </action>
+    </fragment>
+
     <fragment
         android:id="@+id/createNewThreadFragment"
         android:name="com.example.threadsapp.view.newThread.CreateNewThreadFragment"
@@ -84,4 +93,9 @@
         android:name="com.example.threadsapp.view.activity.ActivityFragment"
         android:label="fragment_activity"
         tools:layout="@layout/fragment_activity" />
+    <fragment
+        android:id="@+id/someoneProfileFragment"
+        android:name="com.example.threadsapp.view.search.SomeoneProfileFragment"
+        android:label="fragment_someone_profile"
+        tools:layout="@layout/fragment_someone_profile" />
 </navigation>
