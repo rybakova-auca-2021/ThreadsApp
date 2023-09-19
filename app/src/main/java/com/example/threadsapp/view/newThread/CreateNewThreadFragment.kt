@@ -43,6 +43,9 @@ class CreateNewThreadFragment : Fragment() {
         binding.textReply.setOnClickListener {
             showPopupMenu(it)
         }
+        binding.btnDeleteText.setOnClickListener {
+            removeData()
+        }
     }
 
     private fun chooseImage() {
@@ -50,6 +53,18 @@ class CreateNewThreadFragment : Fragment() {
             type = "image/*"
         }
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST)
+    }
+
+    private fun removeData() {
+        selectedImageUri = null
+        binding.apply {
+            imageView10.visibility = View.GONE
+            btnDeleteText.visibility = View.GONE
+            profilePhotoThread.visibility = View.GONE
+            addThread.visibility = View.GONE
+        }
+
+        binding.startThread.text.clear()
     }
 
 
@@ -64,9 +79,12 @@ class CreateNewThreadFragment : Fragment() {
                 .override(300, 350)
                 .into(binding.imageView10)
 
-            binding.imageView10.visibility = View.VISIBLE
-        } else {
-            binding.imageView10.visibility = View.GONE
+            binding.apply {
+                imageView10.visibility = View.VISIBLE
+                btnDeleteText.visibility = View.VISIBLE
+                profilePhotoThread.visibility = View.VISIBLE
+                addThread.visibility = View.VISIBLE
+            }
         }
     }
 
