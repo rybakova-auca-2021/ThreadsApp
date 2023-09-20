@@ -7,6 +7,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 import java.util.concurrent.TimeUnit
 
 class RetrofitInstance {
@@ -38,6 +39,11 @@ class RetrofitInstance {
 
         val searchApi by lazy {
             retrofit.create(SearchInterface::class.java)
+        }
+
+
+        val postApi by lazy {
+            retrofit.create(PostInterface::class.java)
         }
 
         private class AuthorizationInterceptor : Interceptor {
