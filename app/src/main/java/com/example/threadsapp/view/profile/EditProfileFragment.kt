@@ -78,14 +78,14 @@ class EditProfileFragment : Fragment() {
                 binding.etName.text = fullNameEditable
                 binding.etBio.text = bioEditable
                 binding.etLink.text = websiteEditable
-//                profile.photo.let { photoUrl ->
-//                    if (it.photo.isNullOrEmpty()) {
-//                        Glide.with(this).load(R.drawable.profile_photo).into(binding.profilePhoto)
-//                    } else {
-//                        val photoUrl = it.photo
-//                        Glide.with(this).load(photoUrl).circleCrop().into(binding.profilePhoto)
-//                    }
-//                }
+                profile.photo.let { photoUrl ->
+                    if (it.photo.isNullOrEmpty()) {
+                        Glide.with(this).load(R.drawable.profile_photo).into(binding.profilePhoto)
+                    } else {
+                        val photoUrl = it.photo
+                        Glide.with(this).load(photoUrl).circleCrop().into(binding.profilePhoto)
+                    }
+                }
             }
         }
     }

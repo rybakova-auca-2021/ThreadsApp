@@ -16,11 +16,13 @@ import com.bumptech.glide.Glide
 import com.example.neobis_android_chapter8.viewModels.AuthViewModel.UserInfoViewModel
 import com.example.threadsapp.R
 import com.example.threadsapp.databinding.FragmentProfileBinding
+import com.example.threadsapp.viewModel.profileViewModel.LogoutViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
     private val viewModel: UserInfoViewModel by viewModels()
+    private val logoutViewModel: LogoutViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,14 +67,14 @@ class ProfileFragment : Fragment() {
             profile?.let {
                 binding.name.setText(it.full_name)
                 binding.username.setText(it.username)
-//                profile.photo.let { photoUrl ->
-//                    if (it.photo.isNullOrEmpty()) {
-//                        Glide.with(this).load(R.drawable.profile_photo).into(binding.profilePhoto)
-//                    } else {
-//                        val photoUrl = it.photo
-//                        Glide.with(this).load(photoUrl).circleCrop().into(binding.profilePhoto)
-//                    }
-//                }
+                profile.photo.let { photoUrl ->
+                    if (it.photo.isNullOrEmpty()) {
+                        Glide.with(this).load(R.drawable.profile_photo).into(binding.profilePhoto)
+                    } else {
+                        val photoUrl = it.photo
+                        Glide.with(this).load(photoUrl).circleCrop().into(binding.profilePhoto)
+                    }
+                }
             }
         }
     }
@@ -112,7 +114,7 @@ class ProfileFragment : Fragment() {
             .create()
 
         logoutButton.setOnClickListener {
-            findNavController().navigate(R.id.loginFragment)
+            setupLogout()
         }
         cancelButton.setOnClickListener {
             alertDialog.dismiss()
@@ -122,5 +124,16 @@ class ProfileFragment : Fragment() {
 
     private fun showToast(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun setupLogout() {
+        logoutViewModel.logout(
+            onSuccess = {
+                findNavController().navigate(R.id.loginFragment)
+            },
+            onError = {
+                showToast("try again")
+            }
+        )
     }
 }
