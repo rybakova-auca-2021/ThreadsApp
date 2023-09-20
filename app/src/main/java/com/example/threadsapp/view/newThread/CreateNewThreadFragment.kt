@@ -58,7 +58,11 @@ class CreateNewThreadFragment : Fragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
+                if ((s?.length ?: 0) >= 300) {
+                    binding.startThread.setTextColor(Color.RED)
+                } else {
+                    binding.startThread.setTextColor(Color.BLACK)
+                }
             }
 
             override fun afterTextChanged(s: Editable?) {
