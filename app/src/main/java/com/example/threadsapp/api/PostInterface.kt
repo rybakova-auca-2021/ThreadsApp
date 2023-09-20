@@ -3,27 +3,34 @@ package com.example.threadsapp.api
 import com.example.threadsapp.model.AuthModel.DetailResponse
 import com.example.threadsapp.model.HomeModel.PostModel
 import com.example.threadsapp.model.PostModel.Comment
-import com.example.threadsapp.model.PostModel.Post
 import com.example.threadsapp.model.PostModel.Quote
 import com.example.threadsapp.model.PostModel.Reply
 import com.example.threadsapp.model.PostModel.Repost
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Multipart
 import retrofit2.http.PATCH
 import retrofit2.http.POST
+import retrofit2.http.Part
 import retrofit2.http.Path
 
 interface PostInterface {
     @GET("post/")
     fun getPosts(@Header("Authorization") token: String): Call<PostModel>
 
+    @Multipart
     @POST("post/")
-    fun getPosts(
+    fun createPost(
         @Header("Authorization") token: String,
-        @Body request: Post
+        @Part("text") text: RequestBody,
+        @Part photo: MultipartBody.Part?,
+        @Part video: MultipartBody.Part?,
+        @Part("comments_permission") comments_permission: RequestBody,
     ): Call<DetailResponse>
 
     @GET("post/by_hashtag/{tag_name}/")

@@ -7,25 +7,28 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
-import androidx.core.view.isGone
-import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.threadsapp.R
 import com.example.threadsapp.databinding.FragmentCreateNewThreadBinding
 import com.example.threadsapp.util.Utils
+import com.example.threadsapp.viewModel.newThreadViewModel.CreateThreadViewModel
 
 class CreateNewThreadFragment : Fragment() {
     private lateinit var binding: FragmentCreateNewThreadBinding
-    private var PICK_IMAGE_REQUEST  = 1
+    private var PICK_IMAGE_REQUEST = 1
     private var selectedImageUri: Uri? = null
+    private var selectedVideoUri: Uri? = null
+    private val viewModel: CreateThreadViewModel by viewModels()
+    private var selectedCommentOption: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,9 +44,13 @@ class CreateNewThreadFragment : Fragment() {
         setupCharacterCount()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+    }
+
     private fun setupNavigation() {
         binding.addMedia.setOnClickListener {
-            chooseImage()
+            chooseMedia()
         }
         binding.textReply.setOnClickListener {
             showPopupMenu(it)
@@ -52,8 +59,24 @@ class CreateNewThreadFragment : Fragment() {
             removeData()
         }
         binding.postBtn.setOnClickListener {
-            findNavController().navigate(R.id.homeFragment)
+            createPost()
         }
+    }
+
+    private fun createPost() {
+        val text = binding.startThread.text.toString()
+        viewModel.createPost(
+            requireContext(),
+            text,
+            selectedCommentOption,
+            onSuccess = {
+                showToast("Thread posted successfully!")
+                findNavController().navigate(R.id.profileFragment)
+            },
+            onError = {
+                showToast("Failed to post the thread. Please try again.")
+            }
+        )
     }
 
     private fun setupCharacterCount() {
@@ -76,11 +99,14 @@ class CreateNewThreadFragment : Fragment() {
         })
     }
 
-    private fun chooseImage() {
+    private fun chooseMedia() {
         val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
             type = "image/*"
         }
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST)
+        startActivityForResult(
+            Intent.createChooser(intent, "Select Picture"),
+            PICK_IMAGE_REQUEST
+        )
     }
 
     private fun removeData() {
@@ -96,26 +122,34 @@ class CreateNewThreadFragment : Fragment() {
         binding.startThread.text.clear()
     }
 
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.data != null) {
-            selectedImageUri = data.data
-            Utils.selectedImageUri = selectedImageUri
-            Glide.with(this)
-                .load(selectedImageUri)
-                .override(300, 350)
-                .into(binding.imageView10)
+            val selectedUri = data.data
 
-            binding.apply {
-                imageView10.visibility = View.VISIBLE
-                btnDeleteText.visibility = View.VISIBLE
-                profilePhotoThread.visibility = View.VISIBLE
-                addThread.visibility = View.VISIBLE
-                addMedia.visibility = View.GONE
+            if (selectedUri.toString().contains("image")) {
+                selectedImageUri = selectedUri
+                selectedVideoUri = null
+                Utils.selectedImageUri = selectedImageUri
+                showSelectedImage(selectedImageUri)
             }
         }
+    }
+
+    private fun showSelectedImage(imageUri: Uri?) {
+        binding.apply {
+            imageView10.visibility = View.VISIBLE
+            btnDeleteText.visibility = View.VISIBLE
+            profilePhotoThread.visibility = View.VISIBLE
+            addThread.visibility = View.VISIBLE
+            addMedia.visibility = View.GONE
+        }
+
+        Glide.with(this)
+            .load(imageUri)
+            .override(300, 350)
+            .into(binding.imageView10)
     }
 
     private fun showToast(message: String) {
@@ -129,12 +163,15 @@ class CreateNewThreadFragment : Fragment() {
         popupMenu.setOnMenuItemClickListener { item: MenuItem ->
             when (item.itemId) {
                 R.id.optionAnyone -> {
+                    selectedCommentOption = "anyone"
                     true
                 }
                 R.id.optionProfilesFollow -> {
+                    selectedCommentOption = "profiles you follow"
                     true
                 }
                 R.id.optionMentionedOnly -> {
+                    selectedCommentOption = "mentioned only"
                     true
                 }
                 else -> false
