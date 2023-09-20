@@ -16,6 +16,7 @@ import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.threadsapp.R
 import com.example.threadsapp.databinding.FragmentCreateNewThreadBinding
@@ -50,6 +51,9 @@ class CreateNewThreadFragment : Fragment() {
         binding.btnDeleteText.setOnClickListener {
             removeData()
         }
+        binding.postBtn.setOnClickListener {
+            findNavController().navigate(R.id.homeFragment)
+        }
     }
 
     private fun setupCharacterCount() {
@@ -60,8 +64,10 @@ class CreateNewThreadFragment : Fragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if ((s?.length ?: 0) >= 300) {
                     binding.startThread.setTextColor(Color.RED)
+                    binding.postBtn.isEnabled = false
                 } else {
                     binding.startThread.setTextColor(Color.BLACK)
+                    binding.postBtn.isEnabled = true
                 }
             }
 
