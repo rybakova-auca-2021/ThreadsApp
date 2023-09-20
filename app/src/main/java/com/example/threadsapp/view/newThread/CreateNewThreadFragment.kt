@@ -2,8 +2,11 @@ package com.example.threadsapp.view.newThread
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -34,6 +37,7 @@ class CreateNewThreadFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupNavigation()
+        setupCharacterCount()
     }
 
     private fun setupNavigation() {
@@ -46,6 +50,20 @@ class CreateNewThreadFragment : Fragment() {
         binding.btnDeleteText.setOnClickListener {
             removeData()
         }
+    }
+
+    private fun setupCharacterCount() {
+        binding.startThread.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+        })
     }
 
     private fun chooseImage() {
@@ -62,6 +80,7 @@ class CreateNewThreadFragment : Fragment() {
             btnDeleteText.visibility = View.GONE
             profilePhotoThread.visibility = View.GONE
             addThread.visibility = View.GONE
+            addMedia.visibility = View.VISIBLE
         }
 
         binding.startThread.text.clear()
@@ -84,6 +103,7 @@ class CreateNewThreadFragment : Fragment() {
                 btnDeleteText.visibility = View.VISIBLE
                 profilePhotoThread.visibility = View.VISIBLE
                 addThread.visibility = View.VISIBLE
+                addMedia.visibility = View.GONE
             }
         }
     }
