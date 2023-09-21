@@ -41,6 +41,9 @@ class RetrofitInstance {
             retrofit.create(SearchInterface::class.java)
         }
 
+        val homeApi by lazy {
+            retrofit.create(MainInterface::class.java)
+        }
 
         val postApi by lazy {
             retrofit.create(PostInterface::class.java)
@@ -67,7 +70,8 @@ class RetrofitInstance {
                         path.endsWith("confirm_email/") ||
                         path.endsWith("me/") ||
                         path.endsWith("update/") ||
-                        path.endsWith("edit_photo/")
+                        path.endsWith("edit_photo/") ||
+                        path.endsWith("post/")
             }
         }
     }

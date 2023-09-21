@@ -6,5 +6,6 @@ data class Login(
 )
 
 data class LoginResponse(
-    val access: String
+    val access: String,
+    val refresh: String
 )

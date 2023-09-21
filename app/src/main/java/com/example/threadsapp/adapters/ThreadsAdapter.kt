@@ -1,17 +1,18 @@
 package com.example.threadsapp.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.threadsapp.databinding.MainThreadsBinding
-import com.example.threadsapp.model.ThreadData
+import com.example.threadsapp.model.HomeModel.PostView
 
-class ThreadsAdapter : RecyclerView.Adapter<ThreadsAdapter.ViewHolder>() {
+class ThreadsAdapter(private var threads: List<PostView>) : RecyclerView.Adapter<ThreadsAdapter.ViewHolder>() {
 
-    var threads = emptyList<ThreadData>()
-    var onClickListener: ListClickListener<ThreadData>? = null
+    var onClickListener: ListClickListener<PostView>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -29,26 +30,37 @@ class ThreadsAdapter : RecyclerView.Adapter<ThreadsAdapter.ViewHolder>() {
 
     override fun getItemCount() = threads.size
 
-    fun setOnItemClick(listClickListener: ListClickListener<ThreadData>) {
+    fun setOnItemClick(listClickListener: ListClickListener<PostView>) {
         this.onClickListener = listClickListener
+    }
+
+    fun updateData(newList: List<PostView>) {
+        val diffResult = DiffUtil.calculateDiff(
+            ProductDiffCallback(
+                threads,
+                newList
+            )
+        )
+        threads = newList
+        diffResult.dispatchUpdatesTo(this)
     }
 
     inner class ViewHolder(val binding: MainThreadsBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(thread: ThreadData) {
+        @SuppressLint("SetTextI18n")
+        fun bind(thread: PostView) {
             with(binding) {
-                if (thread.images != null && thread.images != 0) {
+                if (thread.image != null) {
                     Glide.with(imageView4)
-                        .load(thread.images)
+                        .load(thread.image)
                         .into(imageView4)
                 } else {
                     imageView4.isVisible = false
                 }
-                username.text = thread.username
                 threadText.text = thread.text
-                time.text = thread.time
-                likes.text = thread.likes
+                time.text = thread.date_posted
+                likes.text = thread.total_likes + " likes"
 
                 binding.likeBtn.setOnClickListener {
                     onClickListener?.onLikeClick(thread, adapterPosition)
@@ -72,5 +84,21 @@ class ThreadsAdapter : RecyclerView.Adapter<ThreadsAdapter.ViewHolder>() {
         fun onRepostClick(data: T, position: Int)
         fun onShareClick(data: T, position: Int)
         fun onLikeClick(data: T, position: Int)
+    }
+
+    class ProductDiffCallback(
+        private val oldList: List<PostView>,
+        private val newList: List<PostView>
+    ) : DiffUtil.Callback() {
+
+        override fun getOldListSize() = oldList.size
+
+        override fun getNewListSize() = newList.size
+
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) =
+            oldList[oldItemPosition].id == newList[newItemPosition].id
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int) =
+            oldList[oldItemPosition] == newList[newItemPosition]
     }
 }

@@ -7,10 +7,12 @@ import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.Multipart
 import retrofit2.http.PATCH
 import retrofit2.http.PUT
 import retrofit2.http.Part
+import retrofit2.http.Path
 
 interface ProfileInterface {
     @GET("user/profile/me/")
@@ -26,4 +28,9 @@ interface ProfileInterface {
     @PATCH("user/profile/me/edit_photo/")
     fun editPhoto(@Part photo: MultipartBody.Part): Call<DetailResponse>
 
+    @GET("user/profile/{username}")
+    fun getUserProfile(
+        @Header("Authorization") token: String,
+        @Path("username") username: String
+    ) : Call<Profile>
 }

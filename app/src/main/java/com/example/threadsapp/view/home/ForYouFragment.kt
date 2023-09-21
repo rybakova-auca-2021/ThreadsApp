@@ -6,72 +6,78 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.threadsapp.R
 import com.example.threadsapp.adapters.ThreadsAdapter
 import com.example.threadsapp.databinding.FragmentForYouBinding
-import com.example.threadsapp.model.ThreadData
+import com.example.threadsapp.model.HomeModel.PostView
+import com.example.threadsapp.viewModel.homeViewModel.ForYouViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 
 class ForYouFragment : Fragment() {
     private lateinit var binding: FragmentForYouBinding
     private lateinit var threadsAdapter: ThreadsAdapter
+    private lateinit var recyclerView: RecyclerView
+    private val viewModel: ForYouViewModel by viewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentForYouBinding.inflate(inflater, container, false)
+        recyclerView = binding.recyclerView
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupThreadsAdapter()
-        loadSampleThreads()
+        threadsAdapter = ThreadsAdapter(emptyList())
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = threadsAdapter
+
+        setData()
     }
 
-    private fun setupThreadsAdapter() {
-        threadsAdapter = ThreadsAdapter()
 
-        binding.recyclerView.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = threadsAdapter
-        }
+    @SuppressLint("NotifyDataSetChanged")
+    private fun setupGettingData() {
+        viewModel.forYouPosts(
+            onSuccess = { results ->
+                threadsAdapter.updateData(results)
+                threadsAdapter.notifyDataSetChanged()
+            },
+            onError = {
+                Toast.makeText(requireContext(), "Try Again", Toast.LENGTH_SHORT).show()
+            }
+        )
     }
 
-    private fun loadSampleThreads() {
-        val sampleThreads = listOf(
-            ThreadData(R.drawable.avatar, "kamiloyy", "Opportunities don't happen, you create them.", "1h", "20 replies", "400 likes", R.drawable.thread_img),
-            ThreadData(R.drawable.avatar, "alinoyy", "Opportunities don't happen, you create them.", "2h", "40 replies", "100 likes", R.drawable.image),
-            ThreadData(R.drawable.avatar, "kamiloyy", "Opportunities don't happen, you create them.", "1h", "20 replies", "400 likes", R.drawable.thread_img),
-            ThreadData(R.drawable.avatar, "alinoyy", "Opportunities don't happen, you create them.", "2h", "40 replies", "100 likes", R.drawable.image),
-            ThreadData(R.drawable.avatar, "kamiloyy", "Opportunities don't happen, you create them.", "1h", "20 replies", "400 likes", R.drawable.thread_img),
-            ThreadData(R.drawable.avatar, "alinoyy", "Opportunities don't happen, you create them.", "2h", "40 replies", "100 likes", R.drawable.image),
-            )
+    private fun setData() {
+        setupGettingData()
 
-        threadsAdapter.threads = sampleThreads
-
-        threadsAdapter.onClickListener = object : ThreadsAdapter.ListClickListener<ThreadData> {
-            override fun onClick(data: ThreadData, position: Int) {
-                val action = HomeFragmentDirections.actionToThreadFragment(data)
-                findNavController().navigate(action)
+        threadsAdapter.onClickListener = object : ThreadsAdapter.ListClickListener<PostView> {
+            override fun onClick(data: PostView, position: Int) {
+//                val action = HomeFragmentDirections.actionToThreadFragment(data)
+//                findNavController().navigate(action)
             }
 
-            override fun onCommentClick(data: ThreadData, position: Int) {
-                val action = HomeFragmentDirections.actionToReplyFragment(data)
-                findNavController().navigate(action)
+            override fun onCommentClick(data: PostView, position: Int) {
+//                val action = HomeFragmentDirections.actionToReplyFragment(data)
+//                findNavController().navigate(action)
             }
 
-            override fun onRepostClick(data: ThreadData, position: Int) {
+            override fun onRepostClick(data: PostView, position: Int) {
                 showDialog()
             }
 
-            override fun onShareClick(data: ThreadData, position: Int) {
+            override fun onShareClick(data: PostView, position: Int) {
                 val shareIntent = Intent(Intent.ACTION_SEND)
                 shareIntent.type = "text/plain"
                 shareIntent.putExtra(Intent.EXTRA_TEXT, "Hello, check out this awesome app!")
@@ -80,7 +86,7 @@ class ForYouFragment : Fragment() {
                 startActivity(chooserIntent)
             }
 
-            override fun onLikeClick(data: ThreadData, position: Int) {
+            override fun onLikeClick(data: PostView, position: Int) {
                 // Handle like click
             }
         }

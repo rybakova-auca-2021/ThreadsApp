@@ -2,16 +2,18 @@ package com.example.threadsapp.api
 
 import com.example.threadsapp.model.AuthModel.ConfirmEmail
 import com.example.threadsapp.model.AuthModel.ConfirmEmailUpdate
-import com.example.threadsapp.model.AuthModel.ForgotPassword
 import com.example.threadsapp.model.AuthModel.DetailResponse
+import com.example.threadsapp.model.AuthModel.ForgotPassword
 import com.example.threadsapp.model.AuthModel.ForgotPasswordUpdate
 import com.example.threadsapp.model.AuthModel.ForgotPasswordVerify
 import com.example.threadsapp.model.AuthModel.GoogleLogin
 import com.example.threadsapp.model.AuthModel.Login
 import com.example.threadsapp.model.AuthModel.LoginResponse
+import com.example.threadsapp.model.AuthModel.LogoutRequest
 import com.example.threadsapp.model.AuthModel.SignUp
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.PUT
 
@@ -40,4 +42,9 @@ interface AuthInterface {
     @PUT("confirm_email/update/")
     fun confirmEmailUpdate(@Body request: ConfirmEmailUpdate): Call<DetailResponse>
 
+    @POST("logout/")
+    fun logout(
+        @Header("Authorization") token: String,
+        @Body request: LogoutRequest
+    ): Call<DetailResponse>
 }

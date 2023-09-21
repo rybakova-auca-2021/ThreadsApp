@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.threadsapp.ProfileActivity
 import com.example.threadsapp.adapters.HomeAdapter
 import com.example.threadsapp.databinding.FragmentHomeBinding
 import com.google.android.material.tabs.TabLayoutMediator
@@ -16,6 +17,8 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
+
+        (requireActivity() as ProfileActivity).showBtmNav()
 
         val tabLayout = binding.tabLayout
         val viewPager2 = binding.fragmentHolder

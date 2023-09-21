@@ -25,6 +25,7 @@ class LoginViewModel : ViewModel() {
                 if (response.isSuccessful) {
                     val response = response.body()
                     Utils.token = response?.access
+                    Utils.refresh = response?.refresh
                     onSuccess.invoke()
                 } else {
                     onError.invoke()
