@@ -1,5 +1,6 @@
 package com.example.threadsapp.view.newThread
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
@@ -17,6 +18,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.example.neobis_android_chapter8.viewModels.AuthViewModel.UserInfoViewModel
 import com.example.threadsapp.R
 import com.example.threadsapp.databinding.FragmentCreateNewThreadBinding
 import com.example.threadsapp.util.Utils
@@ -28,6 +30,7 @@ class CreateNewThreadFragment : Fragment() {
     private var selectedImageUri: Uri? = null
     private var selectedVideoUri: Uri? = null
     private val viewModel: CreateThreadViewModel by viewModels()
+    private val userInfoViewModel: UserInfoViewModel by viewModels()
     private var selectedCommentOption: String = ""
 
     override fun onCreateView(
@@ -42,6 +45,8 @@ class CreateNewThreadFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupNavigation()
         setupCharacterCount()
+        showUserData()
+        userInfoViewModel.getInfo()
     }
 
     override fun onDestroyView() {
@@ -77,6 +82,22 @@ class CreateNewThreadFragment : Fragment() {
                 showToast("Failed to post the thread. Please try again.")
             }
         )
+    }
+
+    private fun showUserData() {
+        userInfoViewModel.profileData.observe(viewLifecycleOwner) { profile ->
+            profile?.let {
+                binding.username.setText(it.username)
+                profile.photo.let { photoUrl ->
+                    if (it.photo.isNullOrEmpty()) {
+                        Glide.with(this).load(R.drawable.profile_photo).into(binding.photoAnswerTo)
+                    } else {
+                        val photoUrl = it.photo
+                        Glide.with(this).load(photoUrl).circleCrop().into(binding.photoAnswerTo)
+                    }
+                }
+            }
+        }
     }
 
     private fun setupCharacterCount() {
@@ -156,6 +177,7 @@ class CreateNewThreadFragment : Fragment() {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun showPopupMenu(view: View) {
         val popupMenu = PopupMenu(requireContext(), view)
         popupMenu.inflate(R.menu.popup_menu)
@@ -168,10 +190,12 @@ class CreateNewThreadFragment : Fragment() {
                 }
                 R.id.optionProfilesFollow -> {
                     selectedCommentOption = "profiles you follow"
+                    binding.textReply.text = "Profiles You Follow"
                     true
                 }
                 R.id.optionMentionedOnly -> {
                     selectedCommentOption = "mentioned only"
+                    binding.textReply.text = "Mentioned Only"
                     true
                 }
                 else -> false
