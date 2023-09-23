@@ -7,10 +7,16 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.threadsapp.R
 import com.example.threadsapp.databinding.MainThreadsBinding
 import com.example.threadsapp.model.HomeModel.PostView
+import com.example.threadsapp.model.ProfileModel.Profile
+import com.example.threadsapp.viewModel.profileViewModel.SomeoneProfileViewModel
 
-class ThreadsAdapter(private var threads: List<PostView>) : RecyclerView.Adapter<ThreadsAdapter.ViewHolder>() {
+class ThreadsAdapter(
+    private var threads: List<PostView>,
+    private val viewModel: SomeoneProfileViewModel
+    ) : RecyclerView.Adapter<ThreadsAdapter.ViewHolder>() {
 
     var onClickListener: ListClickListener<PostView>? = null
 
@@ -50,31 +56,49 @@ class ThreadsAdapter(private var threads: List<PostView>) : RecyclerView.Adapter
 
         @SuppressLint("SetTextI18n")
         fun bind(thread: PostView) {
-            with(binding) {
-                if (thread.image != null) {
-                    Glide.with(imageView4)
-                        .load(thread.image)
-                        .into(imageView4)
-                } else {
-                    imageView4.isVisible = false
-                }
-                threadText.text = thread.text
-                time.text = thread.date_posted
-                likes.text = "${thread.total_likes} likes"
+            viewModel.getUserProfileById(
+                thread.author,
+                onSuccess = { userProfile ->
+                    with(binding) {
+                        if (thread.image != null) {
+                            Glide.with(imageView4)
+                                .load(thread.image)
+                                .into(imageView4)
+                        } else {
+                            imageView4.isVisible = false
+                        }
 
-                binding.likeBtn.setOnClickListener {
-                    onClickListener?.onLikeClick(thread, adapterPosition)
+                        username.text = userProfile.username
+                        userProfile.photo.let { photoUrl ->
+                            if (photoUrl.isNullOrEmpty()) {
+                                Glide.with(binding.root.context).load(R.drawable.profile_photo).into(binding.avatar)
+                            } else {
+                                Glide.with(binding.root.context).load(photoUrl).circleCrop().into(binding.avatar)
+                            }
+                        }
+
+                        threadText.text = thread.text
+                        time.text = thread.date_posted
+                        likes.text = "${thread.total_likes} likes"
+
+                        binding.likeBtn.setOnClickListener {
+                            onClickListener?.onLikeClick(thread, adapterPosition)
+                        }
+                        binding.commentBtn.setOnClickListener {
+                            onClickListener?.onCommentClick(thread, adapterPosition)
+                        }
+                        binding.shareBtn.setOnClickListener {
+                            onClickListener?.onShareClick(thread, adapterPosition)
+                        }
+                        binding.repostBtn.setOnClickListener {
+                            onClickListener?.onRepostClick(thread, adapterPosition)
+                        }
+                    }
+                },
+                onError = {
+
                 }
-                binding.commentBtn.setOnClickListener {
-                    onClickListener?.onCommentClick(thread, adapterPosition)
-                }
-                binding.shareBtn.setOnClickListener {
-                    onClickListener?.onShareClick(thread, adapterPosition)
-                }
-                binding.repostBtn.setOnClickListener {
-                    onClickListener?.onRepostClick(thread, adapterPosition)
-                }
-            }
+            )
         }
     }
 

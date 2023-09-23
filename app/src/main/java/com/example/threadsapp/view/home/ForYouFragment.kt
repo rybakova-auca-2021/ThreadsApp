@@ -39,7 +39,7 @@ class ForYouFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        threadsAdapter = ThreadsAdapter(emptyList())
+        threadsAdapter = ThreadsAdapter(emptyList(), SomeoneProfileViewModel())
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = threadsAdapter
 

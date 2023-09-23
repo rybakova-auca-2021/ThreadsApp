@@ -33,4 +33,10 @@ interface ProfileInterface {
         @Header("Authorization") token: String,
         @Path("username") username: String
     ) : Call<Profile>
+
+    @GET("user/profile/{id}")
+    fun getUserProfileById(
+        @Header("Authorization") token: String,
+        @Path("id") id: Int
+    ) : Call<Profile>
 }

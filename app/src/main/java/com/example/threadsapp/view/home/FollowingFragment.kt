@@ -42,7 +42,7 @@ class FollowingFragment : Fragment() {
     }
 
     private fun setupThreadsAdapter() {
-        adapter = ThreadsAdapter(emptyList())
+        adapter = ThreadsAdapter(emptyList(), SomeoneProfileViewModel())
 
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
