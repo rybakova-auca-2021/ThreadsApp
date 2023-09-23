@@ -16,6 +16,7 @@ import com.example.threadsapp.adapters.ThreadsAdapter
 import com.example.threadsapp.databinding.FragmentForYouBinding
 import com.example.threadsapp.model.HomeModel.PostView
 import com.example.threadsapp.viewModel.homeViewModel.ForYouViewModel
+import com.example.threadsapp.viewModel.profileViewModel.SomeoneProfileViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 

@@ -16,6 +16,7 @@ import com.example.threadsapp.adapters.ThreadsAdapter
 import com.example.threadsapp.databinding.FragmentFollowing2Binding
 import com.example.threadsapp.model.HomeModel.PostView
 import com.example.threadsapp.viewModel.homeViewModel.FollowingViewModel
+import com.example.threadsapp.viewModel.profileViewModel.SomeoneProfileViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class FollowingFragment : Fragment() {

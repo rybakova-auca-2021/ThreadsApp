@@ -60,7 +60,7 @@ class ThreadsAdapter(private var threads: List<PostView>) : RecyclerView.Adapter
                 }
                 threadText.text = thread.text
                 time.text = thread.date_posted
-                likes.text = thread.total_likes + " likes"
+                likes.text = "${thread.total_likes} likes"
 
                 binding.likeBtn.setOnClickListener {
                     onClickListener?.onLikeClick(thread, adapterPosition)
