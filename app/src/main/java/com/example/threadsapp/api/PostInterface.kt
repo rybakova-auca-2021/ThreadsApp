@@ -28,7 +28,7 @@ interface PostInterface {
     fun createPost(
         @Header("Authorization") token: String,
         @Part("text") text: RequestBody,
-        @Part photo: MultipartBody.Part?,
+        @Part image: MultipartBody.Part?,
         @Part video: MultipartBody.Part?,
         @Part("comments_permission") comments_permission: RequestBody,
     ): Call<DetailResponse>
