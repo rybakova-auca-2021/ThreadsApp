@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.example.threadsapp.R
 import com.example.threadsapp.databinding.MainThreadsBinding
 import com.example.threadsapp.model.HomeModel.PostView
-import com.example.threadsapp.model.ProfileModel.Profile
+import com.example.threadsapp.util.CalculateTime
 import com.example.threadsapp.viewModel.profileViewModel.SomeoneProfileViewModel
 
 class ThreadsAdapter(
@@ -78,7 +78,8 @@ class ThreadsAdapter(
                         }
 
                         threadText.text = thread.text
-                        time.text = thread.date_posted
+                        val timeDifference = CalculateTime.calculateTimeDifference(thread.date_posted)
+                        time.text = timeDifference
                         likes.text = "${thread.total_likes} likes"
 
                         binding.likeBtn.setOnClickListener {
