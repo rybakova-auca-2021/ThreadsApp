@@ -11,24 +11,35 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.neobis_android_chapter8.viewModels.AuthViewModel.UserInfoViewModel
 import com.example.threadsapp.R
+import com.example.threadsapp.adapters.MyPostsAdapter
 import com.example.threadsapp.databinding.FragmentProfileBinding
 import com.example.threadsapp.viewModel.profileViewModel.LogoutViewModel
+import com.example.threadsapp.viewModel.profileViewModel.MyPostsViewModel
+import com.example.threadsapp.viewModel.profileViewModel.SomeoneProfileViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import android.os.Handler
 
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
     private val viewModel: UserInfoViewModel by viewModels()
     private val logoutViewModel: LogoutViewModel by viewModels()
+    private val postViewModel: MyPostsViewModel by viewModels()
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: MyPostsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
         binding = FragmentProfileBinding.inflate(inflater, container, false)
+        recyclerView = binding.recyclerView
         return binding.root
     }
 
@@ -37,6 +48,22 @@ class ProfileFragment : Fragment() {
         setupNavigation()
         showUserData()
         viewModel.getInfo()
+
+        adapter = MyPostsAdapter(emptyList(), SomeoneProfileViewModel())
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = adapter
+
+        postViewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
+            if (isLoading) {
+                binding.progressBar.visibility = View.VISIBLE
+                binding.recyclerView.visibility = View.GONE
+            } else {
+                binding.progressBar.visibility = View.GONE
+                binding.recyclerView.visibility = View.VISIBLE
+            }
+        })
+
+        getPosts()
     }
 
     private fun setupNavigation() {
@@ -65,8 +92,8 @@ class ProfileFragment : Fragment() {
     private fun showUserData() {
         viewModel.profileData.observe(viewLifecycleOwner) { profile ->
             profile?.let {
-                binding.name.setText(it.full_name)
-                binding.username.setText(it.username)
+                binding.name.text = it.full_name
+                binding.username.text = it.username
                 profile.photo.let { photoUrl ->
                     if (it.photo.isNullOrEmpty()) {
                         Glide.with(this).load(R.drawable.profile_photo).into(binding.profilePhoto)
@@ -77,6 +104,19 @@ class ProfileFragment : Fragment() {
                 }
             }
         }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun getPosts() {
+        postViewModel.myPosts(
+            onSuccess = { results ->
+                adapter.updateData(results)
+                adapter.notifyDataSetChanged()
+            },
+            onError = {
+                Toast.makeText(requireContext(), "Try Again", Toast.LENGTH_SHORT).show()
+            }
+        )
     }
 
     private fun showImageOptionsBottomSheet() {

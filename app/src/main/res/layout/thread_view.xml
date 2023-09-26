@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             app:layout_constraintStart_toStartOf="@+id/thread_text"
-            app:layout_constraintTop_toBottomOf="@+id/thread_text"
+            app:layout_constraintTop_toBottomOf="@+id/imageView4"
             app:srcCompat="@drawable/lke_btn" />
 
         <ImageView
@@ -125,6 +125,17 @@
             app:layout_constraintStart_toEndOf="@+id/time"
             app:layout_constraintTop_toTopOf="@+id/time"
             app:srcCompat="@drawable/mdi_delete" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintHeight_max="300dp"
+            app:layout_constraintStart_toStartOf="@+id/username"
+            app:layout_constraintTop_toBottomOf="@+id/thread_text"
+            app:layout_constraintWidth_max="300dp"
+            app:srcCompat="@drawable/image" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
