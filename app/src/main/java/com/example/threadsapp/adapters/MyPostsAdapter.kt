@@ -1,6 +1,7 @@
 package com.example.threadsapp.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
@@ -46,6 +47,15 @@ class MyPostsAdapter(
         diffResult.dispatchUpdatesTo(this)
     }
 
+    fun removeItem(position: Int) {
+        if (position >= 0 && position < threads.size) {
+            val updatedList = threads.toMutableList()
+            updatedList.removeAt(position)
+            threads = updatedList
+            notifyItemRemoved(position)
+        }
+    }
+
     inner class ViewHolder(private val binding: ThreadViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -76,12 +86,14 @@ class MyPostsAdapter(
                         time.text = timeDifference
                         likes.text = "${thread.total_likes} likes"
 
+                        binding.threadViewCard.visibility = View.VISIBLE
                         setClickListener(thread)
                     }
                 },
                 onError = { /* Handle error */ }
             )
         }
+
 
         private fun setClickListener(thread: PostView) {
             with(binding) {
@@ -97,6 +109,9 @@ class MyPostsAdapter(
                 repostBtn.setOnClickListener {
                     onClickListener?.onRepostClick(thread, adapterPosition)
                 }
+                deleteBtn.setOnClickListener {
+                    onClickListener?.onDeleteClick(thread, adapterPosition, thread.id)
+                }
             }
         }
     }
@@ -107,6 +122,7 @@ class MyPostsAdapter(
         fun onRepostClick(data: T, position: Int)
         fun onShareClick(data: T, position: Int)
         fun onLikeClick(data: T, position: Int)
+        fun onDeleteClick(data: T, position: Int, id: Int)
     }
 
     class ProductDiffCallback(

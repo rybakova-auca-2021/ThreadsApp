@@ -58,7 +58,7 @@ interface PostInterface {
         @Path("id") id: String
     ): Call<PostModel>
 
-    @DELETE("post/{id}")
+    @DELETE("post/{id}/")
     fun postDelete(
         @Header("Authorization") token: String,
         @Path("id") id: String

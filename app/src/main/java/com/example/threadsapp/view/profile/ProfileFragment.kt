@@ -20,17 +20,19 @@ import com.example.neobis_android_chapter8.viewModels.AuthViewModel.UserInfoView
 import com.example.threadsapp.R
 import com.example.threadsapp.adapters.MyPostsAdapter
 import com.example.threadsapp.databinding.FragmentProfileBinding
+import com.example.threadsapp.model.HomeModel.PostView
+import com.example.threadsapp.viewModel.newThreadViewModel.DeleteThreadViewModel
 import com.example.threadsapp.viewModel.profileViewModel.LogoutViewModel
 import com.example.threadsapp.viewModel.profileViewModel.MyPostsViewModel
 import com.example.threadsapp.viewModel.profileViewModel.SomeoneProfileViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import android.os.Handler
 
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
     private val viewModel: UserInfoViewModel by viewModels()
     private val logoutViewModel: LogoutViewModel by viewModels()
     private val postViewModel: MyPostsViewModel by viewModels()
+    private val deleteViewModel: DeleteThreadViewModel by viewModels()
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: MyPostsAdapter
 
@@ -64,6 +66,7 @@ class ProfileFragment : Fragment() {
         })
 
         getPosts()
+        setupClicks()
     }
 
     private fun setupNavigation() {
@@ -175,5 +178,46 @@ class ProfileFragment : Fragment() {
                 showToast("try again")
             }
         )
+    }
+
+    private fun setupClicks() {
+        adapter.onClickListener = object : MyPostsAdapter.ListClickListener<PostView> {
+            override fun onClick(data: PostView, position: Int) {
+            }
+
+            override fun onCommentClick(data: PostView, position: Int) {
+            }
+
+            override fun onRepostClick(data: PostView, position: Int) {
+            }
+
+            override fun onShareClick(data: PostView, position: Int) {
+                val shareIntent = Intent(Intent.ACTION_SEND)
+                shareIntent.type = "text/plain"
+                shareIntent.putExtra(Intent.EXTRA_TEXT, "Hello, check out this awesome app!")
+
+                val chooserIntent = Intent.createChooser(shareIntent, "Share via")
+                startActivity(chooserIntent)
+            }
+
+            override fun onLikeClick(data: PostView, position: Int) {
+            }
+
+            override fun onDeleteClick(data: PostView, position: Int, id: Int) {
+                deletePost(id, position)
+            }
+        }
+    }
+
+    private fun deletePost(id: Int, position: Int) {
+        deleteViewModel.deletePost(
+            id,
+            onSuccess = {
+                adapter.removeItem(position)
+                showToast("Post was deleted")
+            }
+        ) {
+            showToast("Try again")
+        }
     }
 }
