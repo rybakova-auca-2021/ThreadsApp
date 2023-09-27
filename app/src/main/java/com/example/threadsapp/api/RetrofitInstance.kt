@@ -49,6 +49,10 @@ class RetrofitInstance {
             retrofit.create(PostInterface::class.java)
         }
 
+        val followApi by lazy {
+            retrofit.create(FollowersInterface::class.java)
+        }
+
         private class AuthorizationInterceptor : Interceptor {
             override fun intercept(chain: Interceptor.Chain): okhttp3.Response {
                 val request = chain.request()

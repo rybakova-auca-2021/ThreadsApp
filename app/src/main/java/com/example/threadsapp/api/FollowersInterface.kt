@@ -3,9 +3,11 @@ package com.example.threadsapp.api
 import com.example.threadsapp.model.ProfileModel.Followee
 import com.example.threadsapp.model.ProfileModel.FollowerApi
 import com.example.threadsapp.model.ProfileModel.FollowerList
+import com.example.threadsapp.model.ProfileModel.FollowerResult
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
 
@@ -29,11 +31,17 @@ interface FollowersInterface {
     fun declineRequest(@Body request: FollowerApi): Call<FollowerApi>
 
     @GET("user/profile/followers/{followee_pk}/")
-    fun readFollowers(@Path("followee_pk") followee_pk: Int): Call<FollowerList>
+    fun readFollowers(
+        @Header("Authorization") token: String,
+        @Path("followee_pk") followee_pk: Int
+    ): Call<FollowerResult>
 
     @POST("user/profile/followers/{follower_pk}/")
-    fun readFollows(@Path("followee_pk") follower_pk: Int): Call<FollowerList>
+    fun readFollows(
+        @Header("Authorization") token: String,
+        @Path("followee_pk") follower_pk: Int
+    ): Call<FollowerResult>
 
     @POST("user/profile/follow_requests/")
-    fun readFollowRequests(@Body request: FollowerList): Call<FollowerList>
+    fun readFollowRequests(@Header("Authorization") token: String): Call<FollowerResult>
 }
