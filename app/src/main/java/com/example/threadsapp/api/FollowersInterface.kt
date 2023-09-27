@@ -36,10 +36,10 @@ interface FollowersInterface {
         @Path("followee_pk") followee_pk: Int
     ): Call<FollowerResult>
 
-    @POST("user/profile/followers/{follower_pk}/")
+    @GET("user/profile/follows/{follower_pk}/")
     fun readFollows(
         @Header("Authorization") token: String,
-        @Path("followee_pk") follower_pk: Int
+        @Path("follower_pk") follower_pk: Int
     ): Call<FollowerResult>
 
     @POST("user/profile/follow_requests/")

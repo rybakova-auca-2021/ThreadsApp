@@ -11,16 +11,14 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.neobis_android_chapter8.viewModels.AuthViewModel.UserInfoViewModel
-import com.example.threadsapp.R
 import com.example.threadsapp.adapters.FollowerAdapter
 import com.example.threadsapp.databinding.FragmentFollowingBinding
-import com.example.threadsapp.model.Follower
-import com.example.threadsapp.viewModel.followViewModel.FollowersViewModel
+import com.example.threadsapp.viewModel.followViewModel.FollowsViewModel
 
 class FollowingFragment : Fragment() {
     private lateinit var binding: FragmentFollowingBinding
     private lateinit var recyclerView: RecyclerView
-    private val viewModel: FollowersViewModel by viewModels()
+    private val viewModel: FollowsViewModel by viewModels()
     private val userInfoViewModel: UserInfoViewModel by viewModels()
     private lateinit var adapter: FollowerAdapter
 
@@ -52,7 +50,7 @@ class FollowingFragment : Fragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun getListOfFollowers(userId: Int) {
-        viewModel.followersList(
+        viewModel.followsList(
             userId,
             onSuccess = { results ->
                 adapter.updateData(results)
