@@ -13,6 +13,7 @@ import retrofit2.Response
 
 class UserInfoViewModel : ViewModel() {
     val profileData: MutableLiveData<Profile?> = MutableLiveData()
+    val userId: MutableLiveData<Int?> = MutableLiveData()
 
     fun getInfo() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -29,6 +30,7 @@ class UserInfoViewModel : ViewModel() {
                             val profile = response.body()
                             profileData.postValue(profile)
                             if (profile != null) {
+                                userId.postValue(profile.pk)
                                 fetchUserPhoto(profile.photo)
                             }
                         } else {
