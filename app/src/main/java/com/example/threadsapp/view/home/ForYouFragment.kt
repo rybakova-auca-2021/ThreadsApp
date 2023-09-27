@@ -16,6 +16,7 @@ import com.example.threadsapp.adapters.ThreadsAdapter
 import com.example.threadsapp.databinding.FragmentForYouBinding
 import com.example.threadsapp.model.HomeModel.PostView
 import com.example.threadsapp.viewModel.homeViewModel.ForYouViewModel
+import com.example.threadsapp.viewModel.postViewModel.LikeUnlikeViewModel
 import com.example.threadsapp.viewModel.profileViewModel.SomeoneProfileViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
@@ -25,6 +26,7 @@ class ForYouFragment : Fragment() {
     private lateinit var threadsAdapter: ThreadsAdapter
     private lateinit var recyclerView: RecyclerView
     private val viewModel: ForYouViewModel by viewModels()
+    private val likeViewModel: LikeUnlikeViewModel by viewModels()
 
 
     override fun onCreateView(
@@ -87,10 +89,20 @@ class ForYouFragment : Fragment() {
                 startActivity(chooserIntent)
             }
 
-            override fun onLikeClick(data: PostView, position: Int) {
-                // Handle like click
+            override fun onLikeClick(data: PostView, position: Int, id: Int, isLiked: Boolean) {
+                likeOrDislike(id)
             }
         }
+    }
+
+    private fun likeOrDislike(id: Int) {
+        likeViewModel.likeOrUnlike(id,
+            onSuccess = {message ->
+                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+            },
+            onError = { errorMessage ->
+                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+            })
     }
 
     @SuppressLint("ResourceType")

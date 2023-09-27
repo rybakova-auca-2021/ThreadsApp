@@ -1,8 +1,10 @@
 package com.example.threadsapp.adapters
 
 import android.annotation.SuppressLint
+import android.graphics.PorterDuff
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -53,6 +55,7 @@ class ThreadsAdapter(
 
     inner class ViewHolder(val binding: MainThreadsBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        private var isLiked = false
 
         @SuppressLint("SetTextI18n")
         fun bind(thread: PostView) {
@@ -71,19 +74,35 @@ class ThreadsAdapter(
                         username.text = userProfile.username
                         userProfile.photo.let { photoUrl ->
                             if (photoUrl.isNullOrEmpty()) {
-                                Glide.with(binding.root.context).load(R.drawable.profile_photo).into(binding.avatar)
+                                Glide.with(binding.root.context).load(R.drawable.profile_photo)
+                                    .into(binding.avatar)
                             } else {
-                                Glide.with(binding.root.context).load(photoUrl).circleCrop().into(binding.avatar)
+                                Glide.with(binding.root.context).load(photoUrl).circleCrop()
+                                    .into(binding.avatar)
                             }
                         }
 
                         threadText.text = thread.text
-                        val timeDifference = CalculateTime.calculateTimeDifference(thread.date_posted)
+                        val timeDifference =
+                            CalculateTime.calculateTimeDifference(thread.date_posted)
                         time.text = timeDifference
                         likes.text = "${thread.total_likes} likes"
+                        if(thread.user_like) {
+                            likeBtn.setImageResource(R.drawable.like_btn_pressed)
+                            isLiked = true
+                        } else {
+                            likeBtn.setImageResource(R.drawable.lke_btn)
+                            isLiked = false
+                        }
 
                         binding.likeBtn.setOnClickListener {
-                            onClickListener?.onLikeClick(thread, adapterPosition)
+                            isLiked = !isLiked
+                            if(isLiked) {
+                                likeBtn.setImageResource(R.drawable.lke_btn)
+                            } else {
+                                likeBtn.setImageResource(R.drawable.like_btn_pressed)
+                            }
+                            onClickListener?.onLikeClick(thread, adapterPosition, thread.id, isLiked)
                         }
                         binding.commentBtn.setOnClickListener {
                             onClickListener?.onCommentClick(thread, adapterPosition)
@@ -108,7 +127,7 @@ class ThreadsAdapter(
         fun onCommentClick(data: T, position: Int)
         fun onRepostClick(data: T, position: Int)
         fun onShareClick(data: T, position: Int)
-        fun onLikeClick(data: T, position: Int)
+        fun onLikeClick(data: T, position: Int, id: Int, isLiked: Boolean)
     }
 
     class ProductDiffCallback(
