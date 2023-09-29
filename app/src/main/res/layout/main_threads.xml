@@ -16,10 +16,9 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginStart="16dp"
-            android:src="@drawable/avatar"
+            tools:src="@drawable/avatar"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="MissingConstraints" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/username"
@@ -27,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:fontFamily="@font/sfbold"
-            android:text="malevicz"
+            tools:text="malevicz"
             android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@+id/avatar"
             app:layout_constraintTop_toTopOf="@+id/avatar" />
@@ -39,7 +38,7 @@
             android:layout_marginStart="12dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="16dp"
-            android:text="When I look at you, I see someone who’s working hard"
+            tools:text="When I look at you, I see someone who’s working hard"
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/avatar"
@@ -86,7 +85,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="941 likes"
+            tools:text="941 likes"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/like_btn"
             app:layout_constraintTop_toBottomOf="@+id/like_btn" />
@@ -109,7 +108,7 @@
             app:layout_constraintStart_toStartOf="@+id/username"
             app:layout_constraintTop_toBottomOf="@+id/thread_text"
             app:layout_constraintWidth_max="300dp"
-            app:srcCompat="@drawable/image" />
+            tools:srcCompat="@drawable/image" />
 
         <ImageView
             android:id="@+id/subscribe_btn"

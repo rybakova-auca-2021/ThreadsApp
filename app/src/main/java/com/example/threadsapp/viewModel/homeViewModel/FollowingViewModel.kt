@@ -1,5 +1,6 @@
 package com.example.threadsapp.viewModel.homeViewModel
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.threadsapp.api.RetrofitInstance
 import com.example.threadsapp.model.HomeModel.PostModel
@@ -10,10 +11,12 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class FollowingViewModel : ViewModel() {
+    val isLoading = MutableLiveData<Boolean>()
     fun forYouPosts(
         onSuccess: (List<PostView>) -> Unit,
         onError: (String) -> Unit
     ) {
+        isLoading.value = true
         val apiInterface = RetrofitInstance.homeApi
 
         val token = Utils.token
@@ -27,6 +30,7 @@ class FollowingViewModel : ViewModel() {
                     if (postResults != null) {
                         onSuccess.invoke(postResults.results)
                     }
+                    isLoading.value = false
                 } else {
                     onError.invoke("Error fetching search results")
                 }
@@ -34,6 +38,7 @@ class FollowingViewModel : ViewModel() {
 
             override fun onFailure(call: Call<PostModel>, t: Throwable) {
                 onError.invoke("Network error")
+                isLoading.value = false
             }
         })
     }
