@@ -87,12 +87,12 @@ class ThreadsAdapter(
                             CalculateTime.calculateTimeDifference(thread.date_posted)
                         time.text = timeDifference
                         likes.text = "${thread.total_likes} likes"
-                        if(thread.user_like) {
+                        isLiked = if(thread.user_like) {
                             likeBtn.setImageResource(R.drawable.like_btn_pressed)
-                            isLiked = true
+                            true
                         } else {
                             likeBtn.setImageResource(R.drawable.lke_btn)
-                            isLiked = false
+                            false
                         }
 
                         binding.likeBtn.setOnClickListener {
