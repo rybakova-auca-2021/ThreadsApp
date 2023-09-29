@@ -39,7 +39,7 @@ class FollowerAdapter(private var followers: List<Followers>) :
 
         holder.followerNameTextView.text = follower.follower.username
         holder.nameTextView.text = follower.follower.full_name
-        Glide.with(holder.followerPhotoImageView).load(follower.follower.photo).into(holder.followerPhotoImageView)
+        Glide.with(holder.followerPhotoImageView).load(follower.follower.photo).circleCrop().into(holder.followerPhotoImageView)
 
 //        if (follower.is_followed) {
 //            holder.followButton.text = "Following"
