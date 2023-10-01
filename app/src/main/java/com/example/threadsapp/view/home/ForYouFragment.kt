@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.threadsapp.R
@@ -77,14 +78,14 @@ class ForYouFragment : Fragment() {
         setupGettingData()
 
         threadsAdapter.onClickListener = object : ThreadsAdapter.ListClickListener<PostView> {
-            override fun onClick(data: PostView, position: Int) {
-//                val action = HomeFragmentDirections.actionToThreadFragment(data)
-//                findNavController().navigate(action)
+            override fun onClick(data: PostView, position: Int, id: Int) {
+                val bundle = Bundle()
+                bundle.putInt("postId", id)
+                findNavController().navigate(R.id.threadFragment, bundle)
             }
 
             override fun onCommentClick(data: PostView, position: Int) {
-//                val action = HomeFragmentDirections.actionToReplyFragment(data)
-//                findNavController().navigate(action)
+                findNavController().navigate(R.id.threadFragment)
             }
 
             override fun onRepostClick(data: PostView, position: Int) {

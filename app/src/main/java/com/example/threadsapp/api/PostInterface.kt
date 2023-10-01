@@ -2,6 +2,7 @@ package com.example.threadsapp.api
 
 import com.example.threadsapp.model.AuthModel.DetailResponse
 import com.example.threadsapp.model.HomeModel.PostModel
+import com.example.threadsapp.model.HomeModel.PostView
 import com.example.threadsapp.model.PostModel.Comment
 import com.example.threadsapp.model.PostModel.Quote
 import com.example.threadsapp.model.PostModel.Reply
@@ -52,11 +53,11 @@ interface PostInterface {
         @Path("post_id") postId: String
     ) : Call<DetailResponse>
 
-    @GET("post/{id}")
+    @GET("post/{post_id}/view/")
     fun postRead(
         @Header("Authorization") token: String,
-        @Path("id") id: String
-    ): Call<PostModel>
+        @Path("post_id") id: String
+    ): Call<PostView>
 
     @DELETE("post/{id}/")
     fun postDelete(

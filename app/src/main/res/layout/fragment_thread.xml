@@ -68,10 +68,10 @@
 
             <ImageView
                 android:id="@+id/avatar"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginStart="16dp"
-                android:src="@drawable/avatar"
+                tools:src="@drawable/avatar"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="MissingConstraints" />
@@ -80,9 +80,9 @@
                 android:id="@+id/username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
+                android:layout_marginStart="14dp"
                 android:fontFamily="@font/sfbold"
-                android:text="malevicz"
+                tools:text="malevicz"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="@+id/avatar"
                 app:layout_constraintStart_toEndOf="@+id/avatar"
@@ -94,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:text="Focusing is about saying no. Stay focused on what truly matters."
+                tools:text="Focusing is about saying no. Stay focused on what truly matters."
                 android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/avatar"
@@ -141,7 +141,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="72dp"
-                android:text="@string/_941_likes"
+                tools:text="@string/_941_likes"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/like_btn"
                 app:layout_constraintTop_toTopOf="@+id/replies"
@@ -152,7 +152,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:text="@string/_2h"
+                tools:text="@string/_2h"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/username" />
 
@@ -160,10 +160,13 @@
                 android:id="@+id/imageView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                app:layout_constraintStart_toStartOf="@+id/thread_text"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintHeight_max="300dp"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/thread_text"
-                app:srcCompat="@drawable/image" />
+                app:layout_constraintWidth_max="300dp"
+                tools:srcCompat="@drawable/image" />
 
             <ImageView
                 android:id="@+id/subscribe_btn"

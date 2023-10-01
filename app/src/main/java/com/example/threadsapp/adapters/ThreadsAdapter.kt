@@ -32,15 +32,12 @@ class ThreadsAdapter(
         val thread = threads[position]
         holder.bind(thread)
         holder.itemView.setOnClickListener {
-            onClickListener?.onClick(thread, position)
+            onClickListener?.onClick(thread, position, thread.id)
         }
     }
 
     override fun getItemCount() = threads.size
 
-    fun setOnItemClick(listClickListener: ListClickListener<PostView>) {
-        this.onClickListener = listClickListener
-    }
 
     fun updateData(newList: List<PostView>) {
         val diffResult = DiffUtil.calculateDiff(
@@ -96,13 +93,13 @@ class ThreadsAdapter(
                         }
 
                         binding.likeBtn.setOnClickListener {
+                            onClickListener?.onLikeClick(thread, adapterPosition, thread.id, isLiked)
                             isLiked = !isLiked
                             if(isLiked) {
                                 likeBtn.setImageResource(R.drawable.lke_btn)
                             } else {
                                 likeBtn.setImageResource(R.drawable.like_btn_pressed)
                             }
-                            onClickListener?.onLikeClick(thread, adapterPosition, thread.id, isLiked)
                         }
                         binding.commentBtn.setOnClickListener {
                             onClickListener?.onCommentClick(thread, adapterPosition)
@@ -123,7 +120,7 @@ class ThreadsAdapter(
     }
 
     interface ListClickListener<T> {
-        fun onClick(data: T, position: Int)
+        fun onClick(data: T, position: Int, id: Int)
         fun onCommentClick(data: T, position: Int)
         fun onRepostClick(data: T, position: Int)
         fun onShareClick(data: T, position: Int)

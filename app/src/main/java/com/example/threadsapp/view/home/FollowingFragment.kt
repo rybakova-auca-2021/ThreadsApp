@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.threadsapp.R
@@ -23,7 +24,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class FollowingFragment : Fragment() {
     private lateinit var binding: FragmentFollowing2Binding
-    private lateinit var adapter: ThreadsAdapter
+    private lateinit var threadsAdapter: ThreadsAdapter
     private lateinit var recyclerView: RecyclerView
     private val viewModel: FollowingViewModel by viewModels()
     private val likeViewModel: LikeUnlikeViewModel by viewModels()
@@ -40,17 +41,9 @@ class FollowingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupThreadsAdapter()
-        setData()
-    }
-
-    private fun setupThreadsAdapter() {
-        adapter = ThreadsAdapter(emptyList(), SomeoneProfileViewModel())
-
-        binding.recyclerView.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = adapter
-        }
+        threadsAdapter = ThreadsAdapter(emptyList(), SomeoneProfileViewModel())
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = threadsAdapter
 
         viewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
             if (isLoading) {
@@ -61,13 +54,15 @@ class FollowingFragment : Fragment() {
                 binding.recyclerView.visibility = View.VISIBLE
             }
         })
+
+        setData()
     }
 
     private fun setupGettingData() {
         viewModel.forYouPosts(
             onSuccess = { results ->
-                adapter.updateData(results)
-                adapter.notifyDataSetChanged()
+                threadsAdapter.updateData(results)
+                threadsAdapter.notifyDataSetChanged()
             },
             onError = {
                 Toast.makeText(requireContext(), "Try Again", Toast.LENGTH_SHORT).show()
@@ -78,10 +73,11 @@ class FollowingFragment : Fragment() {
     private fun setData() {
         setupGettingData()
 
-        adapter.onClickListener = object : ThreadsAdapter.ListClickListener<PostView> {
-            override fun onClick(data: PostView, position: Int) {
-//                val action = HomeFragmentDirections.actionToThreadFragment(data)
-//                findNavController().navigate(action)
+        threadsAdapter.onClickListener = object : ThreadsAdapter.ListClickListener<PostView> {
+            override fun onClick(data: PostView, position: Int, id: Int) {
+                val bundle = Bundle()
+                bundle.putInt("postId", id)
+                findNavController().navigate(R.id.threadFragment, bundle)
             }
 
             override fun onCommentClick(data: PostView, position: Int) {
