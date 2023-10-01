@@ -14,5 +14,5 @@ data class Links(
 data class UserResult(
     val pk: Int,
     val username: String,
-    val is_followed: String
+    var is_followed: String
 )

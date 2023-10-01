@@ -2,24 +2,32 @@ package com.example.threadsapp.adapters
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.threadsapp.R
 import com.example.threadsapp.databinding.SearchCardBinding
 import com.example.threadsapp.model.UserResult
+import com.example.threadsapp.viewModel.followViewModel.FollowSomeoneViewModel
 import com.example.threadsapp.viewModel.profileViewModel.SomeoneProfileViewModel
 
 class SearchResultAdapter(
     private var results: List<UserResult>,
     private val viewModel: SomeoneProfileViewModel,
-    private var itemClickListener: OnItemClickListener? = null
 
 ) : RecyclerView.Adapter<SearchResultAdapter.ViewHolder>() {
 
-    interface OnItemClickListener {
-        fun onItemClick(userResult: UserResult)
+    var setOnItemClickListener: OnItemClickListener<UserResult>? = null
+
+    interface OnItemClickListener<T> {
+        fun onItemClick(data: T, position: Int, id: Int)
+        fun onBtnClick(data: T, position: Int, id: Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -31,8 +39,10 @@ class SearchResultAdapter(
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val result = results[position]
-
         holder.bind(result)
+        holder.itemView.setOnClickListener {
+            setOnItemClickListener?.onItemClick(result, position, result.pk)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -48,15 +58,6 @@ class SearchResultAdapter(
     inner class ViewHolder(private val binding: SearchCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        init {
-            binding.root.setOnClickListener {
-                val position = adapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    val userResult = results[position]
-                    itemClickListener?.onItemClick(userResult)
-                }
-            }
-        }
         fun bind(result: UserResult) {
             viewModel.getUserProfile(
                 result.username,
@@ -73,17 +74,28 @@ class SearchResultAdapter(
                         }
                     }
                 },
-                onError = { errorMessage ->
-                    // Handle error (e.g., show an error message)
+                onError = {
                 }
+            )
+
+            val initialText = if (result.is_followed == "Followed") "Following" else "Follow"
+            updateFollowButtonState(initialText)
+
+            binding.followButton.setOnClickListener {
+                setOnItemClickListener?.onBtnClick(result, adapterPosition, result.pk)
+                val newText = if (binding.followButton.text == "Follow") "Following" else "Follow"
+                updateFollowButtonState(newText)
+            }
+        }
+        private fun updateFollowButtonState(text: String) {
+            binding.followButton.text = text
+            val colorResId =
+                if (text == "Following") R.color.grey_auth else R.color.black
+            binding.followButton.setTextColor(
+                ContextCompat.getColor(binding.followButton.context, colorResId)
             )
         }
     }
-
-    fun setOnItemClickListener(listener: OnItemClickListener) {
-        this.itemClickListener = listener
-    }
-
 
     class ProductDiffCallback(
         private val oldList: List<UserResult>,
