@@ -1,9 +1,11 @@
 package com.example.threadsapp.api
 
+import com.example.threadsapp.model.ProfileModel.FollowResponse
 import com.example.threadsapp.model.ProfileModel.Followee
 import com.example.threadsapp.model.ProfileModel.FollowerApi
 import com.example.threadsapp.model.ProfileModel.FollowerList
 import com.example.threadsapp.model.ProfileModel.FollowerResult
+import com.example.threadsapp.model.ProfileModel.FollowsResult
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -13,10 +15,16 @@ import retrofit2.http.Path
 
 interface FollowersInterface {
     @POST("user/profile/unfollow/")
-    fun unfollow(@Body request: Followee): Call<Followee>
+    fun unfollow(
+        @Header("Authorization") token: String,
+        @Body request: Followee
+    ): Call<Followee>
 
     @POST("user/profile/follow/")
-    fun follow(@Body request: Followee): Call<Followee>
+    fun follow(
+        @Header("Authorization") token: String,
+        @Body request: Followee
+    ): Call<FollowResponse>
 
     @POST("user/profile/mutual_follow/")
     fun mutualFollow(@Body request: Followee): Call<Followee>
@@ -40,7 +48,7 @@ interface FollowersInterface {
     fun readFollows(
         @Header("Authorization") token: String,
         @Path("follower_pk") follower_pk: Int
-    ): Call<FollowerResult>
+    ): Call<FollowsResult>
 
     @GET("user/profile/follow_requests/")
     fun readFollowRequests(@Header("Authorization") token: String): Call<FollowerResult>

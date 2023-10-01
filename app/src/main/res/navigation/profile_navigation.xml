@@ -15,7 +15,11 @@
             app:destination="@id/editProfileFragment" />
         <action
             android:id="@+id/action_profileFragment_to_followFragment"
-            app:destination="@id/followFragment" />
+            app:destination="@id/followFragment">
+            <argument
+                android:name="username"
+                app:argType="string" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
@@ -80,6 +84,9 @@
             app:destination="@id/someoneProfileFragment">
             <argument
                 android:name="username"
+                app:argType="string" />
+            <argument
+                android:name="followingStatus"
                 app:argType="string" />
         </action>
     </fragment>

@@ -39,6 +39,9 @@ class FollowFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupDialog()
+
+        val username = arguments?.getString("username")
+        binding.username.text = username
     }
 
     private fun setupDialog() {

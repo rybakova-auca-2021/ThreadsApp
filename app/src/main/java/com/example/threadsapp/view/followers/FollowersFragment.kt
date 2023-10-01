@@ -13,14 +13,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.neobis_android_chapter8.viewModels.AuthViewModel.UserInfoViewModel
 import com.example.threadsapp.adapters.FollowerAdapter
 import com.example.threadsapp.databinding.FragmentFollowersBinding
+import com.example.threadsapp.model.ProfileModel.Followers
+import com.example.threadsapp.viewModel.followViewModel.FollowSomeoneViewModel
 import com.example.threadsapp.viewModel.followViewModel.FollowersViewModel
+import com.example.threadsapp.viewModel.followViewModel.UnfollowViewModel
 
 class FollowersFragment : Fragment() {
     private lateinit var binding: FragmentFollowersBinding
     private lateinit var recyclerView: RecyclerView
     private val viewModel: FollowersViewModel by viewModels()
-    private lateinit var adapter: FollowerAdapter
     private val userInfoViewModel: UserInfoViewModel by viewModels()
+    private val followViewModel: FollowSomeoneViewModel by viewModels()
+    private val unfollowViewModel: UnfollowViewModel by viewModels()
+    private lateinit var adapter: FollowerAdapter
+    private val userFollowStatusMap = mutableMapOf<Int, Boolean>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +43,12 @@ class FollowersFragment : Fragment() {
         adapter = FollowerAdapter(emptyList())
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
+
+        adapter.setOnItemClickListener = object : FollowerAdapter.OnItemClickListener<Followers> {
+            override fun onBtnClick(data: Followers, position: Int, id: Int) {
+                followBtn(id)
+            }
+        }
 
         userInfoViewModel.profileData.observe(viewLifecycleOwner) { profile ->
             if (profile != null) {
@@ -55,9 +67,51 @@ class FollowersFragment : Fragment() {
             onSuccess = { results ->
                 adapter.updateData(results)
                 adapter.notifyDataSetChanged()
+
+                for (user in results) {
+                    val isFollowing = user.is_followed == "Followed"
+                    userFollowStatusMap[user.follower.pk] = isFollowing
+                }
             },
             onError = {
                 Toast.makeText(requireContext(), "Try Again", Toast.LENGTH_SHORT).show()
+            }
+        )
+    }
+
+    @SuppressLint("ResourceAsColor")
+    private fun followBtn(id: Int) {
+        val isFollowing = userFollowStatusMap[id] ?: false
+        if (isFollowing) {
+            unfollow(id)
+        } else {
+            follow(id)
+        }
+    }
+
+    @SuppressLint("ResourceAsColor")
+    private fun follow(id: Int) {
+        followViewModel.follow(
+            id,
+            onSuccess =  {
+                userFollowStatusMap[id] = true
+                Toast.makeText(requireContext(), "followed", Toast.LENGTH_SHORT).show()
+            },
+            onError = {
+                Toast.makeText(requireContext(), "try again", Toast.LENGTH_SHORT).show()
+            }
+        )
+    }
+
+    private fun unfollow(id: Int) {
+        unfollowViewModel.unfollow(
+            id,
+            onSuccess =  {
+                userFollowStatusMap[id] = false
+                Toast.makeText(requireContext(), "unfollowed", Toast.LENGTH_SHORT).show()
+            },
+            onError = {
+                Toast.makeText(requireContext(), "try again", Toast.LENGTH_SHORT).show()
             }
         )
     }

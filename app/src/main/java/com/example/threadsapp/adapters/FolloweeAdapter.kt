@@ -11,12 +11,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.threadsapp.R
+import com.example.threadsapp.model.ProfileModel.Followee
 import com.example.threadsapp.model.ProfileModel.Followers
+import com.example.threadsapp.model.ProfileModel.Follows
 
-class FollowerAdapter(private var followers: List<Followers>) :
-    RecyclerView.Adapter<FollowerAdapter.ViewHolder>() {
+class FolloweeAdapter(private var followees: List<Follows>) :
+    RecyclerView.Adapter<FolloweeAdapter.ViewHolder>() {
 
-    var setOnItemClickListener: OnItemClickListener<Followers>? = null
+    var setOnItemClickListener: OnItemClickListener<Follows>? = null
 
     interface OnItemClickListener<T> {
         fun onBtnClick(data: T, position: Int, id: Int)
@@ -29,46 +31,46 @@ class FollowerAdapter(private var followers: List<Followers>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val follower = followers[position]
+        val followee = followees[position]
 
-        holder.followerNameTextView.text = follower.follower.username
-        holder.nameTextView.text = follower.follower.full_name
-        if (follower.follower.photo != null) {
-            Glide.with(holder.followerPhotoImageView).load(follower.follower.photo).circleCrop()
-                .into(holder.followerPhotoImageView)
+        holder.followeeNameTextView.text = followee.followee.username
+        holder.nameTextView.text = followee.followee.full_name
+        if (followee.followee.photo != null) {
+            Glide.with(holder.followeePhotoImageView).load(followee.followee.photo).circleCrop()
+                .into(holder.followeePhotoImageView)
         } else {
-            Glide.with(holder.followerPhotoImageView).load(R.drawable.profile_photo).circleCrop()
-                .into(holder.followerPhotoImageView)
+            Glide.with(holder.followeePhotoImageView).load(R.drawable.profile_photo).circleCrop()
+                .into(holder.followeePhotoImageView)
         }
 
-        val initialText = if (follower.is_followed == "Followed") "Following" else "Follow"
+        val initialText = if (followee.is_followed == "Followed") "Following" else "Follow"
         holder.updateFollowButtonState(initialText)
 
         holder.followButton.setOnClickListener {
-            setOnItemClickListener?.onBtnClick(follower, position, follower.follower.pk)
+            setOnItemClickListener?.onBtnClick(followee, position, followee.followee.pk)
             val newText = if (holder.followButton.text == "Follow") "Following" else "Follow"
             holder.updateFollowButtonState(newText)
         }
     }
 
     override fun getItemCount(): Int {
-        return followers.size
+        return followees.size
     }
 
-    fun updateData(newList: List<Followers>) {
+    fun updateData(newList: List<Follows>) {
         val diffResult = DiffUtil.calculateDiff(
             ProductDiffCallback(
-                followers,
+                followees,
                 newList
             )
         )
-        followers = newList
+        followees = newList
         diffResult.dispatchUpdatesTo(this)
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val followerPhotoImageView = itemView.findViewById<ImageView>(R.id.imageView)
-        val followerNameTextView = itemView.findViewById<TextView>(R.id.followerName)
+        val followeePhotoImageView = itemView.findViewById<ImageView>(R.id.imageView)
+        val followeeNameTextView = itemView.findViewById<TextView>(R.id.followerName)
         val nameTextView = itemView.findViewById<TextView>(R.id.job)
         val followButton = itemView.findViewById<Button>(R.id.followButton)
 
@@ -83,8 +85,8 @@ class FollowerAdapter(private var followers: List<Followers>) :
     }
 
     class ProductDiffCallback(
-        private val oldList: List<Followers>,
-        private val newList: List<Followers>
+        private val oldList: List<Follows>,
+        private val newList: List<Follows>
     ) : DiffUtil.Callback() {
 
         override fun getOldListSize() = oldList.size
@@ -92,7 +94,7 @@ class FollowerAdapter(private var followers: List<Followers>) :
         override fun getNewListSize() = newList.size
 
         override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) =
-            oldList[oldItemPosition].follower.pk == newList[newItemPosition].follower.pk
+            oldList[oldItemPosition].followee.pk == newList[newItemPosition].followee.pk
 
         override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int) =
             oldList[oldItemPosition] == newList[newItemPosition]
