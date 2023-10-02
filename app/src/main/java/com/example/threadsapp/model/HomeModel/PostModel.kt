@@ -1,18 +1,18 @@
 package com.example.threadsapp.model.HomeModel
 
 data class Links(
-    val next: String,
-    val previous: String
+    val next: Int,
+    val previous: Int
 )
 
 data class RepostView(
-    val id: Int,
+    val id: Int?,
     val author: Int,
-    val text: String,
-    val image: String,
-    val video: String,
-    val repost: String,
-    val date_posted: String
+    val text: String?,
+    val image: String?,
+    val video: String?,
+    val repost: Int?,
+    val date_posted: String?
 )
 
 data class PostView(
@@ -23,8 +23,9 @@ data class PostView(
     val date_posted: String,
     val image: String?,
     val video: String?,
-    val repost: String?,
+    val repost: RepostView?,
     val comments_permission: String,
+    val total_comments: String,
     val total_likes: Int,
     val user_like: Boolean
 )

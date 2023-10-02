@@ -7,7 +7,7 @@ import java.util.TimeZone
 
 class CalculateTime {
     companion object {
-        fun calculateTimeDifference(timestamp: String): String {
+        fun calculateTimeDifference(timestamp: String?): String {
             val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'", Locale.US)
             dateFormat.timeZone = TimeZone.getTimeZone("UTC")
 

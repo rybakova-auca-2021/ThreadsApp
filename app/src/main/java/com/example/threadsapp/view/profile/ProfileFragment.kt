@@ -35,6 +35,7 @@ class ProfileFragment : Fragment() {
     private val deleteViewModel: DeleteThreadViewModel by viewModels()
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: MyPostsAdapter
+    var username: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -77,7 +78,8 @@ class ProfileFragment : Fragment() {
             showLogoutDialog()
         }
         binding.numOfFollowers.setOnClickListener {
-            findNavController().navigate(R.id.followFragment)
+            val action = ProfileFragmentDirections.actionProfileFragmentToFollowFragment(username)
+            findNavController().navigate(action)
         }
         binding.shareProfileBtn.setOnClickListener {
             showImageOptionsBottomSheet()
@@ -95,6 +97,7 @@ class ProfileFragment : Fragment() {
     private fun showUserData() {
         viewModel.profileData.observe(viewLifecycleOwner) { profile ->
             profile?.let {
+                username = profile.username
                 binding.name.text = it.full_name
                 binding.username.text = it.username
                 profile.photo.let { photoUrl ->

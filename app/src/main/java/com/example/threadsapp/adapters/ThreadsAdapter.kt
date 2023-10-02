@@ -1,10 +1,8 @@
 package com.example.threadsapp.adapters
 
 import android.annotation.SuppressLint
-import android.graphics.PorterDuff
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -108,7 +106,7 @@ class ThreadsAdapter(
                             onClickListener?.onShareClick(thread, adapterPosition)
                         }
                         binding.repostBtn.setOnClickListener {
-                            onClickListener?.onRepostClick(thread, adapterPosition)
+                            onClickListener?.onRepostClick(thread, adapterPosition, thread.id)
                         }
                     }
                 },
@@ -122,7 +120,7 @@ class ThreadsAdapter(
     interface ListClickListener<T> {
         fun onClick(data: T, position: Int, id: Int)
         fun onCommentClick(data: T, position: Int)
-        fun onRepostClick(data: T, position: Int)
+        fun onRepostClick(data: T, position: Int, id: Int)
         fun onShareClick(data: T, position: Int)
         fun onLikeClick(data: T, position: Int, id: Int, isLiked: Boolean)
     }

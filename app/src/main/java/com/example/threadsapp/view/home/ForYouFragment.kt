@@ -18,6 +18,7 @@ import com.example.threadsapp.adapters.ThreadsAdapter
 import com.example.threadsapp.databinding.FragmentForYouBinding
 import com.example.threadsapp.model.HomeModel.PostView
 import com.example.threadsapp.viewModel.homeViewModel.ForYouViewModel
+import com.example.threadsapp.viewModel.homeViewModel.RepostViewModel
 import com.example.threadsapp.viewModel.postViewModel.LikeUnlikeViewModel
 import com.example.threadsapp.viewModel.profileViewModel.SomeoneProfileViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -29,6 +30,7 @@ class ForYouFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private val viewModel: ForYouViewModel by viewModels()
     private val likeViewModel: LikeUnlikeViewModel by viewModels()
+    private val repostViewModel: RepostViewModel by viewModels()
 
 
     override fun onCreateView(
@@ -88,8 +90,8 @@ class ForYouFragment : Fragment() {
                 findNavController().navigate(R.id.threadFragment)
             }
 
-            override fun onRepostClick(data: PostView, position: Int) {
-                showDialog()
+            override fun onRepostClick(data: PostView, position: Int, id: Int) {
+                showDialog(id)
             }
 
             override fun onShareClick(data: PostView, position: Int) {
@@ -124,14 +126,14 @@ class ForYouFragment : Fragment() {
         dialog.setContentView(view)
         return dialog
     }
-    private fun showDialog() {
+    private fun showDialog(id: Int) {
         val dialog = createBottomSheetDialog()
-        val repostBtn = dialog.findViewById<View>(R.id.repost_btn)
+        val repostBtn = dialog.findViewById<View>(R.id.btn_repost)
         val quoteBtn = dialog.findViewById<View>(R.id.btn_quote)
 
         repostBtn?.setOnClickListener {
             dialog.dismiss()
-            // TODO
+            repostViewModel.repost(id)
         }
         quoteBtn?.setOnClickListener{
             dialog.dismiss()

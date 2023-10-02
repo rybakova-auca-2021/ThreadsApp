@@ -7,22 +7,43 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#F9F9F9"
-    android:visibility="gone">
+    android:visibility="visible">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingVertical="16dp">
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/avatar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/reposted_btn" />
+
+        <TextView
+            android:id="@+id/text_reposted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="You reposted"
+            android:textSize="15sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+            app:layout_constraintStart_toEndOf="@+id/imageView3"
+            app:layout_constraintTop_toTopOf="@+id/imageView3" />
 
         <ImageView
             android:id="@+id/avatar"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginStart="16dp"
-            tools:src="@drawable/avatar"
+            android:layout_marginTop="5dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="MissingConstraints" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView3"
+            tools:ignore="MissingConstraints"
+            tools:src="@drawable/avatar" />
 
         <TextView
             android:id="@+id/username"
@@ -30,10 +51,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:fontFamily="@font/sfbold"
-            tools:text="malevicz"
             android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@+id/avatar"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/avatar"
+            tools:text="malevicz" />
 
         <TextView
             android:id="@+id/thread_text"
@@ -41,7 +62,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginTop="5dp"
-            android:layout_marginEnd="16dp"
             tools:text="@string/quote1"
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
@@ -115,17 +135,16 @@
             android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="50dp"
             android:text="@string/_2h"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/delete_btn"
             app:layout_constraintTop_toTopOf="@+id/username" />
 
         <ImageView
             android:id="@+id/delete_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            app:layout_constraintStart_toEndOf="@+id/time"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/time"
             app:srcCompat="@drawable/mdi_delete" />
 

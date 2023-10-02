@@ -6,7 +6,6 @@ import com.example.threadsapp.model.HomeModel.PostView
 import com.example.threadsapp.model.PostModel.Comment
 import com.example.threadsapp.model.PostModel.Quote
 import com.example.threadsapp.model.PostModel.Reply
-import com.example.threadsapp.model.PostModel.Repost
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -88,7 +87,6 @@ interface PostInterface {
     @POST("post/{post_id}/repost/")
     fun createRepost(
         @Header("Authorization") token: String,
-        @Body request: Repost,
         @Path("post_id") id: String
     ): Call<DetailResponse>
 }

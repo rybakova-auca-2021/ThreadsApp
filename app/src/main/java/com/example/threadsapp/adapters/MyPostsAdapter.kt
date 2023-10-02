@@ -61,9 +61,19 @@ class MyPostsAdapter(
 
         fun bind(thread: PostView) {
             viewModel.getUserProfileById(
-                thread.author,
+                if (thread.repost != null) thread.repost.author else thread.author,
                 onSuccess = { userProfile ->
                     with(binding) {
+                        if (thread.repost != null) {
+                            binding.imageView3.visibility = View.VISIBLE
+                            binding.textReposted.visibility = View.VISIBLE
+                            binding.deleteBtn.visibility = View.GONE
+                        } else {
+                            binding.imageView3.visibility = View.GONE
+                            binding.textReposted.visibility = View.GONE
+                            binding.deleteBtn.visibility = View.VISIBLE
+                        }
+
                         if (thread.image != null) {
                             Glide.with(imageView4)
                                 .load(thread.image)
@@ -75,15 +85,32 @@ class MyPostsAdapter(
                         username.text = userProfile.username
                         userProfile.photo?.let { photoUrl ->
                             if (photoUrl.isEmpty()) {
-                                Glide.with(binding.root.context).load(R.drawable.profile_photo).into(binding.avatar)
+                                Glide.with(binding.root.context).load(R.drawable.profile_photo).circleCrop().into(binding.avatar)
                             } else {
                                 Glide.with(binding.root.context).load(photoUrl).circleCrop().into(binding.avatar)
                             }
                         }
 
-                        threadText.text = thread.text
-                        val timeDifference = CalculateTime.calculateTimeDifference(thread.date_posted)
-                        time.text = timeDifference
+                        if (thread.repost != null) {
+                            threadText.text = thread.repost.text
+                        } else {
+                            threadText.text = thread.text
+                        }
+
+                        if (thread.repost != null) {
+                            val timeDifference = CalculateTime.calculateTimeDifference(thread.repost.date_posted)
+                            time.text = timeDifference
+                        } else {
+                            val timeDifference = CalculateTime.calculateTimeDifference(thread.date_posted)
+                            time.text = timeDifference
+                        }
+
+                        if (thread.repost != null) {
+                            threadText.text = thread.repost.text
+                        } else {
+                            threadText.text = thread.text
+                        }
+
                         likes.text = "${thread.total_likes} likes"
 
                         binding.threadViewCard.visibility = View.VISIBLE
