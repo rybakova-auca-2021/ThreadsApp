@@ -1,6 +1,7 @@
 package com.example.threadsapp.viewModel.commentViewModel
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.example.threadsapp.api.RetrofitInstance
 import com.example.threadsapp.model.PostModel.CommentResponse
 import com.example.threadsapp.model.PostModel.CommentView
@@ -9,11 +10,11 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class CommentListViewModel {
+class CommentListViewModel : ViewModel() {
     val isLoading = MutableLiveData<Boolean>()
 
     fun commentsList(
-        text: String,
+        id: String,
         onSuccess: (List<CommentView>) -> Unit,
         onError: (String) -> Unit
     ) {
@@ -23,7 +24,7 @@ class CommentListViewModel {
         val token = Utils.token
         val authHeader = "Bearer $token"
 
-        val call = apiInterface.postCommentsList(authHeader, text)
+        val call = apiInterface.postCommentsList(authHeader, id)
         call.enqueue(object : Callback<CommentResponse> {
             override fun onResponse(call: Call<CommentResponse>, response: Response<CommentResponse>) {
                 isLoading.value = false

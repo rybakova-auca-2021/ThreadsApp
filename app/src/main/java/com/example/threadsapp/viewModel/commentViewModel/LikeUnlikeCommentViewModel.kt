@@ -11,8 +11,6 @@ import retrofit2.Response
 class LikeUnlikeCommentViewModel : ViewModel() {
     fun likeComment(
         text: String,
-        onSuccess: () -> Unit,
-        onError: () -> Unit
     ) {
         val apiInterface = RetrofitInstance.postApi
 
@@ -23,14 +21,13 @@ class LikeUnlikeCommentViewModel : ViewModel() {
         call.enqueue(object : Callback<DetailResponse> {
             override fun onResponse(call: Call<DetailResponse>, response: Response<DetailResponse>) {
                 if (response.isSuccessful) {
-                    onSuccess.invoke()
+                    println("like added/removed")
                 } else {
-                    onError.invoke()
+                    println("try again")
                 }
             }
 
             override fun onFailure(call: Call<DetailResponse>, t: Throwable) {
-                onError.invoke()
             }
         })
     }

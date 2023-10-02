@@ -82,9 +82,9 @@ class FollowingFragment : Fragment() {
                 findNavController().navigate(R.id.threadFragment, bundle)
             }
 
-            override fun onCommentClick(data: PostView, position: Int) {
-//                val action = HomeFragmentDirections.actionToReplyFragment(data)
-//                findNavController().navigate(action)
+            override fun onCommentClick(data: PostView, position: Int, id: Int) {
+                val action = HomeFragmentDirections.actionToReplyFragment(id)
+                findNavController().navigate(action)
             }
 
             override fun onRepostClick(data: PostView, position: Int, id: Int) {

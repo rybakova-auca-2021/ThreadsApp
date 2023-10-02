@@ -2,23 +2,23 @@ package com.example.threadsapp.adapters
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.threadsapp.R
 import com.example.threadsapp.databinding.MainThreadsBinding
-import com.example.threadsapp.model.HomeModel.PostView
+import com.example.threadsapp.model.PostModel.CommentView
 import com.example.threadsapp.util.CalculateTime
 import com.example.threadsapp.viewModel.profileViewModel.SomeoneProfileViewModel
 
-class ThreadsAdapter(
-    private var threads: List<PostView>,
+class CommentsAdapter(
+    private var comments: List<CommentView>,
     private val viewModel: SomeoneProfileViewModel
-    ) : RecyclerView.Adapter<ThreadsAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<CommentsAdapter.ViewHolder>() {
 
-    var onClickListener: ListClickListener<PostView>? = null
+    var onClickListener: ListClickListener<CommentView>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -27,24 +27,21 @@ class ThreadsAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val thread = threads[position]
-        holder.bind(thread)
-        holder.itemView.setOnClickListener {
-            onClickListener?.onClick(thread, position, thread.id)
-        }
+        val comment = comments[position]
+        holder.bind(comment)
     }
 
-    override fun getItemCount() = threads.size
+    override fun getItemCount() = comments.size
 
 
-    fun updateData(newList: List<PostView>) {
+    fun updateData(newList: List<CommentView>) {
         val diffResult = DiffUtil.calculateDiff(
             ProductDiffCallback(
-                threads,
+                comments,
                 newList
             )
         )
-        threads = newList
+        comments = newList
         diffResult.dispatchUpdatesTo(this)
     }
 
@@ -53,19 +50,12 @@ class ThreadsAdapter(
         private var isLiked = false
 
         @SuppressLint("SetTextI18n")
-        fun bind(thread: PostView) {
+        fun bind(comment: CommentView) {
             viewModel.getUserProfileById(
-                thread.author,
+                comment.author,
                 onSuccess = { userProfile ->
                     with(binding) {
-                        if (thread.image != null) {
-                            Glide.with(imageView4)
-                                .load(thread.image)
-                                .into(imageView4)
-                        } else {
-                            imageView4.isVisible = false
-                        }
-
+                        subscribeBtn.visibility = View.GONE
                         username.text = userProfile.username
                         userProfile.photo.let { photoUrl ->
                             if (photoUrl.isNullOrEmpty()) {
@@ -77,12 +67,12 @@ class ThreadsAdapter(
                             }
                         }
 
-                        threadText.text = thread.text
+                        threadText.text = comment.text
                         val timeDifference =
-                            CalculateTime.calculateTimeDifference(thread.date_posted)
+                            CalculateTime.calculateTimeDifference(comment.date_posted)
                         time.text = timeDifference
-                        likes.text = "${thread.total_likes} likes"
-                        isLiked = if(thread.user_like) {
+                        likes.text = "${comment.total_likes} likes"
+                        isLiked = if(comment.user_like) {
                             likeBtn.setImageResource(R.drawable.like_btn_pressed)
                             true
                         } else {
@@ -91,7 +81,7 @@ class ThreadsAdapter(
                         }
 
                         binding.likeBtn.setOnClickListener {
-                            onClickListener?.onLikeClick(thread, adapterPosition, thread.id, isLiked)
+                            onClickListener?.onLikeClick(comment, adapterPosition, comment.id, isLiked)
                             isLiked = !isLiked
                             if(isLiked) {
                                 likeBtn.setImageResource(R.drawable.lke_btn)
@@ -100,13 +90,13 @@ class ThreadsAdapter(
                             }
                         }
                         binding.commentBtn.setOnClickListener {
-                            onClickListener?.onCommentClick(thread, adapterPosition, thread.id)
+                            onClickListener?.onCommentClick(comment, adapterPosition, comment.id)
                         }
                         binding.shareBtn.setOnClickListener {
-                            onClickListener?.onShareClick(thread, adapterPosition)
+                            onClickListener?.onShareClick(comment, adapterPosition)
                         }
                         binding.repostBtn.setOnClickListener {
-                            onClickListener?.onRepostClick(thread, adapterPosition, thread.id)
+                            onClickListener?.onRepostClick(comment, adapterPosition, comment.id)
                         }
                     }
                 },
@@ -118,7 +108,6 @@ class ThreadsAdapter(
     }
 
     interface ListClickListener<T> {
-        fun onClick(data: T, position: Int, id: Int)
         fun onCommentClick(data: T, position: Int, id: Int)
         fun onRepostClick(data: T, position: Int, id: Int)
         fun onShareClick(data: T, position: Int)
@@ -126,8 +115,8 @@ class ThreadsAdapter(
     }
 
     class ProductDiffCallback(
-        private val oldList: List<PostView>,
-        private val newList: List<PostView>
+        private val oldList: List<CommentView>,
+        private val newList: List<CommentView>
     ) : DiffUtil.Callback() {
 
         override fun getOldListSize() = oldList.size

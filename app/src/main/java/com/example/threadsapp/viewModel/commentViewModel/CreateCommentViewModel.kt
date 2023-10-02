@@ -1,17 +1,20 @@
 package com.example.threadsapp.viewModel.commentViewModel
 
+import androidx.lifecycle.ViewModel
 import com.example.threadsapp.api.RetrofitInstance
 import com.example.threadsapp.model.AuthModel.DetailResponse
 import com.example.threadsapp.model.PostModel.Comment
+import com.example.threadsapp.model.ProfileModel.Profile
 import com.example.threadsapp.util.Utils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class CreateCommentViewModel {
+class CreateCommentViewModel : ViewModel(){
     fun createComment(
         id: Int,
-        text: String
+        text: String,
+        onSuccess: () -> Unit
     ) {
         val apiInterface = RetrofitInstance.postApi
         val request = Comment(text)
@@ -23,7 +26,7 @@ class CreateCommentViewModel {
         call.enqueue(object : Callback<DetailResponse> {
             override fun onResponse(call: Call<DetailResponse>, response: Response<DetailResponse>) {
                 if (response.isSuccessful) {
-                    println("comment has been created")
+                    onSuccess.invoke()
                 } else {
                     println("there was an error to create a comment")
                 }

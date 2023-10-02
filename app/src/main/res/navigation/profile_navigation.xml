@@ -44,7 +44,16 @@
         android:id="@+id/threadFragment"
         android:name="com.example.threadsapp.view.home.ThreadFragment"
         android:label="ThreadFragment"
-        tools:layout="@layout/fragment_thread"/>
+        tools:layout="@layout/fragment_thread">
+
+        <action
+            android:id="@+id/action_to_replyFragment"
+            app:destination="@id/replyFragment">
+            <argument
+                android:name="postId"
+                app:argType="integer" />
+        </action>
+    </fragment>
 
     <fragment
         android:id="@+id/homeFragment"
@@ -55,7 +64,7 @@
                 android:id="@+id/action_to_thread_fragment"
                 app:destination="@id/threadFragment">
                 <argument
-                    android:name="threads"
+                    android:name="postId"
                     app:argType="com.example.threadsapp.model.ThreadData"
                     app:nullable="true"/>
             </action>
@@ -63,9 +72,8 @@
             android:id="@+id/action_to_replyFragment"
             app:destination="@id/replyFragment">
                 <argument
-                    android:name="threads"
-                    app:argType="com.example.threadsapp.model.ThreadData"
-                    app:nullable="true"/>
+                    android:name="postId"
+                    app:argType="integer" />
             </action>
     </fragment>
 
@@ -73,7 +81,11 @@
         android:id="@+id/replyFragment"
         android:name="com.example.threadsapp.view.home.ReplyFragment"
         android:label="fragment_reply"
-        tools:layout="@layout/fragment_reply" />
+        tools:layout="@layout/fragment_reply">
+        <argument
+            android:name="postId"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.threadsapp.view.search.SearchFragment"

@@ -65,23 +65,23 @@
 
         <ImageView
             android:id="@+id/photo_answer_to"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="34dp"
-            android:src="@drawable/avatar"
+            tools:src="@drawable/avatar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/my_photo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="53dp"
-            android:src="@drawable/avatar"
+            android:layout_marginTop="25dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/photo_answer_to" />
+            app:layout_constraintTop_toBottomOf="@+id/image_holder"
+            tools:src="@drawable/avatar" />
 
         <TextView
             android:id="@+id/username"
@@ -89,7 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:fontFamily="@font/sfbold"
-            android:text="@string/username_example"
+            tools:text="@string/username_example"
             android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@+id/photo_answer_to"
             app:layout_constraintTop_toTopOf="@+id/photo_answer_to" />
@@ -100,10 +100,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:fontFamily="@font/sfbold"
-            android:text="@string/username_exapmle"
             android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@+id/photo_answer_to"
-            app:layout_constraintTop_toTopOf="@+id/my_photo" />
+            app:layout_constraintTop_toTopOf="@+id/my_photo"
+            tools:text="@string/username_exapmle" />
 
         <TextView
             android:id="@+id/text"
@@ -111,7 +111,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="16dp"
-            android:text="@string/thread_msg"
+            tools:text="@string/thread_msg"
             android:textColor="@color/black"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -171,6 +171,7 @@
             android:id="@+id/profile_photo_thread"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_marginTop="15dp"
             android:src="@drawable/profile_photo"
             app:layout_constraintEnd_toEndOf="@+id/my_photo"
             app:layout_constraintStart_toStartOf="@+id/my_photo"
@@ -217,11 +218,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:src="@drawable/thread_img"
+            tools:src="@drawable/thread_img"
+            android:visibility="gone"
             app:layout_constraintHeight_max="300dp"
             app:layout_constraintWidth_max="300dp"
             app:layout_constraintStart_toStartOf="@+id/reply_to"
             app:layout_constraintTop_toBottomOf="@+id/reply_to" />
+
+        <ImageView
+            android:id="@+id/image_holder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            tools:src="@drawable/img"
+            android:visibility="gone"
+            app:layout_constraintHeight_max="300dp"
+            app:layout_constraintWidth_max="300dp"
+            app:layout_constraintStart_toStartOf="@+id/text"
+            app:layout_constraintTop_toBottomOf="@+id/text" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -84,7 +84,7 @@ interface PostInterface {
         @Path("comment_id") id: String
     ): Call<DetailResponse>
 
-    @POST("post/comments/{comment_id}/like_unlike/")
+    @PATCH("post/comments/{comment_id}/like_unlike/")
     fun likeOrUnlikeComment(
         @Header("Authorization") token: String,
         @Path("comment_id") id: String

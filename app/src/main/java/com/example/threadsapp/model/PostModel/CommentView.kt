@@ -8,7 +8,7 @@ data class ReplyView(
     val id: Int,
     val author: Int,
     val text: String,
-    val datePosted: String,
+    val date_posted: String,
 )
 
 data class CommentView(
@@ -16,10 +16,10 @@ data class CommentView(
     val post: Int,
     val author: Int,
     val text: String,
-    val datePosted: String,
+    val date_posted: String,
     val reply: ReplyView,
-    val totalLikes: String,
-    val userLike: String,
+    val total_likes: String,
+    val user_like: Boolean,
 )
 
 data class CommentResponse(
