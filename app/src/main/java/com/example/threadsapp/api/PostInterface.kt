@@ -4,6 +4,7 @@ import com.example.threadsapp.model.AuthModel.DetailResponse
 import com.example.threadsapp.model.HomeModel.PostModel
 import com.example.threadsapp.model.HomeModel.PostView
 import com.example.threadsapp.model.PostModel.Comment
+import com.example.threadsapp.model.PostModel.CommentResponse
 import com.example.threadsapp.model.PostModel.Quote
 import com.example.threadsapp.model.PostModel.Reply
 import okhttp3.MultipartBody
@@ -68,14 +69,33 @@ interface PostInterface {
     fun postCommentsList(
         @Header("Authorization") token: String,
         @Path("post_id") id: String
-    ): Call<PostModel>
+    ): Call<CommentResponse>
 
     @POST("post/{post_id}/comments/")
     fun createComment(
-        @Header("Authorizatio") token: String,
+        @Header("Authorization") token: String,
         @Body request: Comment,
         @Path("post_id") id: String
-    ): Call<Comment>
+    ): Call<DetailResponse>
+
+    @DELETE("post/comment/comment_id/")
+    fun deleteComment(
+        @Header("Authorization") token: String,
+        @Path("comment_id") id: String
+    ): Call<DetailResponse>
+
+    @POST("post/comments/{comment_id}/like_unlike/")
+    fun likeOrUnlikeComment(
+        @Header("Authorization") token: String,
+        @Path("comment_id") id: String
+    ): Call<DetailResponse>
+
+    @POST("post/comments/{comment_id}/reply/")
+    fun commentReplyCreate(
+        @Header("Authorization") token: String,
+        @Body request: Comment,
+        @Path("comment_id") id: String
+    ): Call<DetailResponse>
 
     @POST("post/{post_id}/quote/")
     fun createQuote(
