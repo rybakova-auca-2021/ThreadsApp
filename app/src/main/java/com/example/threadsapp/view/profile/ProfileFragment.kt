@@ -22,6 +22,7 @@ import com.example.threadsapp.adapters.MyPostsAdapter
 import com.example.threadsapp.databinding.FragmentProfileBinding
 import com.example.threadsapp.model.HomeModel.PostView
 import com.example.threadsapp.viewModel.newThreadViewModel.DeleteThreadViewModel
+import com.example.threadsapp.viewModel.postViewModel.LikeUnlikeViewModel
 import com.example.threadsapp.viewModel.profileViewModel.LogoutViewModel
 import com.example.threadsapp.viewModel.profileViewModel.MyPostsViewModel
 import com.example.threadsapp.viewModel.profileViewModel.SomeoneProfileViewModel
@@ -33,6 +34,7 @@ class ProfileFragment : Fragment() {
     private val logoutViewModel: LogoutViewModel by viewModels()
     private val postViewModel: MyPostsViewModel by viewModels()
     private val deleteViewModel: DeleteThreadViewModel by viewModels()
+    private val likeViewModel: LikeUnlikeViewModel by viewModels()
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: MyPostsAdapter
     var username: String = ""
@@ -86,14 +88,6 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    @SuppressLint("ResourceType")
-    private fun createBottomSheetDialog(): BottomSheetDialog {
-        val dialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogStyle)
-        val view = layoutInflater.inflate(R.layout.share_profile_bottom_sheet, null)
-        dialog.setContentView(view)
-        return dialog
-    }
-
     private fun showUserData() {
         viewModel.profileData.observe(viewLifecycleOwner) { profile ->
             profile?.let {
@@ -125,6 +119,13 @@ class ProfileFragment : Fragment() {
         )
     }
 
+    @SuppressLint("ResourceType")
+    private fun createBottomSheetDialog(): BottomSheetDialog {
+        val dialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogStyle)
+        val view = layoutInflater.inflate(R.layout.share_profile_bottom_sheet, null)
+        dialog.setContentView(view)
+        return dialog
+    }
     private fun showImageOptionsBottomSheet() {
         val dialog = createBottomSheetDialog()
         val copyBtn = dialog.findViewById<View>(R.id.btn_copy_link)
@@ -136,6 +137,30 @@ class ProfileFragment : Fragment() {
         }
         shareBtn?.setOnClickListener {
             setupShare()
+            dialog.dismiss()
+        }
+        dialog.show()
+    }
+
+
+    @SuppressLint("ResourceType")
+    private fun createBottomSheetDialogRepost(): BottomSheetDialog {
+        val dialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogStyle)
+        val view = layoutInflater.inflate(R.layout.repost_dialog, null)
+        dialog.setContentView(view)
+        return dialog
+    }
+
+    private fun showRepostDialog(id: Int, position: Int) {
+        val dialog = createBottomSheetDialogRepost()
+        val remove = dialog.findViewById<View>(R.id.button)
+        val quote = dialog.findViewById<View>(R.id.button2)
+
+        remove?.setOnClickListener {
+            dialog.dismiss()
+            deletePost(id, position)
+        }
+        quote?.setOnClickListener {
             dialog.dismiss()
         }
         dialog.show()
@@ -185,13 +210,18 @@ class ProfileFragment : Fragment() {
 
     private fun setupClicks() {
         adapter.onClickListener = object : MyPostsAdapter.ListClickListener<PostView> {
-            override fun onClick(data: PostView, position: Int) {
+            override fun onClick(data: PostView, position: Int, id: Int) {
+                val action = ProfileFragmentDirections.actionToThreadFragment(id)
+                findNavController().navigate(action)
             }
 
-            override fun onCommentClick(data: PostView, position: Int) {
+            override fun onCommentClick(data: PostView, position: Int, id: Int) {
+                val action = ProfileFragmentDirections.actionToReplyFragment(id)
+                findNavController().navigate(action)
             }
 
-            override fun onRepostClick(data: PostView, position: Int) {
+            override fun onRepostClick(data: PostView, position: Int, id: Int) {
+                showRepostDialog(id, position)
             }
 
             override fun onShareClick(data: PostView, position: Int) {
@@ -203,13 +233,24 @@ class ProfileFragment : Fragment() {
                 startActivity(chooserIntent)
             }
 
-            override fun onLikeClick(data: PostView, position: Int) {
+            override fun onLikeClick(data: PostView, position: Int, id: Int, isLiked: Boolean) {
+                likeOrDislike(id)
             }
 
             override fun onDeleteClick(data: PostView, position: Int, id: Int) {
                 deletePost(id, position)
             }
         }
+    }
+
+    private fun likeOrDislike(id: Int) {
+        likeViewModel.likeOrUnlike(id,
+            onSuccess = {message ->
+                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+            },
+            onError = { errorMessage ->
+                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+            })
     }
 
     private fun deletePost(id: Int, position: Int) {

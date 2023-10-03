@@ -20,6 +20,20 @@
                 android:name="username"
                 app:argType="string" />
         </action>
+        <action
+            android:id="@+id/action_to_thread_fragment"
+            app:destination="@id/threadFragment">
+            <argument
+                android:name="postId"
+                app:argType="integer"/>
+        </action>
+        <action
+            android:id="@+id/action_to_replyFragment"
+            app:destination="@id/replyFragment">
+            <argument
+                android:name="postId"
+                app:argType="integer" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"

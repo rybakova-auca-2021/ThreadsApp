@@ -29,9 +29,6 @@ class MyPostsAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val thread = threads[position]
         holder.bind(thread)
-        holder.itemView.setOnClickListener {
-            onClickListener?.onClick(thread, position)
-        }
     }
 
     override fun getItemCount() = threads.size
@@ -58,6 +55,7 @@ class MyPostsAdapter(
 
     inner class ViewHolder(private val binding: ThreadViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        private var isLiked = false
 
         fun bind(thread: PostView) {
             viewModel.getUserProfileById(
@@ -113,6 +111,13 @@ class MyPostsAdapter(
 
                         likes.text = "${thread.total_likes} likes"
 
+                        isLiked = if(thread.user_like) {
+                            likeBtn.setImageResource(R.drawable.like_btn_pressed)
+                            true
+                        } else {
+                            likeBtn.setImageResource(R.drawable.lke_btn)
+                            false
+                        }
                         binding.threadViewCard.visibility = View.VISIBLE
                         setClickListener(thread)
                     }
@@ -125,16 +130,39 @@ class MyPostsAdapter(
         private fun setClickListener(thread: PostView) {
             with(binding) {
                 likeBtn.setOnClickListener {
-                    onClickListener?.onLikeClick(thread, adapterPosition)
+                    onClickListener?.onLikeClick(thread, adapterPosition, thread.id, isLiked)
                 }
-                commentBtn.setOnClickListener {
-                    onClickListener?.onCommentClick(thread, adapterPosition)
+                if (thread.repost != null) {
+                    commentBtn.setOnClickListener {
+                        thread.repost.id?.let { it1 ->
+                            onClickListener?.onCommentClick(thread, adapterPosition,
+                                it1
+                            )
+                        }
+                    }
+                } else {
+                    commentBtn.setOnClickListener {
+                        onClickListener?.onCommentClick(thread, adapterPosition, thread.id)
+                    }
+                }
+                if (thread.repost != null) {
+                    itemView.setOnClickListener {
+                        thread.repost.id?.let { it1 ->
+                            onClickListener?.onCommentClick(thread, adapterPosition,
+                                it1
+                            )
+                        }
+                    }
+                } else {
+                    itemView.setOnClickListener {
+                        onClickListener?.onCommentClick(thread, adapterPosition, thread.id)
+                    }
                 }
                 shareBtn.setOnClickListener {
                     onClickListener?.onShareClick(thread, adapterPosition)
                 }
                 repostBtn.setOnClickListener {
-                    onClickListener?.onRepostClick(thread, adapterPosition)
+                    onClickListener?.onRepostClick(thread, adapterPosition,  thread.id)
                 }
                 deleteBtn.setOnClickListener {
                     onClickListener?.onDeleteClick(thread, adapterPosition, thread.id)
@@ -144,11 +172,11 @@ class MyPostsAdapter(
     }
 
     interface ListClickListener<T> {
-        fun onClick(data: T, position: Int)
-        fun onCommentClick(data: T, position: Int)
-        fun onRepostClick(data: T, position: Int)
+        fun onClick(data: T, position: Int, id: Int)
+        fun onCommentClick(data: T, position: Int, id: Int)
+        fun onRepostClick(data: T, position: Int, id: Int)
         fun onShareClick(data: T, position: Int)
-        fun onLikeClick(data: T, position: Int)
+        fun onLikeClick(data: T, position: Int, id: Int, isLiked: Boolean)
         fun onDeleteClick(data: T, position: Int, id: Int)
     }
 
