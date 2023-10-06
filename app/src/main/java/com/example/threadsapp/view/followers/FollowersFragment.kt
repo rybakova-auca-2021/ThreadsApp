@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.neobis_android_chapter8.viewModels.AuthViewModel.UserInfoViewModel
@@ -47,6 +48,11 @@ class FollowersFragment : Fragment() {
         adapter.setOnItemClickListener = object : FollowerAdapter.OnItemClickListener<Followers> {
             override fun onBtnClick(data: Followers, position: Int, id: Int) {
                 followBtn(id)
+            }
+
+            override fun onItemClick(data: Followers, position: Int, id: Int, isFollowed: String) {
+                val action = FollowFragmentDirections.actionToSomeoneProfile(id, isFollowed)
+                findNavController().navigate(action)
             }
         }
 

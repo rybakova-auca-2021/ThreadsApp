@@ -10,9 +10,11 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.threadsapp.R
 import com.example.threadsapp.databinding.FragmentSomeoneProfileBinding
+import com.example.threadsapp.view.home.ReplyFragmentArgs
 import com.example.threadsapp.viewModel.followViewModel.FollowSomeoneViewModel
 import com.example.threadsapp.viewModel.followViewModel.UnfollowViewModel
 import com.example.threadsapp.viewModel.profileViewModel.SomeoneProfileViewModel
@@ -25,6 +27,7 @@ class SomeoneProfileFragment : Fragment() {
     private val unfollowViewModel: UnfollowViewModel by viewModels()
     private var userProfileId: Int = -1
     private var followingStatus: String? = null
+    private val args: SomeoneProfileFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,12 +41,8 @@ class SomeoneProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupNavigation()
 
-        val username = arguments?.getString("username")
-        followingStatus = arguments?.getString("followingStatus")
-
-        if (username != null) {
-            setupData(username)
-        }
+        userProfileId = args.id
+        setupDataByID(userProfileId)
     }
 
     private fun setupNavigation() {
@@ -55,9 +54,9 @@ class SomeoneProfileFragment : Fragment() {
         }
     }
 
-    private fun setupData(username: String) {
+    private fun setupDataByID(id: Int) {
         viewModel.getUserProfile(
-            username,
+            id.toString(),
             onSuccess = { userProfile ->
                 userProfileId = userProfile.pk
                 userProfile.photo.let { photoUrl ->
@@ -67,8 +66,9 @@ class SomeoneProfileFragment : Fragment() {
                         Glide.with(binding.root.context).load(photoUrl).circleCrop().into(binding.profilePhoto)
                     }
                 }
-                binding.username.text = username
+                binding.username.text = userProfile.username
                 binding.name.text = userProfile.full_name
+                followingStatus = userProfile.is_followed
                 val initialText = if (followingStatus == "Followed") "Following" else "Follow"
                 updateFollowButtonState(initialText)
             },
@@ -90,6 +90,7 @@ class SomeoneProfileFragment : Fragment() {
         followViewModel.follow(
             id,
             onSuccess =  {
+                followingStatus = "Followed"
                 updateFollowButtonState("Following")
             },
             onError = {
@@ -102,6 +103,7 @@ class SomeoneProfileFragment : Fragment() {
         unfollowViewModel.unfollow(
             id,
             onSuccess =  {
+                followingStatus = "Unfollowed"
                 updateFollowButtonState("Follow")
             },
             onError = {

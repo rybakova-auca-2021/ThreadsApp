@@ -20,6 +20,7 @@ class FollowerAdapter(private var followers: List<Followers>) :
 
     interface OnItemClickListener<T> {
         fun onBtnClick(data: T, position: Int, id: Int)
+        fun onItemClick(data: T, position: Int, id: Int, isFollowed: String)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -48,6 +49,9 @@ class FollowerAdapter(private var followers: List<Followers>) :
             setOnItemClickListener?.onBtnClick(follower, position, follower.follower.pk)
             val newText = if (holder.followButton.text == "Follow") "Following" else "Follow"
             holder.updateFollowButtonState(newText)
+        }
+        holder.itemView.setOnClickListener {
+            setOnItemClickListener?.onItemClick(follower, position, follower.follower.pk, follower.is_followed)
         }
     }
 

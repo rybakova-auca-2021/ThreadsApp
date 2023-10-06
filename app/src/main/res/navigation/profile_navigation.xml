@@ -52,6 +52,16 @@
         <action
             android:id="@+id/action_followFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_to_someoneProfile"
+            app:destination="@id/someoneProfileFragment">
+            <argument
+                android:name="id"
+                app:argType="integer" />
+            <argument
+                android:name="followingStatus"
+                app:argType="string" />
+        </action>
     </fragment>
 
     <fragment
@@ -89,6 +99,13 @@
                     android:name="postId"
                     app:argType="integer" />
             </action>
+        <action
+            android:id="@+id/action_to_someoneProfile"
+            app:destination="@id/someoneProfileFragment">
+            <argument
+                android:name="id"
+                app:argType="integer" />
+        </action>
     </fragment>
 
     <fragment
@@ -109,8 +126,8 @@
             android:id="@+id/action_to_someoneProfile"
             app:destination="@id/someoneProfileFragment">
             <argument
-                android:name="username"
-                app:argType="string" />
+                android:name="id"
+                app:argType="integer" />
             <argument
                 android:name="followingStatus"
                 app:argType="string" />
@@ -130,5 +147,11 @@
         android:id="@+id/someoneProfileFragment"
         android:name="com.example.threadsapp.view.search.SomeoneProfileFragment"
         android:label="fragment_someone_profile"
-        tools:layout="@layout/fragment_someone_profile" />
+        tools:layout="@layout/fragment_someone_profile">
+
+        <argument
+            android:name="id"
+            app:argType="integer" />
+
+    </fragment>
 </navigation>

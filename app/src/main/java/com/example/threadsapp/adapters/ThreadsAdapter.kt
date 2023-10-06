@@ -108,6 +108,9 @@ class ThreadsAdapter(
                         binding.repostBtn.setOnClickListener {
                             onClickListener?.onRepostClick(thread, adapterPosition, thread.id)
                         }
+                        binding.avatar.setOnClickListener {
+                            onClickListener?.onPhotoClick(thread, adapterPosition, thread.id)
+                        }
                     }
                 },
                 onError = {
@@ -123,6 +126,7 @@ class ThreadsAdapter(
         fun onRepostClick(data: T, position: Int, id: Int)
         fun onShareClick(data: T, position: Int)
         fun onLikeClick(data: T, position: Int, id: Int, isLiked: Boolean)
+        fun onPhotoClick(data: T, position: Int, id: Int)
     }
 
     class ProductDiffCallback(

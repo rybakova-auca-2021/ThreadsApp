@@ -48,7 +48,7 @@ class SearchFragment : Fragment() {
 
         adapter.setOnItemClickListener = object : SearchResultAdapter.OnItemClickListener<UserResult> {
             override fun onItemClick(data: UserResult, position: Int, id: Int) {
-                val action = SearchFragmentDirections.actionToSomeoneProfile(data.username, data.is_followed)
+                val action = SearchFragmentDirections.actionToSomeoneProfile(data.pk, data.is_followed)
                 findNavController().navigate(action)
             }
 

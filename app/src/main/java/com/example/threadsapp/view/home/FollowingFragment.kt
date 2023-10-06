@@ -103,6 +103,11 @@ class FollowingFragment : Fragment() {
             override fun onLikeClick(data: PostView, position: Int, id: Int, isLiked: Boolean) {
                 likeOrDislike(id)
             }
+
+            override fun onPhotoClick(data: PostView, position: Int, id: Int) {
+                val action = HomeFragmentDirections.actionToSomeoneProfile(data.author)
+                findNavController().navigate(action)
+            }
         }
     }
 
