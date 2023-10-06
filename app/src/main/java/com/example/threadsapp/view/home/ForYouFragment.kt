@@ -143,6 +143,8 @@ class ForYouFragment : Fragment() {
             repostViewModel.repost(id)
         }
         quoteBtn?.setOnClickListener{
+            val action = HomeFragmentDirections.actionToQuoteFragment(id)
+            findNavController().navigate(action)
             dialog.dismiss()
         }
         dialog.show()

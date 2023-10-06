@@ -57,11 +57,11 @@
 
         <ImageView
             android:id="@+id/photo_answer_to"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="20dp"
-            android:src="@drawable/avatar"
+            tools:src="@drawable/avatar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:fontFamily="@font/sfbold"
-            android:text="@string/username_example"
+            tools:text="@string/username_example"
             android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@+id/photo_answer_to"
             app:layout_constraintTop_toTopOf="@+id/photo_answer_to" />
@@ -152,13 +152,13 @@
 
                 <ImageView
                     android:id="@+id/profile_photo_thread3"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="16dp"
-                    android:src="@drawable/profile_photo"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@drawable/profile_photo" />
 
                 <TextView
                     android:id="@+id/username_thread"
@@ -166,7 +166,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:fontFamily="@font/sfbold"
-                    android:text="iamnalimov"
+                    tools:text="iamnalimov"
                     android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="@+id/profile_photo_thread3"
                     app:layout_constraintStart_toEndOf="@+id/profile_photo_thread3"
@@ -178,7 +178,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="12dp"
-                    android:text="Focusing is about saying no. Stay focused on what truly matters."
+                    tools:text="Focusing is about saying no. Stay focused on what truly matters."
                     android:textColor="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/profile_photo_thread3"
@@ -193,7 +193,7 @@
                     android:text="@string/_2_replies"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/text_thread"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView9" />
+                    app:layout_constraintTop_toBottomOf="@+id/image_holder" />
 
                 <TextView
                     android:id="@+id/likes"
@@ -226,11 +226,12 @@
                     app:layout_constraintTop_toTopOf="@+id/username_thread" />
 
                 <ImageView
-                    android:id="@+id/imageView9"
+                    android:id="@+id/image_holder"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:src="@drawable/img"
+                    tools:src="@drawable/img"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="@+id/text_thread"
                     app:layout_constraintStart_toStartOf="@+id/text_thread"
                     app:layout_constraintTop_toBottomOf="@+id/text_thread" />
@@ -238,6 +239,25 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/post_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/sfbold"
+            android:text="@string/post"
+            android:textColor="@color/post"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/guideline_bottom"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.93757963" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

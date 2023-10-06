@@ -99,6 +99,13 @@
                     android:name="postId"
                     app:argType="integer" />
             </action>
+            <action
+                android:id="@+id/action_to_quoteFragment"
+                app:destination="@id/quotedThreadFragment">
+                <argument
+                    android:name="postId"
+                    app:argType="integer" />
+            </action>
         <action
             android:id="@+id/action_to_someoneProfile"
             app:destination="@id/someoneProfileFragment">
@@ -153,5 +160,15 @@
             android:name="id"
             app:argType="integer" />
 
+    </fragment>
+    <fragment
+        android:id="@+id/quotedThreadFragment"
+        android:name="com.example.threadsapp.view.home.QuotedThreadFragment"
+        android:label="fragment_quoted_thread"
+        tools:layout="@layout/fragment_quoted_thread">
+
+        <argument
+            android:name="postId"
+            app:argType="integer" />
     </fragment>
 </navigation>
