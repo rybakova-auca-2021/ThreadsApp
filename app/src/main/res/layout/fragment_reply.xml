@@ -227,15 +227,16 @@
 
         <ImageView
             android:id="@+id/image_holder"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            tools:src="@drawable/img"
             android:visibility="gone"
+            android:scaleType="fitStart"
+            app:layout_constraintEnd_toEndOf="@+id/text"
             app:layout_constraintHeight_max="300dp"
-            app:layout_constraintWidth_max="300dp"
             app:layout_constraintStart_toStartOf="@+id/text"
-            app:layout_constraintTop_toBottomOf="@+id/text" />
+            app:layout_constraintTop_toBottomOf="@+id/text"
+            tools:src="@drawable/img" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

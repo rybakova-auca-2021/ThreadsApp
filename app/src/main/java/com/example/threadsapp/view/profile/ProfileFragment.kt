@@ -233,7 +233,7 @@ class ProfileFragment : Fragment() {
                 startActivity(chooserIntent)
             }
 
-            override fun onLikeClick(data: PostView, position: Int, id: Int, isLiked: Boolean) {
+            override fun onLikeClick(data: PostView, position: Int, id: Int) {
                 likeOrDislike(id)
             }
 

@@ -72,12 +72,20 @@ class MyPostsAdapter(
                             binding.deleteBtn.visibility = View.VISIBLE
                         }
 
-                        if (thread.image != null) {
-                            Glide.with(imageView4)
-                                .load(thread.image)
-                                .into(imageView4)
+                        if(thread.repost != null) {
+                            if (thread.repost.image != null) {
+                                Glide.with(imageView4).load(thread.repost.image).into(imageView4)
+                            } else {
+                                imageView4.isVisible = false
+                            }
                         } else {
-                            imageView4.isVisible = false
+                            if (thread.image != null) {
+                                Glide.with(imageView4)
+                                    .load(thread.image)
+                                    .into(imageView4)
+                            } else {
+                                imageView4.isVisible = false
+                            }
                         }
 
                         username.text = userProfile.username
@@ -126,11 +134,22 @@ class MyPostsAdapter(
             )
         }
 
+        private fun updateLikeBtn(isLiked: Boolean, thread: PostView) {
+            if (isLiked) {
+                binding.likeBtn.setImageResource(R.drawable.like_btn_pressed)
+                binding.likes.text = "${thread.total_likes + 1} likes"
+            } else {
+                binding.likeBtn.setImageResource(R.drawable.lke_btn)
+                binding.likes.text = "${thread.total_likes - 1} likes"
+            }
+        }
 
         private fun setClickListener(thread: PostView) {
             with(binding) {
                 likeBtn.setOnClickListener {
-                    onClickListener?.onLikeClick(thread, adapterPosition, thread.id, isLiked)
+                    onClickListener?.onLikeClick(thread, adapterPosition, thread.id)
+                    isLiked = !isLiked
+                    updateLikeBtn(isLiked, thread)
                 }
                 if (thread.repost != null) {
                     commentBtn.setOnClickListener {
@@ -176,7 +195,7 @@ class MyPostsAdapter(
         fun onCommentClick(data: T, position: Int, id: Int)
         fun onRepostClick(data: T, position: Int, id: Int)
         fun onShareClick(data: T, position: Int)
-        fun onLikeClick(data: T, position: Int, id: Int, isLiked: Boolean)
+        fun onLikeClick(data: T, position: Int, id: Int)
         fun onDeleteClick(data: T, position: Int, id: Int)
     }
 

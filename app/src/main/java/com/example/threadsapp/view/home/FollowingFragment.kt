@@ -88,7 +88,7 @@ class FollowingFragment : Fragment() {
             }
 
             override fun onRepostClick(data: PostView, position: Int, id: Int) {
-                showDialog(id)
+                showDialog(data.id)
             }
 
             override fun onShareClick(data: PostView, position: Int) {
@@ -100,7 +100,7 @@ class FollowingFragment : Fragment() {
                 startActivity(chooserIntent)
             }
 
-            override fun onLikeClick(data: PostView, position: Int, id: Int, isLiked: Boolean) {
+            override fun onLikeClick(data: PostView, position: Int, id: Int) {
                 likeOrDislike(id)
             }
 
@@ -130,7 +130,7 @@ class FollowingFragment : Fragment() {
     }
     private fun showDialog(id: Int) {
         val dialog = createBottomSheetDialog()
-        val repostBtn = dialog.findViewById<View>(R.id.repost_btn)
+        val repostBtn = dialog.findViewById<View>(R.id.btn_repost)
         val quoteBtn = dialog.findViewById<View>(R.id.btn_quote)
 
         repostBtn?.setOnClickListener {

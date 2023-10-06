@@ -16,7 +16,7 @@ import com.example.threadsapp.viewModel.profileViewModel.SomeoneProfileViewModel
 class ThreadsAdapter(
     private var threads: List<PostView>,
     private val viewModel: SomeoneProfileViewModel
-    ) : RecyclerView.Adapter<ThreadsAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<ThreadsAdapter.ViewHolder>() {
 
     var onClickListener: ListClickListener<PostView>? = null
 
@@ -35,7 +35,6 @@ class ThreadsAdapter(
     }
 
     override fun getItemCount() = threads.size
-
 
     fun updateData(newList: List<PostView>) {
         val diffResult = DiffUtil.calculateDiff(
@@ -82,7 +81,7 @@ class ThreadsAdapter(
                             CalculateTime.calculateTimeDifference(thread.date_posted)
                         time.text = timeDifference
                         likes.text = "${thread.total_likes} likes"
-                        isLiked = if(thread.user_like) {
+                        isLiked = if (thread.user_like) {
                             likeBtn.setImageResource(R.drawable.like_btn_pressed)
                             true
                         } else {
@@ -91,13 +90,9 @@ class ThreadsAdapter(
                         }
 
                         binding.likeBtn.setOnClickListener {
-                            onClickListener?.onLikeClick(thread, adapterPosition, thread.id, isLiked)
+                            onClickListener?.onLikeClick(thread, adapterPosition, thread.id)
                             isLiked = !isLiked
-                            if(isLiked) {
-                                likeBtn.setImageResource(R.drawable.lke_btn)
-                            } else {
-                                likeBtn.setImageResource(R.drawable.like_btn_pressed)
-                            }
+                            updateLikeBtn(isLiked, thread)
                         }
                         binding.commentBtn.setOnClickListener {
                             onClickListener?.onCommentClick(thread, adapterPosition, thread.id)
@@ -118,6 +113,16 @@ class ThreadsAdapter(
                 }
             )
         }
+
+        private fun updateLikeBtn(isLiked: Boolean, thread: PostView) {
+            if (isLiked) {
+                binding.likeBtn.setImageResource(R.drawable.like_btn_pressed)
+                binding.likes.text = "${thread.total_likes + 1} likes"
+            } else {
+                binding.likeBtn.setImageResource(R.drawable.lke_btn)
+                binding.likes.text = "${thread.total_likes - 1} likes"
+            }
+        }
     }
 
     interface ListClickListener<T> {
@@ -125,7 +130,7 @@ class ThreadsAdapter(
         fun onCommentClick(data: T, position: Int, id: Int)
         fun onRepostClick(data: T, position: Int, id: Int)
         fun onShareClick(data: T, position: Int)
-        fun onLikeClick(data: T, position: Int, id: Int, isLiked: Boolean)
+        fun onLikeClick(data: T, position: Int, id: Int)
         fun onPhotoClick(data: T, position: Int, id: Int)
     }
 

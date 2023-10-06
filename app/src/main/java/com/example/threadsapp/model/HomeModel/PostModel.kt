@@ -26,7 +26,7 @@ data class PostView(
     val repost: RepostView?,
     val comments_permission: String,
     val total_comments: String,
-    val total_likes: Int,
+    var total_likes: Int,
     val user_like: Boolean
 )
 
