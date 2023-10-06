@@ -159,14 +159,14 @@
 
             <ImageView
                 android:id="@+id/imageView4"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
+                android:scaleType="fitStart"
+                app:layout_constraintEnd_toEndOf="@+id/thread_text"
                 app:layout_constraintHeight_max="300dp"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/thread_text"
                 app:layout_constraintTop_toBottomOf="@+id/thread_text"
-                app:layout_constraintWidth_max="300dp"
                 tools:srcCompat="@drawable/image" />
 
             <ImageView

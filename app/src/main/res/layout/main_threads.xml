@@ -38,11 +38,11 @@
             android:layout_marginStart="12dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="16dp"
-            tools:text="When I look at you, I see someone who’s working hard"
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/avatar"
-            app:layout_constraintTop_toBottomOf="@+id/username" />
+            app:layout_constraintTop_toBottomOf="@+id/username"
+            tools:text="When I look at you, I see someone who’s working hard" />
 
         <ImageView
             android:id="@+id/like_btn"
@@ -101,13 +101,14 @@
 
         <ImageView
             android:id="@+id/imageView4"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:scaleType="fitStart"
+            app:layout_constraintEnd_toEndOf="@+id/thread_text"
             app:layout_constraintHeight_max="300dp"
             app:layout_constraintStart_toStartOf="@+id/username"
             app:layout_constraintTop_toBottomOf="@+id/thread_text"
-            app:layout_constraintWidth_max="300dp"
             tools:srcCompat="@drawable/image" />
 
         <ImageView
