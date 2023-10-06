@@ -101,24 +101,47 @@ class CreateNewThreadFragment : Fragment() {
     }
 
     private fun setupCharacterCount() {
+        val characterCountTextView = binding.characterCount
+        characterCountTextView.visibility = View.INVISIBLE
+
         binding.startThread.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if ((s?.length ?: 0) >= 300) {
+                val currentCount = s?.length ?: 0
+                val remainingCount = 300 - currentCount
+
+                if (remainingCount <= 50) {
+                    characterCountTextView.visibility = View.VISIBLE  // Show character count when remaining count is 50 or less
+                } else {
+                    characterCountTextView.visibility = View.INVISIBLE  // Hide character count otherwise
+                }
+
+                if (remainingCount >= 250) {
+                    characterCountTextView.text = remainingCount.toString()
+                } else if (remainingCount >= 0) {
+                    characterCountTextView.text = remainingCount.toString()
+                    characterCountTextView.setTextColor(Color.BLACK)
+                } else {
+                    characterCountTextView.text = "-${-remainingCount}"
+                    characterCountTextView.setTextColor(Color.RED)
+                }
+
+                if (currentCount >= 300) {
                     binding.startThread.setTextColor(Color.RED)
-                    binding.postBtn.isEnabled = false
                 } else {
                     binding.startThread.setTextColor(Color.BLACK)
-                    binding.postBtn.isEnabled = true
                 }
+
+                binding.postBtn.isEnabled = remainingCount >= 0
             }
 
             override fun afterTextChanged(s: Editable?) {
             }
         })
     }
+
 
     private fun chooseMedia() {
         val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
@@ -169,7 +192,6 @@ class CreateNewThreadFragment : Fragment() {
 
         Glide.with(this)
             .load(imageUri)
-            .override(300, 350)
             .into(binding.imageView10)
     }
 
