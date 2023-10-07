@@ -18,6 +18,7 @@ import com.example.threadsapp.R
 import com.example.threadsapp.adapters.ThreadsAdapter
 import com.example.threadsapp.databinding.FragmentFollowing2Binding
 import com.example.threadsapp.model.HomeModel.PostView
+import com.example.threadsapp.viewModel.followViewModel.FollowSomeoneViewModel
 import com.example.threadsapp.viewModel.homeViewModel.FollowingViewModel
 import com.example.threadsapp.viewModel.homeViewModel.RepostViewModel
 import com.example.threadsapp.viewModel.postViewModel.LikeUnlikeViewModel
@@ -32,6 +33,8 @@ class FollowingFragment : Fragment() {
     private val viewModel: FollowingViewModel by viewModels()
     private val likeViewModel: LikeUnlikeViewModel by viewModels()
     private val repostViewModel: RepostViewModel by viewModels()
+    private val followViewModel: FollowSomeoneViewModel by viewModels()
+    private val userFollowStatusMap = mutableMapOf<Int, Boolean>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -121,7 +124,25 @@ class FollowingFragment : Fragment() {
                 val action = HomeFragmentDirections.actionToSomeoneProfile(data.author)
                 findNavController().navigate(action)
             }
+
+            override fun onFollowClick(data: PostView, position: Int, id: Int) {
+                follow(data.author)
+            }
         }
+    }
+
+    @SuppressLint("ResourceAsColor")
+    private fun follow(id: Int) {
+        followViewModel.follow(
+            id,
+            onSuccess =  {
+                userFollowStatusMap[id] = true
+                Toast.makeText(requireContext(), "followed", Toast.LENGTH_SHORT).show()
+            },
+            onError = {
+                Toast.makeText(requireContext(), "try again", Toast.LENGTH_SHORT).show()
+            }
+        )
     }
 
     private fun likeOrDislike(id: Int) {

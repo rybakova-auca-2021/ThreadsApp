@@ -2,6 +2,7 @@ package com.example.threadsapp.adapters
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
@@ -106,6 +107,10 @@ class ThreadsAdapter(
                         binding.avatar.setOnClickListener {
                             onClickListener?.onPhotoClick(thread, adapterPosition, thread.id)
                         }
+                        binding.subscribeBtn.setOnClickListener {
+                            onClickListener?.onFollowClick(thread, adapterPosition, thread.id)
+                            binding.subscribeBtn.visibility = View.GONE
+                        }
                     }
                 },
                 onError = {
@@ -132,6 +137,7 @@ class ThreadsAdapter(
         fun onShareClick(data: T, position: Int)
         fun onLikeClick(data: T, position: Int, id: Int)
         fun onPhotoClick(data: T, position: Int, id: Int)
+        fun onFollowClick(data: T, position: Int, id: Int)
     }
 
     class ProductDiffCallback(
