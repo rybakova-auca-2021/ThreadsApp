@@ -27,7 +27,10 @@ interface FollowersInterface {
     ): Call<FollowResponse>
 
     @POST("user/profile/mutual_follow/")
-    fun mutualFollow(@Body request: Followee): Call<Followee>
+    fun mutualFollow(
+        @Header("Authorization") token: String,
+        @Body request: Followee
+    ): Call<Followee>
 
     @POST("user/profile/delete/")
     fun deleteFollower(@Body request: FollowerApi): Call<FollowerApi>
