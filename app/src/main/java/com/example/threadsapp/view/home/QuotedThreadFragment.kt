@@ -80,6 +80,7 @@ class QuotedThreadFragment : Fragment() {
                         } else {
                             binding.imageHolder.visibility = View.GONE
                         }
+                        binding.likes.text = "${post.total_likes} likes"
                     },
                     onError = { errorMessage ->
                         Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()

@@ -227,11 +227,13 @@
 
                 <ImageView
                     android:id="@+id/image_holder"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     tools:src="@drawable/img"
                     android:visibility="gone"
+                    android:scaleType="fitStart"
+                    app:layout_constraintHeight_max="300dp"
                     app:layout_constraintEnd_toEndOf="@+id/text_thread"
                     app:layout_constraintStart_toStartOf="@+id/text_thread"
                     app:layout_constraintTop_toBottomOf="@+id/text_thread" />
@@ -257,7 +259,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.93757963" />
+            app:layout_constraintGuide_percent="0.92357963" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
