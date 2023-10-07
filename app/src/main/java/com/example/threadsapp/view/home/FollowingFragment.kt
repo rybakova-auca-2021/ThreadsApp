@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.threadsapp.R
 import com.example.threadsapp.adapters.ThreadsAdapter
 import com.example.threadsapp.databinding.FragmentFollowing2Binding
@@ -27,6 +28,7 @@ class FollowingFragment : Fragment() {
     private lateinit var binding: FragmentFollowing2Binding
     private lateinit var threadsAdapter: ThreadsAdapter
     private lateinit var recyclerView: RecyclerView
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private val viewModel: FollowingViewModel by viewModels()
     private val likeViewModel: LikeUnlikeViewModel by viewModels()
     private val repostViewModel: RepostViewModel by viewModels()
@@ -43,6 +45,12 @@ class FollowingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        swipeRefreshLayout = binding.swipeRefreshLayout
+
+        swipeRefreshLayout.setOnRefreshListener {
+            refreshData()
+        }
+
         threadsAdapter = ThreadsAdapter(emptyList(), SomeoneProfileViewModel())
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = threadsAdapter
@@ -58,6 +66,11 @@ class FollowingFragment : Fragment() {
         })
 
         setData()
+    }
+
+    private fun refreshData() {
+        setupGettingData()
+        swipeRefreshLayout.isRefreshing = false
     }
 
     private fun setupGettingData() {

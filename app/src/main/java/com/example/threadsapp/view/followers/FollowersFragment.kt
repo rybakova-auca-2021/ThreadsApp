@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.neobis_android_chapter8.viewModels.AuthViewModel.UserInfoViewModel
 import com.example.threadsapp.adapters.FollowerAdapter
 import com.example.threadsapp.databinding.FragmentFollowersBinding
@@ -22,6 +23,7 @@ import com.example.threadsapp.viewModel.followViewModel.UnfollowViewModel
 class FollowersFragment : Fragment() {
     private lateinit var binding: FragmentFollowersBinding
     private lateinit var recyclerView: RecyclerView
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private val viewModel: FollowersViewModel by viewModels()
     private val userInfoViewModel: UserInfoViewModel by viewModels()
     private val followViewModel: FollowSomeoneViewModel by viewModels()
@@ -41,13 +43,15 @@ class FollowersFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        swipeRefreshLayout = binding.swipeRefreshLayout
+
         adapter = FollowerAdapter(emptyList())
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
 
         adapter.setOnItemClickListener = object : FollowerAdapter.OnItemClickListener<Followers> {
             override fun onBtnClick(data: Followers, position: Int, id: Int) {
-                followBtn(id)
+                followBtn(id, position)
             }
 
             override fun onItemClick(data: Followers, position: Int, id: Int, isFollowed: String) {
@@ -60,6 +64,10 @@ class FollowersFragment : Fragment() {
             if (profile != null) {
                 val userId = profile.pk
                 getListOfFollowers(userId)
+                swipeRefreshLayout.setOnRefreshListener {
+                    getListOfFollowers(userId)
+                    swipeRefreshLayout.isRefreshing = false
+                }
             } else {
             }
         }
@@ -86,10 +94,10 @@ class FollowersFragment : Fragment() {
     }
 
     @SuppressLint("ResourceAsColor")
-    private fun followBtn(id: Int) {
+    private fun followBtn(id: Int, position: Int) {
         val isFollowing = userFollowStatusMap[id] ?: false
         if (isFollowing) {
-            unfollow(id)
+            unfollow(id, position)
         } else {
             follow(id)
         }
@@ -109,12 +117,12 @@ class FollowersFragment : Fragment() {
         )
     }
 
-    private fun unfollow(id: Int) {
+    private fun unfollow(id: Int, position: Int) {
         unfollowViewModel.unfollow(
             id,
             onSuccess =  {
                 userFollowStatusMap[id] = false
-                Toast.makeText(requireContext(), "unfollowed", Toast.LENGTH_SHORT).show()
+                adapter.removeItem(position)
             },
             onError = {
                 Toast.makeText(requireContext(), "try again", Toast.LENGTH_SHORT).show()

@@ -72,6 +72,15 @@ class FolloweeAdapter(private var followees: List<Follows>) :
         diffResult.dispatchUpdatesTo(this)
     }
 
+    fun removeItem(position: Int) {
+        if (position >= 0 && position < followees.size) {
+            val updatedList = followees.toMutableList()
+            updatedList.removeAt(position)
+            followees = updatedList
+            notifyItemRemoved(position)
+        }
+    }
+
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val followeePhotoImageView = itemView.findViewById<ImageView>(R.id.imageView)
         val followeeNameTextView = itemView.findViewById<TextView>(R.id.followerName)

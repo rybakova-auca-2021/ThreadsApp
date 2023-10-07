@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
 import com.example.neobis_android_chapter8.viewModels.AuthViewModel.UserInfoViewModel
 import com.example.threadsapp.R
@@ -30,6 +31,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private val viewModel: UserInfoViewModel by viewModels()
     private val logoutViewModel: LogoutViewModel by viewModels()
     private val postViewModel: MyPostsViewModel by viewModels()
@@ -50,6 +52,13 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        swipeRefreshLayout = binding.swipeRefreshLayout
+
+        swipeRefreshLayout.setOnRefreshListener {
+            refreshData()
+        }
+
         setupNavigation()
         showUserData()
         viewModel.getInfo()
@@ -70,6 +79,13 @@ class ProfileFragment : Fragment() {
 
         getPosts()
         setupClicks()
+    }
+
+    private fun refreshData() {
+        showUserData()
+        viewModel.getInfo()
+        getPosts()
+        swipeRefreshLayout.isRefreshing = false
     }
 
     private fun setupNavigation() {
