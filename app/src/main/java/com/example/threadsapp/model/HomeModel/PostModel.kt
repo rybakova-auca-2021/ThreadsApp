@@ -17,7 +17,6 @@ data class RepostView(
 
 data class PostView(
     val id: Int,
-    val title: String,
     val author: Int,
     val text: String?,
     val date_posted: String,
@@ -25,7 +24,7 @@ data class PostView(
     val video: String?,
     val repost: RepostView?,
     val comments_permission: String,
-    val total_comments: String,
+    val total_comments: Int,
     var total_likes: Int,
     val user_like: Boolean
 )

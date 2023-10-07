@@ -12,13 +12,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:paddingHorizontal="16dp">
 
         <ImageView
             android:id="@+id/imageView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
+            android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="@+id/avatar"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/reposted_btn" />
@@ -28,6 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="16dp"
             android:text="You reposted"
             android:textSize="15sp"
             android:visibility="gone"
@@ -39,7 +41,7 @@
             android:id="@+id/avatar"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView3"
             tools:ignore="MissingConstraints"
@@ -68,13 +70,147 @@
             app:layout_constraintStart_toEndOf="@+id/avatar"
             app:layout_constraintTop_toBottomOf="@+id/username" />
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/imageView4CardViewLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="@+id/thread_text"
+            app:layout_constraintStart_toStartOf="@+id/username"
+            app:layout_constraintTop_toBottomOf="@+id/thread_text"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:scaleType="fitStart"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_max="300dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@drawable/image" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                app:cardCornerRadius="8dp"
+                android:background="@drawable/rounded_rectangle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/rounded_rectangle">
+
+                    <ImageView
+                        android:id="@+id/profile_photo_thread3"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:src="@drawable/profile_photo" />
+
+                    <TextView
+                        android:id="@+id/username_thread"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:fontFamily="@font/sfbold"
+                        android:textColor="@color/black"
+                        app:layout_constraintBottom_toBottomOf="@+id/profile_photo_thread3"
+                        app:layout_constraintStart_toEndOf="@+id/profile_photo_thread3"
+                        app:layout_constraintTop_toTopOf="@+id/profile_photo_thread3"
+                        tools:text="iamnalimov" />
+
+                    <TextView
+                        android:id="@+id/text_thread"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="12dp"
+                        android:textColor="@color/black"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/profile_photo_thread3"
+                        app:layout_constraintTop_toBottomOf="@+id/profile_photo_thread3"
+                        tools:text="Focusing is about saying no. Stay focused on what truly matters." />
+
+                    <TextView
+                        android:id="@+id/repliesQuote"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:text="@string/_2_replies"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/text_thread"
+                        app:layout_constraintTop_toBottomOf="@+id/image_holder" />
+
+                    <TextView
+                        android:id="@+id/likesQuote"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="@string/_941_likes"
+                        app:layout_constraintBottom_toBottomOf="@+id/dividerQuote"
+                        app:layout_constraintStart_toEndOf="@+id/dividerQuote"
+                        app:layout_constraintTop_toTopOf="@+id/dividerQuote" />
+
+                    <TextView
+                        android:id="@+id/dividerQuote"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="@string/dot"
+                        app:layout_constraintBottom_toBottomOf="@+id/repliesQuote"
+                        app:layout_constraintStart_toEndOf="@+id/repliesQuote"
+                        app:layout_constraintTop_toTopOf="@+id/repliesQuote" />
+
+                    <TextView
+                        android:id="@+id/quote_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:text="@string/_2h"
+                        app:layout_constraintBottom_toBottomOf="@+id/username_thread"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/username_thread" />
+
+                    <ImageView
+                        android:id="@+id/image_holder"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:scaleType="fitStart"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toEndOf="@+id/text_thread"
+                        app:layout_constraintHeight_max="300dp"
+                        app:layout_constraintHorizontal_bias="0.498"
+                        app:layout_constraintStart_toStartOf="@+id/text_thread"
+                        app:layout_constraintTop_toBottomOf="@+id/text_thread"
+                        tools:src="@drawable/img" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <ImageView
             android:id="@+id/like_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             app:layout_constraintStart_toStartOf="@+id/thread_text"
-            app:layout_constraintTop_toBottomOf="@+id/imageView4"
+            app:layout_constraintTop_toBottomOf="@+id/imageView4CardViewLayout"
             app:srcCompat="@drawable/lke_btn" />
 
         <ImageView
@@ -148,19 +284,14 @@
             app:layout_constraintTop_toTopOf="@+id/time"
             app:srcCompat="@drawable/mdi_delete" />
 
-        <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
             android:layout_marginTop="10dp"
-            android:scaleType="fitStart"
-            app:layout_constraintEnd_toEndOf="@+id/thread_text"
-            app:layout_constraintHeight_max="300dp"
-            app:layout_constraintStart_toStartOf="@+id/username"
-            app:layout_constraintTop_toBottomOf="@+id/thread_text"
-            tools:srcCompat="@drawable/image" />
-
-
+            android:background="@color/grey_profile"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/replies" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </androidx.cardview.widget.CardView>

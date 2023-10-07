@@ -16,7 +16,7 @@ class QuoteViewModel : ViewModel(){
         onSuccess: () -> Unit
     ) {
         val apiInterface = RetrofitInstance.postApi
-        val request = Quote(text, id)
+        val request = Quote(text)
 
         val token = Utils.token
         val authHeader = "Bearer $token"
