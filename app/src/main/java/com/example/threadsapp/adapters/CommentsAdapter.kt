@@ -83,11 +83,7 @@ class CommentsAdapter(
                         binding.likeBtn.setOnClickListener {
                             onClickListener?.onLikeClick(comment, adapterPosition, comment.id, isLiked)
                             isLiked = !isLiked
-                            if(isLiked) {
-                                likeBtn.setImageResource(R.drawable.lke_btn)
-                            } else {
-                                likeBtn.setImageResource(R.drawable.like_btn_pressed)
-                            }
+                            updateLikeBtn(isLiked, comment)
                         }
                         binding.commentBtn.setOnClickListener {
                             onClickListener?.onCommentClick(comment, adapterPosition, comment.id)
@@ -105,6 +101,22 @@ class CommentsAdapter(
                 }
             )
         }
+        private fun updateLikeBtn(isLiked: Boolean, comment: CommentView) {
+            val currentLikes = comment.total_likes.toInt()
+
+            if (isLiked) {
+                binding.likeBtn.setImageResource(R.drawable.like_btn_pressed)
+                val newLikes = currentLikes + 1
+                comment.total_likes = newLikes.toString()
+                binding.likes.text = "${newLikes} likes"
+            } else {
+                binding.likeBtn.setImageResource(R.drawable.lke_btn)
+                val newLikes = currentLikes - 1
+                comment.total_likes = newLikes.toString()
+                binding.likes.text = "${newLikes} likes"
+            }
+        }
+
     }
 
     interface ListClickListener<T> {

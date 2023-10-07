@@ -18,7 +18,7 @@ data class CommentView(
     val text: String,
     val date_posted: String,
     val reply: ReplyView,
-    val total_likes: String,
+    var total_likes: String,
     val user_like: Boolean,
 )
 
