@@ -26,6 +26,7 @@ class EditProfileFragment : Fragment() {
     private lateinit var binding: FragmentEditProfileBinding
     private var PICK_IMAGE_REQUEST  = 1
     private var selectedImageUri: Uri? = null
+    private var isPrivate: Boolean = false
     private val getDataViewModel: UserInfoViewModel by viewModels()
     private val editProfileViewModel: EditProfileViewModel by viewModels()
     private val photoViewModel: PhotoViewModel by viewModels()
@@ -52,12 +53,13 @@ class EditProfileFragment : Fragment() {
         binding.doneBtn.setOnClickListener {
             saveData()
             setPhoto()
+            findNavController().navigate(R.id.profileFragment)
         }
         binding.editPhotoBtn.setOnClickListener {
             showImageOptionsBottomSheet()
         }
-        binding.switchBtn.setOnClickListener {
-            // TODO: Handle switch button action
+        binding.switchBtn.setOnCheckedChangeListener { _, isChecked ->
+            isPrivate = isChecked
         }
     }
 
@@ -73,6 +75,8 @@ class EditProfileFragment : Fragment() {
                 val fullNameEditable = Editable.Factory.getInstance().newEditable(fullName)
                 val bioEditable = Editable.Factory.getInstance().newEditable(bioText)
                 val websiteEditable = Editable.Factory.getInstance().newEditable(websiteText)
+
+                binding.switchBtn.isChecked = profile.is_private
 
                 binding.etUsername.text = usernameEditable
                 binding.etName.text = fullNameEditable
@@ -108,7 +112,7 @@ class EditProfileFragment : Fragment() {
         val link = binding.etLink.text.toString()
 
         editProfileViewModel.updateProfile(
-            username, fullName, bio, link,
+            username, fullName, bio, link, isPrivate,
             onSuccess = {
                 showToast("Data has been changed")
             },

@@ -5,4 +5,5 @@ data class UpdateRequest(
     val full_name: String,
     val bio: String,
     val website: String,
+    val is_private: Boolean
 )

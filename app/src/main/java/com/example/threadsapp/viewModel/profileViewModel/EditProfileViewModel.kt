@@ -16,11 +16,12 @@ class EditProfileViewModel : ViewModel() {
         fullName: String,
         bio: String,
         website: String,
+        isPrivate: Boolean,
         onSuccess: () -> Unit,
         onError: () -> Unit
     ) {
         val apiInterface = RetrofitInstance.profileApi
-        val request = UpdateRequest(username, fullName, bio, website)
+        val request = UpdateRequest(username, fullName, bio, website, isPrivate)
 
         token?.let { apiInterface.update(request) }?.enqueue(object : Callback<Profile> {
             override fun onResponse(call: Call<Profile>, response: Response<Profile>) {
