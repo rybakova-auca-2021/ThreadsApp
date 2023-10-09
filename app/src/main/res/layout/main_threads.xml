@@ -1,24 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    android:id="@+id/thread_view_card"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#F9F9F9">
+    android:background="#F9F9F9"
+    android:visibility="visible">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingVertical="16dp">
+        android:paddingHorizontal="16dp">
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="@+id/avatar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/reposted_btn" />
+
+        <TextView
+            android:id="@+id/text_reposted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="16dp"
+            android:text="You reposted"
+            android:textSize="15sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+            app:layout_constraintStart_toEndOf="@+id/imageView3"
+            app:layout_constraintTop_toTopOf="@+id/imageView3" />
 
         <ImageView
             android:id="@+id/avatar"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginStart="16dp"
-            tools:src="@drawable/avatar"
+            android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView3"
+            tools:ignore="MissingConstraints"
+            tools:src="@drawable/avatar" />
 
         <TextView
             android:id="@+id/username"
@@ -26,10 +53,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:fontFamily="@font/sfbold"
-            tools:text="malevicz"
             android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@+id/avatar"
-            app:layout_constraintTop_toTopOf="@+id/avatar" />
+            app:layout_constraintTop_toTopOf="@+id/avatar"
+            tools:text="malevicz" />
 
         <TextView
             android:id="@+id/thread_text"
@@ -37,20 +64,177 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginTop="5dp"
-            android:layout_marginEnd="16dp"
+            tools:text="@string/quote1"
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/avatar"
-            app:layout_constraintTop_toBottomOf="@+id/username"
-            tools:text="When I look at you, I see someone who’s working hard" />
+            app:layout_constraintTop_toBottomOf="@+id/username" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/imageView4CardViewLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="@+id/thread_text"
+            app:layout_constraintStart_toStartOf="@+id/username"
+            app:layout_constraintTop_toBottomOf="@+id/thread_text"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
+
+            <VideoView
+                android:id="@+id/videoView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:scaleType="fitStart"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_max="500dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:scaleType="fitStart"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_max="300dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@drawable/image" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:cardCornerRadius="8dp"
+                android:background="@drawable/rounded_rectangle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/rounded_rectangle">
+
+                    <ImageView
+                        android:id="@+id/profile_photo_thread3"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:src="@drawable/profile_photo" />
+
+                    <TextView
+                        android:id="@+id/username_thread"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:fontFamily="@font/sfbold"
+                        android:textColor="@color/black"
+                        app:layout_constraintBottom_toBottomOf="@+id/profile_photo_thread3"
+                        app:layout_constraintStart_toEndOf="@+id/profile_photo_thread3"
+                        app:layout_constraintTop_toTopOf="@+id/profile_photo_thread3"
+                        tools:text="iamnalimov" />
+
+                    <TextView
+                        android:id="@+id/text_thread"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="12dp"
+                        android:textColor="@color/black"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/profile_photo_thread3"
+                        app:layout_constraintTop_toBottomOf="@+id/profile_photo_thread3"
+                        tools:text="Focusing is about saying no. Stay focused on what truly matters." />
+
+                    <TextView
+                        android:id="@+id/repliesQuote"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:text="@string/_2_replies"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/text_thread"
+                        app:layout_constraintTop_toBottomOf="@+id/image_holder" />
+
+                    <TextView
+                        android:id="@+id/likesQuote"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="@string/_941_likes"
+                        app:layout_constraintBottom_toBottomOf="@+id/dividerQuote"
+                        app:layout_constraintStart_toEndOf="@+id/dividerQuote"
+                        app:layout_constraintTop_toTopOf="@+id/dividerQuote" />
+
+                    <TextView
+                        android:id="@+id/dividerQuote"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="@string/dot"
+                        app:layout_constraintBottom_toBottomOf="@+id/repliesQuote"
+                        app:layout_constraintStart_toEndOf="@+id/repliesQuote"
+                        app:layout_constraintTop_toTopOf="@+id/repliesQuote" />
+
+                    <TextView
+                        android:id="@+id/quote_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:text="@string/_2h"
+                        app:layout_constraintBottom_toBottomOf="@+id/username_thread"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/username_thread" />
+
+                    <ImageView
+                        android:id="@+id/image_holder"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:scaleType="fitStart"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toEndOf="@+id/text_thread"
+                        app:layout_constraintHeight_max="300dp"
+                        app:layout_constraintHorizontal_bias="0.498"
+                        app:layout_constraintStart_toStartOf="@+id/text_thread"
+                        app:layout_constraintTop_toBottomOf="@+id/text_thread"
+                        tools:src="@drawable/img" />
+
+                    <VideoView
+                        android:id="@+id/video_holder"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:scaleType="fitStart"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHeight_max="500dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView
             android:id="@+id/like_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="10dp"
             app:layout_constraintStart_toStartOf="@+id/thread_text"
-            app:layout_constraintTop_toBottomOf="@+id/imageView4"
+            app:layout_constraintTop_toBottomOf="@+id/imageView4CardViewLayout"
             app:srcCompat="@drawable/lke_btn" />
 
         <ImageView
@@ -81,45 +265,58 @@
             app:srcCompat="@drawable/share_btn" />
 
         <TextView
-            android:id="@+id/likes"
+            android:id="@+id/replies"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            tools:text="941 likes"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="@string/_2_replies"
             app:layout_constraintStart_toStartOf="@+id/like_btn"
             app:layout_constraintTop_toBottomOf="@+id/like_btn" />
+
+        <TextView
+            android:id="@+id/likes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/_941_likes"
+            app:layout_constraintStart_toEndOf="@+id/divider"
+            app:layout_constraintTop_toTopOf="@+id/replies" />
+
+        <TextView
+            android:id="@+id/divider"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/dot"
+            app:layout_constraintStart_toEndOf="@+id/replies"
+            app:layout_constraintTop_toTopOf="@+id/replies" />
 
         <TextView
             android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:text="2h"
+            android:text="@string/_2h"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/username" />
 
-        <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
             android:layout_marginTop="10dp"
-            android:scaleType="fitStart"
-            app:layout_constraintEnd_toEndOf="@+id/thread_text"
-            app:layout_constraintHeight_max="300dp"
-            app:layout_constraintStart_toStartOf="@+id/username"
-            app:layout_constraintTop_toBottomOf="@+id/thread_text"
-            tools:srcCompat="@drawable/image" />
+            android:background="@color/grey_profile"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/replies" />
 
         <ImageView
             android:id="@+id/subscribe_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/avatar"
-            app:layout_constraintEnd_toEndOf="@+id/avatar"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="35dp"
+            app:layout_constraintStart_toStartOf="@+id/avatar"
+            app:layout_constraintTop_toTopOf="@+id/avatar"
             app:srcCompat="@drawable/subscribe_badge" />
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </androidx.cardview.widget.CardView>

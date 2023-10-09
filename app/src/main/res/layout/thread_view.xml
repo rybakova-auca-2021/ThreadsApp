@@ -81,6 +81,18 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp">
 
+            <VideoView
+                android:id="@+id/videoView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:scaleType="fitStart"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_max="500dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <ImageView
                 android:id="@+id/imageView4"
                 android:layout_width="0dp"
@@ -98,7 +110,7 @@
                 android:id="@+id/cardView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:cardCornerRadius="8dp"
                 android:background="@drawable/rounded_rectangle"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -199,6 +211,18 @@
                         app:layout_constraintStart_toStartOf="@+id/text_thread"
                         app:layout_constraintTop_toBottomOf="@+id/text_thread"
                         tools:src="@drawable/img" />
+
+                    <VideoView
+                        android:id="@+id/video_holder"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:scaleType="fitStart"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHeight_max="500dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>

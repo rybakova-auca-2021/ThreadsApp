@@ -106,8 +106,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:layout_constraintStart_toStartOf="@+id/thread_text"
-                app:layout_constraintTop_toBottomOf="@+id/imageView4"
+                app:layout_constraintStart_toStartOf="@+id/avatar"
+                app:layout_constraintTop_toBottomOf="@+id/imageVideoLayout"
                 app:srcCompat="@drawable/lke_btn" />
 
             <ImageView
@@ -157,17 +157,39 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/username" />
 
-            <ImageView
-                android:id="@+id/imageView4"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/imageVideoLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:scaleType="fitStart"
+                android:layout_marginTop="10dp"
                 app:layout_constraintEnd_toEndOf="@+id/thread_text"
-                app:layout_constraintHeight_max="300dp"
-                app:layout_constraintStart_toStartOf="@+id/thread_text"
-                app:layout_constraintTop_toBottomOf="@+id/thread_text"
-                tools:srcCompat="@drawable/image" />
+                app:layout_constraintStart_toStartOf="@+id/avatar"
+                app:layout_constraintTop_toBottomOf="@+id/thread_text">
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitStart"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHeight_max="300dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@drawable/image" />
+
+                <VideoView
+                    android:id="@+id/videoView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitStart"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHeight_max="500dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <ImageView
                 android:id="@+id/subscribe_btn"

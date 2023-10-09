@@ -1,9 +1,12 @@
 package com.example.threadsapp.adapters
 
 import android.annotation.SuppressLint
+import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -69,18 +72,12 @@ class MyPostsAdapter(
                             binding.imageView3.visibility = View.VISIBLE
                             binding.textReposted.visibility = View.VISIBLE
                             binding.deleteBtn.visibility = View.GONE
-                        } else {
-                            binding.imageView3.visibility = View.GONE
-                            binding.textReposted.visibility = View.GONE
-                            binding.deleteBtn.visibility = View.VISIBLE
-                        }
-
-                        if (thread.repost != null && thread.text != null) {
+                        } else if(thread.repost != null && thread.text != null) {
                             binding.cardView.visibility = View.VISIBLE
                             binding.deleteBtn.visibility = View.VISIBLE
                         } else {
                             binding.cardView.visibility = View.GONE
-                            binding.deleteBtn.visibility = View.GONE
+                            binding.deleteBtn.visibility = View.VISIBLE
                         }
 
                         //setup images
@@ -104,6 +101,36 @@ class MyPostsAdapter(
                                 imageView4.visibility = View.VISIBLE
                             } else {
                                 imageView4.isVisible = false
+                            }
+                        }
+
+                        //setup video
+                        if(thread.repost != null && thread.text == null) {
+                            if (thread.repost.video != null) {
+                                val videoUri = Uri.parse(thread.repost.video)
+                                videoView.setVideoURI(videoUri)
+                                videoView.visibility = View.VISIBLE
+                                videoView.start()
+                            } else {
+                                videoView.isVisible = false
+                            }
+                        } else if(thread.repost != null && thread.text != null) {
+                            if (thread.repost.video != null) {
+                                val videoUri = Uri.parse(thread.repost.video)
+                                videoHolder.setVideoURI(videoUri)
+                                videoHolder.visibility = View.VISIBLE
+                                videoHolder.start()
+                            } else {
+                                videoHolder.isVisible = false
+                            }
+                        } else {
+                            if (thread.video != null) {
+                                val videoUri = Uri.parse(thread.video)
+                                videoView.setVideoURI(videoUri)
+                                videoView.visibility = View.VISIBLE
+                                videoView.start()
+                            } else {
+                                videoView.isVisible = false
                             }
                         }
 
@@ -239,14 +266,14 @@ class MyPostsAdapter(
                 if (thread.repost != null) {
                     itemView.setOnClickListener {
                         thread.repost.id?.let { it1 ->
-                            onClickListener?.onCommentClick(thread, adapterPosition,
+                            onClickListener?.onClick(thread, adapterPosition,
                                 it1
                             )
                         }
                     }
                 } else {
                     itemView.setOnClickListener {
-                        onClickListener?.onCommentClick(thread, adapterPosition, thread.id)
+                        onClickListener?.onClick(thread, adapterPosition, thread.id)
                     }
                 }
                 shareBtn.setOnClickListener {

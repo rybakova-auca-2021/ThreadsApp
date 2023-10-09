@@ -145,16 +145,18 @@ class CreateNewThreadFragment : Fragment() {
 
     private fun chooseMedia() {
         val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
-            type = "image/*"
+            type = "*/*"
+            addCategory(Intent.CATEGORY_OPENABLE)
         }
         startActivityForResult(
-            Intent.createChooser(intent, "Select Picture"),
+            Intent.createChooser(intent, "Select Media"),
             PICK_IMAGE_REQUEST
         )
     }
 
     private fun removeData() {
         selectedImageUri = null
+        selectedVideoUri = null
         binding.apply {
             imageView10.visibility = View.GONE
             btnDeleteText.visibility = View.GONE
@@ -177,6 +179,11 @@ class CreateNewThreadFragment : Fragment() {
                 selectedVideoUri = null
                 Utils.selectedImageUri = selectedImageUri
                 showSelectedImage(selectedImageUri)
+            } else if (selectedUri.toString().contains("video")) {
+                selectedVideoUri = selectedUri
+                selectedImageUri = null
+                Utils.selectedVideoUri = selectedVideoUri
+                showSelectedVideo(selectedVideoUri)
             }
         }
     }
@@ -193,6 +200,23 @@ class CreateNewThreadFragment : Fragment() {
         Glide.with(this)
             .load(imageUri)
             .into(binding.imageView10)
+
+        binding.videoView.visibility = View.GONE
+    }
+
+    private fun showSelectedVideo(videoUri: Uri?) {
+        binding.apply {
+            videoView.visibility = View.VISIBLE
+            btnDeleteText.visibility = View.VISIBLE
+            profilePhotoThread.visibility = View.VISIBLE
+            addThread.visibility = View.VISIBLE
+            addMedia.visibility = View.GONE
+        }
+
+        binding.videoView.setVideoURI(videoUri)
+        binding.videoView.start()
+
+        binding.imageView10.visibility = View.GONE
     }
 
     private fun showToast(message: String) {

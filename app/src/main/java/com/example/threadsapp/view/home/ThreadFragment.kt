@@ -2,10 +2,12 @@ package com.example.threadsapp.view.home
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.MediaController
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -19,11 +21,13 @@ import com.example.threadsapp.ProfileActivity
 import com.example.threadsapp.R
 import com.example.threadsapp.adapters.CommentsAdapter
 import com.example.threadsapp.databinding.FragmentThreadBinding
+import com.example.threadsapp.model.HomeModel.PostView
 import com.example.threadsapp.model.PostModel.CommentView
 import com.example.threadsapp.util.CalculateTime
 import com.example.threadsapp.viewModel.commentViewModel.CommentListViewModel
 import com.example.threadsapp.viewModel.commentViewModel.LikeUnlikeCommentViewModel
 import com.example.threadsapp.viewModel.homeViewModel.RepostViewModel
+import com.example.threadsapp.viewModel.postViewModel.LikeUnlikeViewModel
 import com.example.threadsapp.viewModel.postViewModel.PostDataViewModel
 import com.example.threadsapp.viewModel.profileViewModel.SomeoneProfileViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -34,6 +38,7 @@ class ThreadFragment : Fragment() {
     private val userProfileViewModel: SomeoneProfileViewModel by viewModels()
     private val commentsViewModel: CommentListViewModel by viewModels()
     private val likeViewModel: LikeUnlikeCommentViewModel by viewModels()
+    private val likeOrDislikePost: LikeUnlikeViewModel by viewModels()
     private val repostViewModel: RepostViewModel by viewModels()
     private lateinit var adapter: CommentsAdapter
     private lateinit var recyclerView: RecyclerView
@@ -78,7 +83,6 @@ class ThreadFragment : Fragment() {
         adapter.onClickListener = object : CommentsAdapter.ListClickListener<CommentView> {
             override fun onCommentClick(data: CommentView, position: Int, id: Int) {
                 val action = ThreadFragmentDirections.actionToReplyFragment(id)
-                println("thread_id is $id")
                 findNavController().navigate(action)
             }
 
@@ -103,6 +107,7 @@ class ThreadFragment : Fragment() {
 
     private fun setData() {
         val clickedPostId = arguments?.getInt("postId")
+        var isLiked = false
 
         if (clickedPostId != null) {
             viewModel.readData(
@@ -131,18 +136,47 @@ class ThreadFragment : Fragment() {
                                 CalculateTime.calculateTimeDifference(post.date_posted)
                             binding.time.text = timeDifference
                             binding.likes.text = "${post.total_likes} likes"
+                            isLiked = if (post.user_like) {
+                                binding.likeBtn.setImageResource(R.drawable.like_btn_pressed)
+                                true
+                            } else {
+                                binding.likeBtn.setImageResource(R.drawable.lke_btn)
+                                false
+                            }
                             if (post.image != null) {
+                                binding.imageView4.visibility = View.VISIBLE
                                 Glide.with(binding.imageView4)
                                     .load(post.image)
                                     .into(binding.imageView4)
                             } else {
                                 binding.imageView4.isVisible = false
                             }
+                            if (post.video != null) {
+                                binding.videoView.visibility = View.VISIBLE
+                                val videoView = binding.videoView
+                                val mediaController = MediaController(requireContext())
+
+                                videoView.setMediaController(mediaController)
+                                mediaController.setAnchorView(videoView)
+
+                                videoView.setVideoURI(Uri.parse(post.video))
+                                videoView.requestFocus()
+                                videoView.start()
+                            } else {
+                                binding.videoView.isVisible = false
+                            }
+
                         },
                         onError = { errorMessage ->
                             Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
                         }
                     )
+                    setPostClickListeners(clickedPostId)
+                    binding.likeBtn.setOnClickListener {
+                        likeOrDislikePost(clickedPostId)
+                        isLiked = !isLiked
+                        updateLikeBtn(isLiked, post)
+                    }
                 },
                 onError = {
                     Toast.makeText(requireContext(), "Try Again", Toast.LENGTH_SHORT).show()
@@ -150,6 +184,44 @@ class ThreadFragment : Fragment() {
             )
             setupComments(clickedPostId)
         }
+    }
+
+    private fun setPostClickListeners(id: Int) {
+        binding.commentBtn.setOnClickListener {
+            val action = ThreadFragmentDirections.actionToReplyFragment(id)
+            findNavController().navigate(action)
+        }
+        binding.repostBtn.setOnClickListener {
+            showDialog(id)
+        }
+        binding.shareBtn.setOnClickListener {
+            val shareIntent = Intent(Intent.ACTION_SEND)
+            shareIntent.type = "text/plain"
+            shareIntent.putExtra(Intent.EXTRA_TEXT, "Hello, check out this awesome app!")
+
+            val chooserIntent = Intent.createChooser(shareIntent, "Share via")
+            startActivity(chooserIntent)
+        }
+    }
+
+    private fun updateLikeBtn(isLiked: Boolean, thread: PostView) {
+        if (isLiked) {
+            binding.likeBtn.setImageResource(R.drawable.like_btn_pressed)
+            binding.likes.text = "${thread.total_likes + 1} likes"
+        } else {
+            binding.likeBtn.setImageResource(R.drawable.lke_btn)
+            binding.likes.text = "${thread.total_likes - 1} likes"
+        }
+    }
+
+    private fun likeOrDislikePost(id: Int) {
+        likeOrDislikePost.likeOrUnlike(id,
+            onSuccess = {
+                binding.likeBtn.setImageResource(R.drawable.like_btn_pressed)
+            },
+            onError = { errorMessage ->
+                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+            })
     }
 
     @SuppressLint("NotifyDataSetChanged")

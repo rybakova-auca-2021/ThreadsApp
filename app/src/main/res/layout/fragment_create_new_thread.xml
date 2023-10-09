@@ -125,7 +125,7 @@
             android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="@+id/view6"
             app:layout_constraintStart_toStartOf="@+id/view6"
-            app:layout_constraintTop_toBottomOf="@+id/imageView10" />
+            app:layout_constraintTop_toBottomOf="@+id/imageVideoLayout" />
 
         <EditText
             android:id="@+id/add_thread"
@@ -136,21 +136,42 @@
             android:textSize="15sp"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@+id/profile_photo_thread"
-            app:layout_constraintStart_toStartOf="@+id/imageView10"
+            app:layout_constraintStart_toStartOf="@+id/imageVideoLayout"
             app:layout_constraintTop_toTopOf="@+id/profile_photo_thread" />
 
-        <ImageView
-            android:id="@+id/imageView10"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/imageVideoLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:scaleType="fitStart"
             android:layout_marginTop="10dp"
-            tools:src="@drawable/image"
-            android:visibility="gone"
-            app:layout_constraintHeight_max="300dp"
             app:layout_constraintEnd_toEndOf="@+id/start_thread"
             app:layout_constraintStart_toStartOf="@+id/add_media"
-            app:layout_constraintTop_toBottomOf="@+id/add_media" />
+            app:layout_constraintTop_toBottomOf="@+id/add_media">
+
+            <ImageView
+                android:id="@+id/imageView10"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:scaleType="fitStart"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_max="300dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/image" />
+
+            <VideoView
+                android:id="@+id/videoView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:scaleType="fitStart"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_max="500dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView
             android:id="@+id/btn_delete_text"

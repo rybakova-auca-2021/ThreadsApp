@@ -39,7 +39,7 @@ class CreateThreadViewModel : ViewModel() {
         val imagePart = imageFile?.asRequestBody("image/png".toMediaTypeOrNull())?.let {
             MultipartBody.Part.createFormData("image", imageFile.name, it)
         }
-        val videoPart = videoFile?.asRequestBody("video/*".toMediaTypeOrNull())?.let {
+        val videoPart = videoFile?.asRequestBody("video/mp4".toMediaTypeOrNull())?.let {
             MultipartBody.Part.createFormData("video", videoFile.name, it)
         }
 

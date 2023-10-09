@@ -1,8 +1,8 @@
 package com.example.threadsapp.model.HomeModel
 
 data class Links(
-    val next: Int,
-    val previous: Int
+    val next: String,
+    val previous: String
 )
 
 data class RepostView(

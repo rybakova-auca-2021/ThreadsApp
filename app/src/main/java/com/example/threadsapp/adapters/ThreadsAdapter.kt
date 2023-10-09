@@ -1,6 +1,7 @@
 package com.example.threadsapp.adapters
 
 import android.annotation.SuppressLint
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -55,34 +56,158 @@ class ThreadsAdapter(
         @SuppressLint("SetTextI18n")
         fun bind(thread: PostView) {
             viewModel.getUserProfileById(
-                thread.author,
+                if (thread.repost != null && thread.text == null) thread.repost.author else thread.author,
                 onSuccess = { userProfile ->
                     with(binding) {
-                        if (thread.image != null) {
-                            Glide.with(imageView4)
-                                .load(thread.image)
-                                .into(imageView4)
+                        //setup cards
+                        if (thread.repost != null && thread.text == null) {
+                            binding.imageView3.visibility = View.VISIBLE
+                            binding.textReposted.visibility = View.VISIBLE
+                        } else if(thread.repost != null && thread.text != null) {
+                            binding.cardView.visibility = View.VISIBLE
                         } else {
-                            imageView4.isVisible = false
+                            binding.cardView.visibility = View.GONE
                         }
 
-                        username.text = userProfile.username
-                        userProfile.photo.let { photoUrl ->
-                            if (photoUrl.isNullOrEmpty()) {
-                                Glide.with(binding.root.context).load(R.drawable.profile_photo)
-                                    .into(binding.avatar)
+                        //setup images
+                        if(thread.repost != null && thread.text == null) {
+                            if (thread.repost.image != null) {
+                                Glide.with(imageView4).load(thread.repost.image).into(imageView4)
+                                imageView4.visibility = View.VISIBLE
                             } else {
-                                Glide.with(binding.root.context).load(photoUrl).circleCrop()
-                                    .into(binding.avatar)
+                                imageView4.isVisible = false
+                            }
+                        } else if(thread.repost != null && thread.text != null) {
+                            if (thread.repost.image != null) {
+                                Glide.with(imageHolder).load(thread.repost.image).into(imageHolder)
+                                imageHolder.visibility = View.VISIBLE
+                            } else {
+                                imageHolder.isVisible = false
+                            }
+                        } else {
+                            if (thread.image != null) {
+                                Glide.with(imageView4).load(thread.image).into(imageView4)
+                                imageView4.visibility = View.VISIBLE
+                            } else {
+                                imageView4.isVisible = false
                             }
                         }
 
-                        threadText.text = thread.text
-                        val timeDifference =
-                            CalculateTime.calculateTimeDifference(thread.date_posted)
-                        time.text = timeDifference
-                        likes.text = "${thread.total_likes} likes"
-                        isLiked = if (thread.user_like) {
+                        //setup video
+                        if(thread.repost != null && thread.text == null) {
+                            if (thread.repost.video != null) {
+                                val videoUri = Uri.parse(thread.repost.video)
+                                videoView.setVideoURI(videoUri)
+                                videoView.visibility = View.VISIBLE
+                                videoView.start()
+                            } else {
+                                videoView.isVisible = false
+                            }
+                        } else if(thread.repost != null && thread.text != null) {
+                            if (thread.repost.video != null) {
+                                val videoUri = Uri.parse(thread.repost.video)
+                                videoHolder.setVideoURI(videoUri)
+                                videoHolder.visibility = View.VISIBLE
+                                videoHolder.start()
+                            } else {
+                                videoHolder.isVisible = false
+                            }
+                        } else {
+                            if (thread.video != null) {
+                                val videoUri = Uri.parse(thread.video)
+                                videoView.setVideoURI(videoUri)
+                                videoView.visibility = View.VISIBLE
+                                videoView.start()
+                            } else {
+                                videoView.isVisible = false
+                            }
+                        }
+
+                        //setup username
+                        if (thread.repost != null && thread.text != null) {
+                            viewModel.getUserProfileById(thread.repost.author,
+                                onSuccess = { profile -> usernameThread.text = profile.username },
+                                onError = {})
+                            username.text = userProfile.username
+                        } else if(thread.repost != null) {
+                            username.text = userProfile.username
+                        } else {
+                            username.text = userProfile.username
+                        }
+
+                        //setup user profile photo
+                        if (thread.repost != null && thread.text != null) {
+                            viewModel.getUserProfileById(thread.repost.author,
+                                onSuccess = { profile ->
+                                    profile.photo?.let { photoUrl ->
+                                        if (photoUrl.isEmpty()) {
+                                            Glide.with(binding.root.context).load(R.drawable.profile_photo).circleCrop().into(binding.profilePhotoThread3)
+                                        } else {
+                                            Glide.with(binding.root.context).load(photoUrl).circleCrop().into(binding.profilePhotoThread3)
+                                        }
+                                    }
+                                },
+                                onError = {})
+                            userProfile.photo?.let { photoUrl ->
+                                if (photoUrl.isEmpty()) {
+                                    Glide.with(binding.root.context).load(R.drawable.profile_photo).circleCrop().into(binding.avatar)
+                                } else {
+                                    Glide.with(binding.root.context).load(photoUrl).circleCrop().into(binding.avatar)
+                                }
+                            }
+                        } else if (thread.repost != null) {
+                            userProfile.photo?.let { photoUrl ->
+                                if (photoUrl.isEmpty()) {
+                                    Glide.with(binding.root.context).load(R.drawable.profile_photo).circleCrop().into(binding.avatar)
+                                } else {
+                                    Glide.with(binding.root.context).load(photoUrl).circleCrop().into(binding.avatar)
+                                }
+                            }
+                        } else {
+                            userProfile.photo?.let { photoUrl ->
+                                if (photoUrl.isEmpty()) {
+                                    Glide.with(binding.root.context).load(R.drawable.profile_photo).circleCrop().into(binding.avatar)
+                                } else {
+                                    Glide.with(binding.root.context).load(photoUrl).circleCrop().into(binding.avatar)
+                                }
+                            }
+                        }
+
+                        // setup text
+                        if (thread.repost != null && thread.text != null) {
+                            textThread.text = thread.repost.text
+                            threadText.text = thread.text
+                        } else if (thread.repost != null) {
+                            threadText.text = thread.repost.text
+                        } else {
+                            threadText.text = thread.text
+                        }
+
+                        // setup time
+                        if (thread.repost != null && thread.text != null) {
+                            val timeDifference = CalculateTime.calculateTimeDifference(thread.repost.date_posted)
+                            val timeDifference2 = CalculateTime.calculateTimeDifference(thread.date_posted)
+                            quoteTime.text = timeDifference
+                            time.text = timeDifference2
+                        } else if(thread.repost != null) {
+                            val timeDifference = CalculateTime.calculateTimeDifference(thread.date_posted)
+                            time.text = timeDifference
+                        } else {
+                            val timeDifference = CalculateTime.calculateTimeDifference(thread.date_posted)
+                            time.text = timeDifference
+                        }
+
+                        //setup likes
+                        if (thread.repost != null && thread.text != null) {
+                            likesQuote.text = "${thread.total_likes} likes"
+                            likes.text = "${thread.total_likes} likes"
+                        } else if(thread.repost != null) {
+                            likes.text = "${thread.total_likes} likes"
+                        } else {
+                            likes.text = "${thread.total_likes} likes"
+                        }
+
+                        isLiked = if(thread.user_like) {
                             likeBtn.setImageResource(R.drawable.like_btn_pressed)
                             true
                         } else {
