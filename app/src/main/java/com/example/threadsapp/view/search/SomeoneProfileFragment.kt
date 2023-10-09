@@ -82,7 +82,12 @@ class SomeoneProfileFragment : Fragment() {
                 viewModel.getUserProfileById(
                     id,
                     onSuccess = { result ->
-                        val initialText = if(result.is_followed == "Followed") "Following" else "Follow"
+                        val initialText = when (result.is_followed) {
+                            "Mutual Follow" -> "Following"
+                            "Followed" -> "Followed"
+                            else -> "Follow"
+                        }
+                        followingStatus = result.is_followed
                         updateFollowButtonState(initialText)
                     },
                     onError = {
@@ -97,7 +102,7 @@ class SomeoneProfileFragment : Fragment() {
 
     @SuppressLint("ResourceAsColor")
     private fun followBtn(id: Int) {
-        if (followingStatus == "Followed") {
+        if (followingStatus == "Followed" || followingStatus == "Mutual Follow") {
             unfollow(id)
         } else {
             follow(id)

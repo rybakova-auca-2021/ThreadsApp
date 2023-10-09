@@ -7,7 +7,8 @@ data class UserProfileData(
     val bio: String,
     val website: String,
     val location: String,
-    val photo: String
+    val photo: String,
+    val is_private: Boolean
 )
 
 data class Followers(
