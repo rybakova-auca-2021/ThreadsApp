@@ -16,7 +16,7 @@ class LogoutViewModel : ViewModel() {
     ) {
         val apiInterface = RetrofitInstance.authApi
 
-        val refresh = Utils.refresh
+        val refresh = Utils.token
         val authHeader = "Bearer $refresh"
 
         val request = refresh?.let { LogoutRequest(it) }
