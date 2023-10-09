@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="70dp">
+
+    <ImageView
+        android:id="@+id/avatar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        tools:src="@drawable/profile_photo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/followerName"
+        style="@style/DialogTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:paddingTop="12dp"
+        app:layout_constraintStart_toEndOf="@+id/avatar"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/Username" />
+
+    <TextView
+        android:id="@+id/text"
+        style="@style/InfoTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:paddingBottom="5dp"
+        android:text="Follow request"
+        app:layout_constraintEnd_toStartOf="@+id/confirmBtn"
+        app:layout_constraintStart_toEndOf="@+id/avatar"
+        app:layout_constraintTop_toBottomOf="@+id/followerName" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/confirmBtn"
+        android:layout_width="80dp"
+        android:layout_height="34dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/rounded_rectangle"
+        android:fontFamily="@font/sfmedium"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:text="Confirm"
+        android:textAllCaps="false"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/hideBtn"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/hideBtn"
+        android:layout_width="60dp"
+        android:layout_height="34dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rounded_rectangle"
+        android:fontFamily="@font/sfmedium"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:text="Hide"
+        android:textAllCaps="false"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="25dp"
+        app:layout_constraintStart_toStartOf="@+id/avatar"
+        app:layout_constraintTop_toTopOf="@+id/avatar"
+        app:srcCompat="@drawable/request_icon" />
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="1h"
+        app:layout_constraintBottom_toBottomOf="@+id/followerName"
+        app:layout_constraintStart_toEndOf="@+id/followerName" />
+</androidx.constraintlayout.widget.ConstraintLayout>
