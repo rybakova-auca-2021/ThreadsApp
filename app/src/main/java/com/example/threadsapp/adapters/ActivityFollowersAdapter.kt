@@ -2,16 +2,24 @@ package com.example.threadsapp.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.threadsapp.R
 import com.example.threadsapp.databinding.ActivityFollowerViewBinding
 import com.example.threadsapp.model.HomeModel.Notification
+import com.example.threadsapp.util.CalculateTime
 import com.example.threadsapp.viewModel.profileViewModel.SomeoneProfileViewModel
 
 class ActivityFollowersAdapter(var followers: List<Notification>, private val viewModel: SomeoneProfileViewModel) :
     RecyclerView.Adapter<ActivityFollowersAdapter.FollowerViewHolder>() {
+
+    var setOnItemClickListener: OnItemClickListener<Notification>? = null
+
+    interface OnItemClickListener<T> {
+        fun onBtnClick(data: T, position: Int, id: Int)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FollowerViewHolder {
         val binding =
@@ -46,13 +54,41 @@ class ActivityFollowersAdapter(var followers: List<Notification>, private val vi
                                     .into(binding.avatar)
                             }
                         }
-                        binding.text.text = follower.text
-                        binding.time.text = follower.date_posted
+                        val timeDifference = CalculateTime.calculateTimeDifference(follower.date_posted)
+                        binding.time.text = timeDifference
+
+                        val initialText = when (userProfile.is_followed) {
+                            "Mutual Follow" -> "Following"
+                            "Followed" -> "Following"
+                            "Follow in response" -> "Requested"
+                            else -> "Follow"
+                        }
+                        updateFollowButtonState(initialText)
+
+                        binding.followButton.setOnClickListener {
+                            setOnItemClickListener?.onBtnClick(follower, adapterPosition, follower.related_user)
+                            val newText = when (userProfile.is_followed) {
+                                "Mutual Follow" -> "Follow"
+                                "Followed" -> "Follow"
+                                "Follow in response" -> "Follow"
+                                else -> "Following"
+                            }
+                            updateFollowButtonState(newText)
+                        }
                     },
                     onError = {
 
-                    })
+                    }
+                )
             }
+        }
+        private fun updateFollowButtonState(text: String) {
+            binding.followButton.text = text
+            val colorResId =
+                if (text == "Following") R.color.grey_auth else R.color.black
+            binding.followButton.setTextColor(
+                ContextCompat.getColor(binding.followButton.context, colorResId)
+            )
         }
     }
     fun updateData(newList: List<Notification>) {

@@ -61,7 +61,7 @@
         android:id="@+id/hideBtn"
         android:layout_width="60dp"
         android:layout_height="34dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="8dp"
         android:background="@drawable/rounded_rectangle"
         android:fontFamily="@font/sfmedium"
         android:paddingStart="12dp"
@@ -87,8 +87,10 @@
         android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="10dp"
+        android:paddingTop="12dp"
         android:text="1h"
         app:layout_constraintBottom_toBottomOf="@+id/followerName"
-        app:layout_constraintStart_toEndOf="@+id/followerName" />
+        app:layout_constraintStart_toEndOf="@+id/followerName"
+        app:layout_constraintTop_toTopOf="@+id/followerName" />
 </androidx.constraintlayout.widget.ConstraintLayout>

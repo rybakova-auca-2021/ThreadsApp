@@ -7,16 +7,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.Glide
+import com.example.neobis_android_chapter8.viewModels.AuthViewModel.UserInfoViewModel
 import com.example.threadsapp.R
 import com.example.threadsapp.adapters.ActivityAdapter
 import com.example.threadsapp.databinding.FragmentActivityBinding
 
 class ActivityFragment : Fragment() {
     private lateinit var binding: FragmentActivityBinding
-
     private lateinit var viewPager: ViewPager2
     private lateinit var buttons: Array<AppCompatButton>
+    private val userInfoViewModel: UserInfoViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,12 +47,24 @@ class ActivityFragment : Fragment() {
 
     private fun setupViewPager() {
         val adapter = ActivityAdapter(parentFragmentManager, lifecycle)
-        viewPager.adapter = adapter
-        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                setActiveButton(position)
+        userInfoViewModel.getInfo()
+        userInfoViewModel.profileData.observe(viewLifecycleOwner) { profile ->
+            profile?.let {
+                if (profile.is_private) {
+                    adapter.setFragments(arrayOf(CommentsFragment(), ActivityRequestsFragment()))
+                    binding.btnActivityFollowing.visibility = View.GONE
+                } else {
+                    adapter.setFragments(arrayOf(CommentsFragment(), ActivityFollowingFragment()))
+                    binding.btnActivityRequests.visibility = View.GONE
+                }
+                viewPager.adapter = adapter
+                viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                    override fun onPageSelected(position: Int) {
+                        setActiveButton(position)
+                    }
+                })
             }
-        })
+        }
     }
 
     private fun setupButtons() {

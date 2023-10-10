@@ -8,7 +8,6 @@ import com.bumptech.glide.Glide
 import com.example.threadsapp.R
 import com.example.threadsapp.databinding.ActivityCommentViewBinding
 import com.example.threadsapp.model.HomeModel.Notification
-import com.example.threadsapp.model.HomeModel.NotificationResponse
 import com.example.threadsapp.viewModel.profileViewModel.SomeoneProfileViewModel
 
 class ActivityCommentsAdapter(var comments: List<Notification>, private val viewModel: SomeoneProfileViewModel) :

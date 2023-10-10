@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.threadsapp.api.RetrofitInstance
 import com.example.threadsapp.model.HomeModel.Notification
-import com.example.threadsapp.model.HomeModel.NotificationResponse
 import com.example.threadsapp.util.Utils
 import retrofit2.Call
 import retrofit2.Callback
@@ -23,18 +22,18 @@ class ActivityViewModel : ViewModel() {
         val authHeader = "Bearer $token"
 
         val call = apiInterface.getNotifications(authHeader)
-        call.enqueue(object : Callback<NotificationResponse> {
-            override fun onResponse(call: Call<NotificationResponse>, response: Response<NotificationResponse>) {
+        call.enqueue(object : Callback<List<Notification>> {
+            override fun onResponse(call: Call<List<Notification>>, response: Response<List<Notification>>) {
                 isLoading.value = !response.isSuccessful
                 if (response.isSuccessful) {
                     val results = response.body()
                     if (results != null) {
-                        onSuccess.invoke(results.results)
+                        onSuccess.invoke(results)
                     }
                 }
             }
 
-            override fun onFailure(call: Call<NotificationResponse>, t: Throwable) {
+            override fun onFailure(call: Call<List<Notification>>, t: Throwable) {
                 isLoading.value = false
             }
         })
@@ -51,18 +50,20 @@ class ActivityViewModel : ViewModel() {
         val authHeader = "Bearer $token"
 
         val call = apiInterface.getNotificationsByType(authHeader, type)
-        call.enqueue(object : Callback<NotificationResponse> {
-            override fun onResponse(call: Call<NotificationResponse>, response: Response<NotificationResponse>) {
+        call.enqueue(object : Callback<List<Notification>> {
+            override fun onResponse(call: Call<List<Notification>>, response: Response<List<Notification>>) {
                 isLoading.value = !response.isSuccessful
                 if (response.isSuccessful) {
                     val results = response.body()
                     if (results != null) {
-                        onSuccess.invoke(results.results)
+                        onSuccess.invoke(results)
                     }
+                } else {
+                    println("error getting activity data")
                 }
             }
 
-            override fun onFailure(call: Call<NotificationResponse>, t: Throwable) {
+            override fun onFailure(call: Call<List<Notification>>, t: Throwable) {
                 isLoading.value = false
             }
         })

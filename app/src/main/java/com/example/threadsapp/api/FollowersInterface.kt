@@ -36,10 +36,16 @@ interface FollowersInterface {
     fun deleteFollower(@Body request: FollowerApi): Call<FollowerApi>
 
     @POST("user/profile/follow_requests/allow/")
-    fun allowRequest(@Body request: FollowerApi): Call<FollowerApi>
+    fun allowRequest(
+        @Header("Authorization") token: String,
+        @Body request: FollowerApi
+    ): Call<FollowResponse>
 
     @POST("user/profile/follow_requests/decline/")
-    fun declineRequest(@Body request: FollowerApi): Call<FollowerApi>
+    fun declineRequest(
+        @Header("Authorization") token: String,
+        @Body request: FollowerApi
+    ): Call<FollowerApi>
 
     @GET("user/profile/followers/{followee_pk}/")
     fun readFollowers(

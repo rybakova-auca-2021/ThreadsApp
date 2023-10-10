@@ -9,7 +9,3 @@ data class Notification(
     val related_comment: Int?,
     val date_posted: String
 )
-
-data class NotificationResponse(
-    val results: List<Notification>
-)

@@ -8,10 +8,18 @@ import com.bumptech.glide.Glide
 import com.example.threadsapp.R
 import com.example.threadsapp.databinding.ActivityRequestViewBinding
 import com.example.threadsapp.model.HomeModel.Notification
+import com.example.threadsapp.util.CalculateTime
 import com.example.threadsapp.viewModel.profileViewModel.SomeoneProfileViewModel
 
 class ActivityRequestAdapter(private var requests: List<Notification>, private val viewModel: SomeoneProfileViewModel) :
     RecyclerView.Adapter<ActivityRequestAdapter.FollowerViewHolder>() {
+
+    var setOnItemClickListener: OnItemClickListener<Notification>? = null
+
+    interface OnItemClickListener<T> {
+        fun onConfirmClick(data: T, position: Int, id: Int)
+        fun onHideClick(data: T, position: Int, id: Int)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FollowerViewHolder {
         val binding =
@@ -46,15 +54,31 @@ class ActivityRequestAdapter(private var requests: List<Notification>, private v
                                     .into(binding.avatar)
                             }
                         }
-                        binding.text.text = follower.text
-                        binding.time.text = follower.date_posted
+                        val timeDifference = CalculateTime.calculateTimeDifference(follower.date_posted)
+                        binding.time.text = timeDifference
                     },
                     onError = {
 
                     })
             }
+            binding.confirmBtn.setOnClickListener {
+                setOnItemClickListener?.onConfirmClick(follower, adapterPosition, follower.pk)
+            }
+            binding.hideBtn.setOnClickListener {
+                setOnItemClickListener?.onHideClick(follower, adapterPosition, follower.pk)
+            }
         }
     }
+
+    fun removeItem(position: Int) {
+        if (position >= 0 && position < requests.size) {
+            val updatedList = requests.toMutableList()
+            updatedList.removeAt(position)
+            requests = updatedList
+            notifyItemRemoved(position)
+        }
+    }
+
     fun updateData(newList: List<Notification>) {
         val diffResult = DiffUtil.calculateDiff(
             ProductDiffCallback(
