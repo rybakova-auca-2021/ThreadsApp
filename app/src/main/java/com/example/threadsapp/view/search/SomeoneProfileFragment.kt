@@ -10,23 +10,31 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.threadsapp.R
+import com.example.threadsapp.adapters.ThreadsAdapter
 import com.example.threadsapp.databinding.FragmentSomeoneProfileBinding
 import com.example.threadsapp.view.home.ReplyFragmentArgs
 import com.example.threadsapp.viewModel.followViewModel.FollowSomeoneViewModel
 import com.example.threadsapp.viewModel.followViewModel.MutualFollowViewModel
 import com.example.threadsapp.viewModel.followViewModel.UnfollowViewModel
+import com.example.threadsapp.viewModel.postViewModel.UserPostListViewModel
 import com.example.threadsapp.viewModel.profileViewModel.SomeoneProfileViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class SomeoneProfileFragment : Fragment() {
     private lateinit var binding: FragmentSomeoneProfileBinding
     private val viewModel: SomeoneProfileViewModel by viewModels()
+    private val userPostListViewModel: UserPostListViewModel by viewModels()
     private val followViewModel: FollowSomeoneViewModel by viewModels()
     private val unfollowViewModel: UnfollowViewModel by viewModels()
-    private val mutualFollowViewModel: MutualFollowViewModel by viewModels()
+    private lateinit var threadsAdapter: ThreadsAdapter
+    private lateinit var recyclerView: RecyclerView
     private var userProfileId: Int = -1
     private var followingStatus: String? = null
     private val args: SomeoneProfileFragmentArgs by navArgs()
@@ -36,15 +44,28 @@ class SomeoneProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentSomeoneProfileBinding.inflate(inflater, container, false)
+        recyclerView = binding.recyclerView
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         userProfileId = args.id
-        checkFollow(args.id)
         setupNavigation()
         setupDataByID(userProfileId)
+
+        threadsAdapter = ThreadsAdapter(emptyList(), SomeoneProfileViewModel())
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = threadsAdapter
+
+        userPostListViewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
+            if (isLoading) {
+                binding.recyclerView.visibility = View.GONE
+            } else {
+                binding.recyclerView.visibility = View.VISIBLE
+            }
+        })
+        setupGettingData(args.id)
     }
 
     private fun setupNavigation() {
@@ -53,6 +74,9 @@ class SomeoneProfileFragment : Fragment() {
         }
         binding.btnFollow.setOnClickListener {
             followBtn(userProfileId)
+        }
+        binding.btnBack.setOnClickListener {
+            findNavController().navigateUp()
         }
     }
 
@@ -70,42 +94,32 @@ class SomeoneProfileFragment : Fragment() {
                 }
                 binding.username.text = userProfile.username
                 binding.name.text = userProfile.full_name
+
+                val initialText = when (userProfile.is_followed) {
+                    "Pending" -> "Requested"
+                    "Mutual Follow" -> "Following"
+                    "Followed" -> "Following"
+                    else -> "Follow"
+                }
+                followingStatus = userProfile.is_followed
+                updateFollowButtonState(initialText)
             },
             onError = { Toast.makeText(requireContext(), "Try Again", Toast.LENGTH_SHORT).show() }
         )
     }
 
-    private fun checkFollow(id: Int) {
-        mutualFollowViewModel.mutualFollow(
-            id,
-            onSuccess = {
-                viewModel.getUserProfileById(
-                    id,
-                    onSuccess = { result ->
-                        val initialText = when (result.is_followed) {
-                            "Mutual Follow" -> "Following"
-                            "Followed" -> "Followed"
-                            else -> "Follow"
-                        }
-                        followingStatus = result.is_followed
-                        updateFollowButtonState(initialText)
-                    },
-                    onError = {
-                        Toast.makeText(requireContext(), "Try again", Toast.LENGTH_SHORT).show()
-                    }
-                )
-            },
-            onError = {
-                Toast.makeText(requireContext(), "Try again. Failed to check following status", Toast.LENGTH_SHORT).show()
-            })
-    }
-
     @SuppressLint("ResourceAsColor")
     private fun followBtn(id: Int) {
-        if (followingStatus == "Followed" || followingStatus == "Mutual Follow") {
-            unfollow(id)
-        } else {
-            follow(id)
+        when (followingStatus) {
+            "Followed", "Mutual Follow" -> {
+                unfollow(id)
+            }
+            "Not Followed" -> {
+                follow(id)
+            }
+            else -> {
+                updateFollowButtonState("Follow")
+            }
         }
     }
 
@@ -127,7 +141,7 @@ class SomeoneProfileFragment : Fragment() {
         unfollowViewModel.unfollow(
             id,
             onSuccess =  {
-                followingStatus = "Unfollowed"
+                followingStatus = "Not Followed"
                 updateFollowButtonState("Follow")
             },
             onError = {
@@ -139,9 +153,9 @@ class SomeoneProfileFragment : Fragment() {
     private fun updateFollowButtonState(text: String) {
         binding.btnFollow.text = text
         val textColorResId =
-            if (text == "Following") R.color.grey_profile else R.color.white
+            if (text == "Following" || text == "Requested") R.color.grey_profile else R.color.white
         val bgColorResId =
-            if (text == "Following") R.drawable.rounded_rectangle else R.drawable.profile_btn
+            if (text == "Following" || text == "Requested") R.drawable.rounded_rectangle else R.drawable.profile_btn
 
         val textColor = ContextCompat.getColor(binding.btnFollow.context, textColorResId)
         val backgroundDrawable = ContextCompat.getDrawable(binding.btnFollow.context, bgColorResId)
@@ -150,6 +164,20 @@ class SomeoneProfileFragment : Fragment() {
         binding.btnFollow.background = backgroundDrawable
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    private fun setupGettingData(id: Int) {
+        userPostListViewModel.userPostList(
+            id,
+            onSuccess = { results ->
+                binding.privateCheck.visibility = View.GONE
+                threadsAdapter.updateData(results)
+                threadsAdapter.notifyDataSetChanged()
+            },
+            onError = {
+                binding.privateCheck.visibility = View.VISIBLE
+            }
+        )
+    }
 
     @SuppressLint("ResourceType")
     private fun createBottomSheetDialog(): BottomSheetDialog {

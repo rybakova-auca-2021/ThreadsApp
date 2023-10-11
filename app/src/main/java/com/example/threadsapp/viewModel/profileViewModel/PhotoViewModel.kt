@@ -17,9 +17,7 @@ import java.io.File
 class PhotoViewModel : ViewModel() {
 
     fun editPhoto(
-        context: Context,
-        onSuccess: () -> Unit,
-        onError: () -> Unit
+        context: Context
     ) {
         val photo = Utils.selectedImageUri
         val apiInterface = RetrofitInstance.profileApi
@@ -38,16 +36,9 @@ class PhotoViewModel : ViewModel() {
             override fun onResponse(
                 call: Call<DetailResponse>,
                 response: Response<DetailResponse>
-            ) {
-                if (response.isSuccessful) {
-                    onSuccess.invoke()
-                } else {
-                    onError.invoke()
-                }
-            }
+            ) {}
 
             override fun onFailure(call: Call<DetailResponse>, t: Throwable) {
-                onError.invoke()
             }
         })
     }

@@ -17,8 +17,6 @@ import com.bumptech.glide.Glide
 import com.example.neobis_android_chapter8.viewModels.AuthViewModel.UserInfoViewModel
 import com.example.threadsapp.R
 import com.example.threadsapp.databinding.FragmentReplyBinding
-import com.example.threadsapp.model.ThreadData
-import com.example.threadsapp.util.CalculateTime
 import com.example.threadsapp.util.ImageUtil
 import com.example.threadsapp.viewModel.commentViewModel.CreateCommentViewModel
 import com.example.threadsapp.viewModel.postViewModel.PostDataViewModel
@@ -94,6 +92,7 @@ class ReplyFragment : Fragment() {
                         } else {
                             binding.imageHolder.visibility = View.GONE
                         }
+                        binding.replyTo.hint = "Reply to ${userProfile.username}"
                     },
                     onError = { errorMessage ->
                         Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()

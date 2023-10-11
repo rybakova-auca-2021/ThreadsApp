@@ -75,7 +75,6 @@ class CreateNewThreadFragment : Fragment() {
             text,
             selectedCommentOption,
             onSuccess = {
-                showToast("Thread posted successfully!")
                 findNavController().navigate(R.id.profileFragment)
             },
             onError = {

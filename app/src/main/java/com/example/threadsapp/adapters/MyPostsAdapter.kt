@@ -130,7 +130,7 @@ class MyPostsAdapter(
                                 videoView.visibility = View.VISIBLE
                                 videoView.start()
                             } else {
-                                videoView.isVisible = false
+                                videoView.visibility = View.GONE
                             }
                         }
 

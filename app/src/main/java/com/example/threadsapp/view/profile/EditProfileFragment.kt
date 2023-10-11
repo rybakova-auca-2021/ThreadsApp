@@ -96,13 +96,7 @@ class EditProfileFragment : Fragment() {
 
 
     private fun setPhoto() {
-        photoViewModel.editPhoto(requireContext(),
-            onSuccess = {
-                showToast("Photo has been edited")
-            },
-            onError = {
-                showToast("Try again")
-            })
+        photoViewModel.editPhoto(requireContext())
     }
 
     private fun saveData() {
@@ -112,14 +106,7 @@ class EditProfileFragment : Fragment() {
         val link = binding.etLink.text.toString()
 
         editProfileViewModel.updateProfile(
-            username, fullName, bio, link, isPrivate,
-            onSuccess = {
-                showToast("Data has been changed")
-            },
-            onError = {
-                showToast("Please, try again")
-            }
-        )
+            username, fullName, bio, link, isPrivate)
     }
 
     private fun navigateToProfileFragment() {

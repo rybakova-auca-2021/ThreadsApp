@@ -7,13 +7,20 @@ import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface MainInterface {
     @GET("feed/following/")
-    fun getFollowingPosts(@Header("Authorization") token: String): Call<PostModel>
+    fun getFollowingPosts(
+        @Header("Authorization") token: String,
+        @Query("page_size") size: Int
+    ): Call<PostModel>
 
     @GET("feed/for_you/")
-    fun getForYouPosts(@Header("Authorization") token: String): Call<PostModel>
+    fun getForYouPosts(
+        @Header("Authorization") token: String,
+        @Query("page_size") size: Int
+    ): Call<PostModel>
 
     @GET("post/{user_id}/list/")
     fun getUserPosts(

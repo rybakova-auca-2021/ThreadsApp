@@ -15,7 +15,7 @@
             android:id="@+id/avatar"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/avatar"
+            tools:src="@drawable/avatar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints" />
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:fontFamily="@font/sfbold"
-            android:text="malevicz"
+            tools:text="malevicz"
             android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@+id/avatar"
             app:layout_constraintTop_toTopOf="parent" />
@@ -35,7 +35,7 @@
             android:id="@+id/job"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Art Director"
+            tools:text="Art Director"
             app:layout_constraintStart_toStartOf="@+id/username"
             app:layout_constraintTop_toBottomOf="@+id/username" />
 
@@ -54,16 +54,16 @@
             android:layout_width="104dp"
             android:layout_height="34dp"
             android:layout_marginEnd="8dp"
+            android:background="@drawable/rounded_rectangle"
+            android:fontFamily="@font/sfmedium"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
             android:text="Follow"
-            android:textSize="15sp"
-            android:fontFamily="@font/sfmedium"
             android:textAllCaps="false"
-            android:background="@drawable/rounded_rectangle"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@+id/job"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/username" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

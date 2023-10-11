@@ -111,7 +111,6 @@ class FollowingFragment : Fragment() {
             id,
             onSuccess =  {
                 userFollowStatusMap[id] = true
-                Toast.makeText(requireContext(), "followed", Toast.LENGTH_SHORT).show()
             },
             onError = {
                 Toast.makeText(requireContext(), "try again", Toast.LENGTH_SHORT).show()

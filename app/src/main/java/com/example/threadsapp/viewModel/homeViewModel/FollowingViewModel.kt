@@ -22,7 +22,7 @@ class FollowingViewModel : ViewModel() {
         val token = Utils.token
         val authHeader = "Bearer $token"
 
-        val call = apiInterface.getFollowingPosts(authHeader)
+        val call = apiInterface.getFollowingPosts(authHeader, 50)
         call.enqueue(object : Callback<PostModel> {
             override fun onResponse(call: Call<PostModel>, response: Response<PostModel>) {
                 if (response.isSuccessful) {

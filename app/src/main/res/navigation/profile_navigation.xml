@@ -148,7 +148,16 @@
         android:id="@+id/activityFragment"
         android:name="com.example.threadsapp.view.activity.ActivityFragment"
         android:label="fragment_activity"
-        tools:layout="@layout/fragment_activity" />
+        tools:layout="@layout/fragment_activity">
+
+        <action
+            android:id="@+id/action_to_someoneProfile"
+            app:destination="@id/someoneProfileFragment">
+            <argument
+                android:name="id"
+                app:argType="integer" />
+        </action>
+    </fragment>
     <fragment
         android:id="@+id/someoneProfileFragment"
         android:name="com.example.threadsapp.view.search.SomeoneProfileFragment"

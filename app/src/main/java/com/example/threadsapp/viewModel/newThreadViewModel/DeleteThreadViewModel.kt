@@ -11,8 +11,7 @@ class DeleteThreadViewModel : ViewModel() {
 
     fun deletePost(
         id: Int,
-        onSuccess: () -> Unit,
-        onError: () -> Unit
+        onSuccess: () -> Unit
     ) {
         val apiInterface = RetrofitInstance.postApi
         val token = Utils.token
@@ -27,12 +26,12 @@ class DeleteThreadViewModel : ViewModel() {
                     if (response.isSuccessful) {
                         onSuccess()
                     } else {
-                        onError()
+                        println("the was an error while deleting a post")
                     }
                 }
 
                 override fun onFailure(call: Call<Unit>, t: Throwable) {
-                    onError()
+                    println("network error")
                 }
             })
         }

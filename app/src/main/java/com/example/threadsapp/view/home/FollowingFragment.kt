@@ -3,9 +3,12 @@ package com.example.threadsapp.view.home
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -30,6 +33,7 @@ class FollowingFragment : Fragment() {
     private lateinit var threadsAdapter: ThreadsAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var progressBar: ProgressBar
     private val viewModel: FollowingViewModel by viewModels()
     private val likeViewModel: LikeUnlikeViewModel by viewModels()
     private val repostViewModel: RepostViewModel by viewModels()
@@ -42,6 +46,7 @@ class FollowingFragment : Fragment() {
     ): View {
         binding = FragmentFollowing2Binding.inflate(inflater, container, false)
         recyclerView = binding.recyclerView
+        progressBar = binding.progressBar3
         return binding.root
     }
 
@@ -49,6 +54,7 @@ class FollowingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         swipeRefreshLayout = binding.swipeRefreshLayout
+        progressBar.visibility = View.VISIBLE
 
         swipeRefreshLayout.setOnRefreshListener {
             refreshData()
@@ -58,16 +64,6 @@ class FollowingFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = threadsAdapter
 
-        viewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
-            if (isLoading) {
-                binding.progressBar3.visibility = View.VISIBLE
-                binding.recyclerView.visibility = View.GONE
-            } else {
-                binding.progressBar3.visibility = View.GONE
-                binding.recyclerView.visibility = View.VISIBLE
-            }
-        })
-
         setData()
     }
 
@@ -76,11 +72,14 @@ class FollowingFragment : Fragment() {
         swipeRefreshLayout.isRefreshing = false
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun setupGettingData() {
         viewModel.forYouPosts(
             onSuccess = { results ->
                 threadsAdapter.updateData(results)
                 threadsAdapter.notifyDataSetChanged()
+                progressBar.visibility = View.GONE
+                recyclerView.visibility = View.VISIBLE
             },
             onError = {
                 Toast.makeText(requireContext(), "Try Again", Toast.LENGTH_SHORT).show()
@@ -137,7 +136,6 @@ class FollowingFragment : Fragment() {
             id,
             onSuccess =  {
                 userFollowStatusMap[id] = true
-                Toast.makeText(requireContext(), "followed", Toast.LENGTH_SHORT).show()
             },
             onError = {
                 Toast.makeText(requireContext(), "try again", Toast.LENGTH_SHORT).show()
@@ -146,13 +144,7 @@ class FollowingFragment : Fragment() {
     }
 
     private fun likeOrDislike(id: Int) {
-        likeViewModel.likeOrUnlike(id,
-            onSuccess = { message ->
-                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-            },
-            onError = { errorMessage ->
-                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
-            })
+        likeViewModel.likeOrUnlike(id)
     }
 
     @SuppressLint("ResourceType")

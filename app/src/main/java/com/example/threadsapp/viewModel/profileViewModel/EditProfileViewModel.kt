@@ -16,25 +16,15 @@ class EditProfileViewModel : ViewModel() {
         fullName: String,
         bio: String,
         website: String,
-        isPrivate: Boolean,
-        onSuccess: () -> Unit,
-        onError: () -> Unit
+        isPrivate: Boolean
     ) {
         val apiInterface = RetrofitInstance.profileApi
         val request = UpdateRequest(username, fullName, bio, website, isPrivate)
 
         token?.let { apiInterface.update(request) }?.enqueue(object : Callback<Profile> {
-            override fun onResponse(call: Call<Profile>, response: Response<Profile>) {
-                if (response.isSuccessful) {
-                    onSuccess.invoke()
-                } else {
-                    onError.invoke()
-                }
-            }
+            override fun onResponse(call: Call<Profile>, response: Response<Profile>) {}
 
-            override fun onFailure(call: Call<Profile>, t: Throwable) {
-                onError.invoke()
-            }
+            override fun onFailure(call: Call<Profile>, t: Throwable) {}
         })
     }
 }

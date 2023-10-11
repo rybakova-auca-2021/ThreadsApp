@@ -6,10 +6,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -31,6 +31,7 @@ class ForYouFragment : Fragment() {
     private lateinit var threadsAdapter: ThreadsAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var progressBar: ProgressBar
     private val viewModel: ForYouViewModel by viewModels()
     private val likeViewModel: LikeUnlikeViewModel by viewModels()
     private val repostViewModel: RepostViewModel by viewModels()
@@ -44,6 +45,7 @@ class ForYouFragment : Fragment() {
     ): View {
         binding = FragmentForYouBinding.inflate(inflater, container, false)
         recyclerView = binding.recyclerView
+        progressBar = binding.progressBar2
         return binding.root
     }
 
@@ -51,6 +53,7 @@ class ForYouFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         swipeRefreshLayout = binding.swipeRefreshLayout
+        progressBar.visibility = View.VISIBLE
 
         swipeRefreshLayout.setOnRefreshListener {
             refreshData()
@@ -59,16 +62,6 @@ class ForYouFragment : Fragment() {
         threadsAdapter = ThreadsAdapter(emptyList(), SomeoneProfileViewModel())
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = threadsAdapter
-
-        viewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
-            if (isLoading) {
-                binding.progressBar2.visibility = View.VISIBLE
-                binding.recyclerView.visibility = View.GONE
-            } else {
-                binding.progressBar2.visibility = View.GONE
-                binding.recyclerView.visibility = View.VISIBLE
-            }
-        })
 
         setData()
     }
@@ -82,6 +75,8 @@ class ForYouFragment : Fragment() {
     private fun setupGettingData() {
         viewModel.forYouPosts(
             onSuccess = { results ->
+                progressBar.visibility = View.GONE
+                recyclerView.visibility = View.VISIBLE
                 threadsAdapter.updateData(results)
                 threadsAdapter.notifyDataSetChanged()
             },
@@ -135,13 +130,7 @@ class ForYouFragment : Fragment() {
     }
 
     private fun likeOrDislike(id: Int) {
-        likeViewModel.likeOrUnlike(id,
-            onSuccess = {message ->
-                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-            },
-            onError = { errorMessage ->
-                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
-            })
+        likeViewModel.likeOrUnlike(id)
     }
 
     @SuppressLint("ResourceAsColor")

@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.MediaController
 import android.widget.Toast
+import android.widget.VideoView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -42,6 +43,7 @@ class ThreadFragment : Fragment() {
     private val repostViewModel: RepostViewModel by viewModels()
     private lateinit var adapter: CommentsAdapter
     private lateinit var recyclerView: RecyclerView
+    private lateinit var videoView: VideoView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,6 +51,7 @@ class ThreadFragment : Fragment() {
     ): View {
         binding = FragmentThreadBinding.inflate(inflater, container, false)
         recyclerView = binding.commentsRecyclerView
+        videoView = binding.videoView
         return binding.root
     }
 
@@ -152,10 +155,8 @@ class ThreadFragment : Fragment() {
                                 binding.imageView4.isVisible = false
                             }
                             if (post.video != null) {
-                                binding.videoView.visibility = View.VISIBLE
-                                val videoView = binding.videoView
+                                videoView.visibility = View.VISIBLE
                                 val mediaController = MediaController(requireContext())
-
                                 videoView.setMediaController(mediaController)
                                 mediaController.setAnchorView(videoView)
 
@@ -215,13 +216,7 @@ class ThreadFragment : Fragment() {
     }
 
     private fun likeOrDislikePost(id: Int) {
-        likeOrDislikePost.likeOrUnlike(id,
-            onSuccess = {
-                binding.likeBtn.setImageResource(R.drawable.like_btn_pressed)
-            },
-            onError = { errorMessage ->
-                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
-            })
+        likeOrDislikePost.likeOrUnlike(id)
     }
 
     @SuppressLint("NotifyDataSetChanged")

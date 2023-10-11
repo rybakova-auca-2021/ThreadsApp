@@ -49,7 +49,6 @@ class ConfirmEmailFragment : Fragment() {
             otp.toInt(),
             onSuccess = {
                 navigateToOtp()
-                showToast("Code was correct")
             },
             onError = {
                 showToast("Please try again.")

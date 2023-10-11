@@ -78,19 +78,29 @@ class SearchResultAdapter(
                 }
             )
 
-            val initialText = if (result.is_followed == "Followed") "Following" else "Follow"
+            val initialText = when (result.is_followed) {
+                "Follow in response" -> "Requested"
+                "Mutual Follow" -> "Following"
+                "Followed" -> "Followed"
+                else -> "Follow"
+            }
             updateFollowButtonState(initialText)
 
             binding.followButton.setOnClickListener {
                 setOnItemClickListener?.onBtnClick(result, adapterPosition, result.pk)
-                val newText = if (binding.followButton.text == "Follow") "Following" else "Follow"
+                val newText = when (result.is_followed) {
+                    "Follow in response" -> "Follow"
+                    "Mutual Follow" -> "Follow"
+                    "Followed" -> "Follow"
+                    else -> "Following"
+                }
                 updateFollowButtonState(newText)
             }
         }
         private fun updateFollowButtonState(text: String) {
             binding.followButton.text = text
             val colorResId =
-                if (text == "Following") R.color.grey_auth else R.color.black
+                if (text == "Following" || text == "Requested") R.color.grey_auth else R.color.black
             binding.followButton.setTextColor(
                 ContextCompat.getColor(binding.followButton.context, colorResId)
             )

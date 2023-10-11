@@ -10,7 +10,7 @@ import com.example.threadsapp.databinding.ActivityCommentViewBinding
 import com.example.threadsapp.model.HomeModel.Notification
 import com.example.threadsapp.viewModel.profileViewModel.SomeoneProfileViewModel
 
-class ActivityCommentsAdapter(var comments: List<Notification>, private val viewModel: SomeoneProfileViewModel) :
+class ActivityCommentsAdapter(private var comments: List<Notification>, private val viewModel: SomeoneProfileViewModel) :
     RecyclerView.Adapter<ActivityCommentsAdapter.CommentViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentViewHolder {
@@ -39,11 +39,15 @@ class ActivityCommentsAdapter(var comments: List<Notification>, private val view
                         binding.followerName.text = userProfile.username
                         userProfile.photo.let { photoUrl ->
                             if (photoUrl.isNullOrEmpty()) {
-                                Glide.with(binding.root.context).load(R.drawable.profile_photo)
-                                    .into(binding.avatar!!)
+                                binding.avatar?.let { it1 ->
+                                    Glide.with(binding.root.context).load(R.drawable.profile_photo)
+                                        .into(it1)
+                                }
                             } else {
-                                Glide.with(binding.root.context).load(photoUrl).circleCrop()
-                                    .into(binding.avatar!!)
+                                binding.avatar?.let { it1 ->
+                                    Glide.with(binding.root.context).load(photoUrl).circleCrop()
+                                        .into(it1)
+                                }
                             }
                         }
                         binding.text.text = comment.text

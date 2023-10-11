@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -260,13 +261,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun likeOrDislike(id: Int) {
-        likeViewModel.likeOrUnlike(id,
-            onSuccess = {message ->
-                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-            },
-            onError = { errorMessage ->
-                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
-            })
+        likeViewModel.likeOrUnlike(id)
     }
 
     private fun deletePost(id: Int, position: Int) {
@@ -274,10 +269,7 @@ class ProfileFragment : Fragment() {
             id,
             onSuccess = {
                 adapter.removeItem(position)
-                showToast("Post was deleted")
             }
-        ) {
-            showToast("Try again")
-        }
+        )
     }
 }

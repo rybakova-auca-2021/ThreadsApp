@@ -162,6 +162,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="@+id/thread_text"
                 app:layout_constraintStart_toStartOf="@+id/avatar"
                 app:layout_constraintTop_toBottomOf="@+id/thread_text">
@@ -181,14 +182,13 @@
                 <VideoView
                     android:id="@+id/videoView"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:scaleType="fitStart"
+                    android:layout_height="500dp"
                     android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHeight_max="500dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <ImageView
@@ -230,25 +230,31 @@
                 app:layout_constraintTop_toBottomOf="@+id/likes" />
 
 
+            <ProgressBar
+                android:id="@+id/progressBar4"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:indeterminate="true"
+                android:layout_marginTop="100dp"
+                android:visibility="visible"
+                android:indeterminateTintMode="src_atop"
+                android:indeterminateTint="@color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/commentsRecyclerView"
+                app:layout_constraintEnd_toEndOf="@+id/commentsRecyclerView"
+                app:layout_constraintStart_toStartOf="@+id/commentsRecyclerView"
+                app:layout_constraintTop_toTopOf="@+id/commentsRecyclerView" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/commentsRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view4"
                 app:layout_constraintVertical_bias="0.0" />
-
-            <ProgressBar
-                android:id="@+id/progressBar4"
-                style="?android:attr/progressBarStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@+id/commentsRecyclerView"
-                app:layout_constraintEnd_toEndOf="@+id/commentsRecyclerView"
-                app:layout_constraintStart_toStartOf="@+id/commentsRecyclerView"
-                app:layout_constraintTop_toTopOf="@+id/commentsRecyclerView" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

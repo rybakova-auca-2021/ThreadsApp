@@ -19,6 +19,7 @@ class ActivityFollowersAdapter(var followers: List<Notification>, private val vi
 
     interface OnItemClickListener<T> {
         fun onBtnClick(data: T, position: Int, id: Int)
+        fun onItemClick(data: T, position: Int, id: Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FollowerViewHolder {
@@ -74,6 +75,9 @@ class ActivityFollowersAdapter(var followers: List<Notification>, private val vi
                                 else -> "Following"
                             }
                             updateFollowButtonState(newText)
+                        }
+                        itemView.setOnClickListener {
+                            setOnItemClickListener?.onItemClick(follower, adapterPosition, follower.related_user)
                         }
                     },
                     onError = {

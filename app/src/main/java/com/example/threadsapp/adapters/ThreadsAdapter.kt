@@ -69,6 +69,13 @@ class ThreadsAdapter(
                             binding.cardView.visibility = View.GONE
                         }
 
+                        //setup reposted text
+                        viewModel.getUserProfileById(thread.author,
+                            onSuccess = {profile ->
+                                textReposted.text = "${profile.username} reposted"
+                            },
+                            onError = {})
+
                         //setup images
                         if(thread.repost != null && thread.text == null) {
                             if (thread.repost.image != null) {
@@ -195,6 +202,10 @@ class ThreadsAdapter(
                         } else {
                             val timeDifference = CalculateTime.calculateTimeDifference(thread.date_posted)
                             time.text = timeDifference
+                        }
+
+                        if (userProfile.is_followed == "Followed" || userProfile.is_followed == "Mutual Follow") {
+                            binding.subscribeBtn.visibility = View.GONE
                         }
 
                         //setup likes

@@ -93,7 +93,6 @@ class SignUpFragment : Fragment() {
             email,
             onSuccess = {
                 navigateToLogin()
-                showToast("Confirm your mail.")
             },
             onError = {
                 showToast("Please try again.")

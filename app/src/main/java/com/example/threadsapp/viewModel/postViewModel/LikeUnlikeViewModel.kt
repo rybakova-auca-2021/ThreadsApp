@@ -10,9 +10,7 @@ import retrofit2.Response
 
 class LikeUnlikeViewModel : ViewModel() {
     fun likeOrUnlike(
-        id: Int,
-        onSuccess: (message: String?) -> Unit,
-        onError: (message: String?) -> Unit
+        id: Int
     ) {
         val apiInterface = RetrofitInstance.postApi
         val token = Utils.token
@@ -25,16 +23,14 @@ class LikeUnlikeViewModel : ViewModel() {
                     response: Response<DetailResponse>
                 ) {
                     if (response.isSuccessful) {
-                        val message = response.body()?.toString()
-                        onSuccess(message)
+                        println(response.body()?.toString())
                     } else {
-                        val errorBody = response.errorBody()?.string()
-                        onError(errorBody)
+                        println(response.errorBody()?.string())
                     }
                 }
 
                 override fun onFailure(call: Call<DetailResponse>, t: Throwable) {
-                    onError(t.message)
+                    println(t.message)
                 }
             })
         }

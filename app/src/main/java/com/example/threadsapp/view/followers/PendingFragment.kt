@@ -8,19 +8,19 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.neobis_android_chapter8.viewModels.AuthViewModel.UserInfoViewModel
-import com.example.threadsapp.adapters.FollowerAdapter
+import com.example.threadsapp.adapters.RequestsAdapter
 import com.example.threadsapp.databinding.FragmentPendingBinding
-import com.example.threadsapp.viewModel.followViewModel.FollowersViewModel
+import com.example.threadsapp.model.ProfileModel.Followers
 import com.example.threadsapp.viewModel.followViewModel.PendingViewModel
 
 class PendingFragment : Fragment() {
     private lateinit var binding: FragmentPendingBinding
     private lateinit var recyclerView: RecyclerView
     private val viewModel: PendingViewModel by viewModels()
-    private lateinit var adapter: FollowerAdapter
+    private lateinit var adapter: RequestsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,11 +34,22 @@ class PendingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = FollowerAdapter(emptyList())
+        adapter = RequestsAdapter(emptyList())
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
 
         getListOfFollowRequests()
+
+        adapter.setOnItemClickListener = object : RequestsAdapter.OnItemClickListener<Followers> {
+            override fun onBtnClick(data: Followers, position: Int, id: Int) {
+                adapter.removeItem(data.follower.pk)
+            }
+
+            override fun onItemClick(data: Followers, position: Int, id: Int, isFollowed: String) {
+                val action = FollowFragmentDirections.actionToSomeoneProfile(id, isFollowed)
+                findNavController().navigate(action)
+            }
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
