@@ -20,6 +20,7 @@ import com.example.threadsapp.R
 import com.example.threadsapp.adapters.ThreadsAdapter
 import com.example.threadsapp.databinding.FragmentSomeoneProfileBinding
 import com.example.threadsapp.view.home.ReplyFragmentArgs
+import com.example.threadsapp.view.profile.ProfileFragmentDirections
 import com.example.threadsapp.viewModel.followViewModel.FollowSomeoneViewModel
 import com.example.threadsapp.viewModel.followViewModel.MutualFollowViewModel
 import com.example.threadsapp.viewModel.followViewModel.UnfollowViewModel
@@ -77,6 +78,10 @@ class SomeoneProfileFragment : Fragment() {
         }
         binding.btnBack.setOnClickListener {
             findNavController().navigateUp()
+        }
+        binding.numOfFollowers.setOnClickListener {
+            val action = SomeoneProfileFragmentDirections.actionSomeoneProfileFragmentToFollowFragment(args.id)
+            findNavController().navigate(action)
         }
     }
 

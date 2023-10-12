@@ -163,10 +163,17 @@
         android:name="com.example.threadsapp.view.search.SomeoneProfileFragment"
         android:label="fragment_someone_profile"
         tools:layout="@layout/fragment_someone_profile">
-
         <argument
             android:name="id"
             app:argType="integer" />
+
+        <action
+            android:id="@+id/action_someoneProfileFragment_to_followFragment"
+            app:destination="@id/followFragment">
+            <argument
+                android:name="id"
+                app:argType="integer" />
+        </action>
 
     </fragment>
     <fragment
