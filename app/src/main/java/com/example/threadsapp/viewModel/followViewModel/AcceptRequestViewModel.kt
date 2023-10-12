@@ -12,8 +12,8 @@ import retrofit2.Response
 class RequestViewModel : ViewModel() {
     fun allowRequest(
         id: Int,
-        onSuccess: () -> Unit,
-        onError: () -> Unit
+        onSuccess: (String) -> Unit,
+        onError: (String) -> Unit
     ) {
         val request = FollowerApi(id)
         val apiInterface = RetrofitInstance.followApi
@@ -25,9 +25,9 @@ class RequestViewModel : ViewModel() {
         call.enqueue(object : Callback<FollowResponse> {
             override fun onResponse(call: Call<FollowResponse>, response: Response<FollowResponse>) {
                 if (response.isSuccessful) {
-                    println("request has been allowed")
+                    onSuccess("request has been allowed")
                 } else {
-                    println("failed to allow request")
+                    onError("failed to allow request")
                 }
             }
 

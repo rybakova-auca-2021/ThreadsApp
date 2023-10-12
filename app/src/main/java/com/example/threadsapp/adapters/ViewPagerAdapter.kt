@@ -8,15 +8,15 @@ import com.example.threadsapp.view.followers.FollowersFragment
 import com.example.threadsapp.view.followers.FollowingFragment
 import com.example.threadsapp.view.followers.PendingFragment
 
-class ViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
+class ViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle, private val username: String?) :
     FragmentStateAdapter(fragmentManager, lifecycle) {
     override fun getItemCount(): Int = 3
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            0 -> FollowersFragment()
-            1 -> FollowingFragment()
-            2 -> PendingFragment()
+            0 -> FollowersFragment.newInstance(username)
+            1 -> FollowingFragment.newInstance(username)
+            2 -> PendingFragment.newInstance(username)
             else -> Fragment()
         }
     }

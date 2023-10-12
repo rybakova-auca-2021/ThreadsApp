@@ -22,6 +22,16 @@ class PendingFragment : Fragment() {
     private val viewModel: PendingViewModel by viewModels()
     private lateinit var adapter: RequestsAdapter
 
+    companion object {
+        fun newInstance(username: String?): PendingFragment {
+            val fragment = PendingFragment()
+            val args = Bundle()
+            args.putString("username", username)
+            fragment.arguments = args
+            return fragment
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

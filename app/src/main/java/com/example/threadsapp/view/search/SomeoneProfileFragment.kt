@@ -2,6 +2,7 @@ package com.example.threadsapp.view.search
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -37,6 +38,7 @@ class SomeoneProfileFragment : Fragment() {
     private lateinit var threadsAdapter: ThreadsAdapter
     private lateinit var recyclerView: RecyclerView
     private var userProfileId: Int = -1
+    var username: String = ""
     private var followingStatus: String? = null
     private val args: SomeoneProfileFragmentArgs by navArgs()
 
@@ -80,7 +82,8 @@ class SomeoneProfileFragment : Fragment() {
             findNavController().navigateUp()
         }
         binding.numOfFollowers.setOnClickListener {
-            val action = SomeoneProfileFragmentDirections.actionSomeoneProfileFragmentToFollowFragment(args.id)
+            val action = SomeoneProfileFragmentDirections.actionSomeoneProfileFragmentToFollowFragment(username)
+            Log.d("Debug", "Username: $username")
             findNavController().navigate(action)
         }
     }
@@ -89,6 +92,7 @@ class SomeoneProfileFragment : Fragment() {
         viewModel.getUserProfile(
             id.toString(),
             onSuccess = { userProfile ->
+                username = userProfile.username
                 userProfileId = userProfile.pk
                 userProfile.photo.let { photoUrl ->
                     if (photoUrl.isNullOrEmpty()) {

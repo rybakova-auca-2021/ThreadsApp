@@ -62,6 +62,29 @@
                 android:name="followingStatus"
                 app:argType="string" />
         </action>
+        <action
+            android:id="@+id/action_followFragment_to_followersFragment"
+            app:destination="@id/followersFragment">
+            <argument
+                android:name="username"
+                app:argType="string" />
+        </action>
+
+        <action
+            android:id="@+id/action_followFragment_to_followingFragment"
+            app:destination="@id/followingFragment">
+            <argument
+                android:name="username"
+                app:argType="string" />
+        </action>
+
+        <action
+            android:id="@+id/action_followFragment_to_pendingFragment"
+            app:destination="@id/pendingFragment">
+            <argument
+                android:name="username"
+                app:argType="string" />
+        </action>
     </fragment>
 
     <fragment
@@ -171,8 +194,8 @@
             android:id="@+id/action_someoneProfileFragment_to_followFragment"
             app:destination="@id/followFragment">
             <argument
-                android:name="id"
-                app:argType="integer" />
+                android:name="username"
+                app:argType="string" />
         </action>
 
     </fragment>
@@ -185,5 +208,36 @@
         <argument
             android:name="postId"
             app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/followersFragment"
+        android:name="com.example.threadsapp.view.followers.FollowersFragment"
+        android:label="fragment_followers"
+        tools:layout="@layout/fragment_followers">
+
+        <argument
+            android:name="username"
+            app:argType="string"/>
+
+    </fragment>
+    <fragment
+        android:id="@+id/followingFragment"
+        android:name="com.example.threadsapp.view.followers.FollowingFragment"
+        android:label="fragment_following"
+        tools:layout="@layout/fragment_following">
+
+        <argument
+            android:name="username"
+            app:argType="string"/>
+    </fragment>
+    <fragment
+        android:id="@+id/pendingFragment"
+        android:name="com.example.threadsapp.view.followers.PendingFragment"
+        android:label="fragment_pending"
+        tools:layout="@layout/fragment_pending">
+
+        <argument
+            android:name="username"
+            app:argType="string"/>
     </fragment>
 </navigation>

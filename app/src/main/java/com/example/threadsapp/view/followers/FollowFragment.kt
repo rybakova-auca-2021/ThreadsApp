@@ -2,6 +2,7 @@ package com.example.threadsapp.view.followers
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,16 +15,24 @@ import com.google.android.material.tabs.TabLayoutMediator
 
 class FollowFragment : Fragment() {
     private lateinit var binding: FragmentFollowBinding
+    private var username: String? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentFollowBinding.inflate(inflater, container, false)
 
+        username = arguments?.getString("username")
+        Log.d("Debug", "Username: $username")
+
+
         val tabLayout = binding.tabLayout
         val viewPager2 = binding.fragmentHolder
 
-        viewPager2.adapter = ViewPagerAdapter(parentFragmentManager, lifecycle)
+        viewPager2.adapter = username?.let {
+            ViewPagerAdapter(parentFragmentManager, lifecycle, it)
+        }
 
         TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
             when (position) {
@@ -39,8 +48,6 @@ class FollowFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupDialog()
-
-        val username = arguments?.getString("username")
         binding.username.text = username
     }
 
@@ -64,7 +71,6 @@ class FollowFragment : Fragment() {
         val latestBtn = dialog.findViewById<View>(R.id.btn_latest)
         val earliestBtn = dialog.findViewById<View>(R.id.btn_earliest)
 
-
         defaultBtn?.setOnClickListener {
             dialog.dismiss()
             // TODO
@@ -80,3 +86,4 @@ class FollowFragment : Fragment() {
         dialog.show()
     }
 }
+

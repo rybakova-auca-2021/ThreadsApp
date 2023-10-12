@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -19,17 +20,30 @@ import com.example.threadsapp.model.ProfileModel.Followers
 import com.example.threadsapp.viewModel.followViewModel.FollowSomeoneViewModel
 import com.example.threadsapp.viewModel.followViewModel.FollowersViewModel
 import com.example.threadsapp.viewModel.followViewModel.UnfollowViewModel
+import com.example.threadsapp.viewModel.profileViewModel.SomeoneProfileViewModel
 
 class FollowersFragment : Fragment() {
     private lateinit var binding: FragmentFollowersBinding
     private lateinit var recyclerView: RecyclerView
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private val viewModel: FollowersViewModel by viewModels()
-    private val userInfoViewModel: UserInfoViewModel by viewModels()
+    private val userInfoViewModel: SomeoneProfileViewModel by viewModels()
     private val followViewModel: FollowSomeoneViewModel by viewModels()
     private val unfollowViewModel: UnfollowViewModel by viewModels()
     private lateinit var adapter: FollowerAdapter
     private val userFollowStatusMap = mutableMapOf<Int, Boolean>()
+    private val args: FollowersFragmentArgs by navArgs()
+    var username = ""
+
+    companion object {
+        fun newInstance(username: String?): FollowersFragment {
+            val fragment = FollowersFragment()
+            val args = Bundle()
+            args.putString("username", username)
+            fragment.arguments = args
+            return fragment
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +56,7 @@ class FollowersFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        username = args.username
         swipeRefreshLayout = binding.swipeRefreshLayout
 
         adapter = FollowerAdapter(emptyList())
@@ -60,18 +74,21 @@ class FollowersFragment : Fragment() {
             }
         }
 
-        userInfoViewModel.profileData.observe(viewLifecycleOwner) { profile ->
-            if (profile != null) {
+        userInfoViewModel.getUserProfile(
+            username,
+            onSuccess = { profile ->
                 val userId = profile.pk
                 getListOfFollowers(userId)
                 swipeRefreshLayout.setOnRefreshListener {
                     getListOfFollowers(userId)
                     swipeRefreshLayout.isRefreshing = false
                 }
-            } else {
+            },
+            onError = {
+                println("try again")
             }
-        }
-        userInfoViewModel.getInfo()
+        )
+
     }
 
     @SuppressLint("NotifyDataSetChanged")
