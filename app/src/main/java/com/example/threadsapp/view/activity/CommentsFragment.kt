@@ -9,22 +9,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.example.threadsapp.R
 import com.example.threadsapp.adapters.ActivityCommentsAdapter
 import com.example.threadsapp.databinding.FragmentCommentsBinding
-import com.example.threadsapp.viewModel.homeViewModel.ActivityViewModel
-import com.example.threadsapp.viewModel.profileViewModel.SomeoneProfileViewModel
+import com.example.threadsapp.model.PostModel.Comment2
 
 class CommentsFragment : Fragment() {
     private lateinit var binding: FragmentCommentsBinding
     private lateinit var recyclerView: RecyclerView
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var progressBar: ProgressBar
-    private val viewModel: ActivityViewModel by viewModels()
+    private val comments = mutableListOf<Comment2>()
     private lateinit var commentAdapter: ActivityCommentsAdapter
 
     override fun onCreateView(
@@ -43,33 +41,35 @@ class CommentsFragment : Fragment() {
         swipeRefreshLayout = binding.swipeRefreshLayout
         progressBar.visibility = View.VISIBLE
 
-        commentAdapter = ActivityCommentsAdapter(emptyList(), SomeoneProfileViewModel())
+        commentAdapter = ActivityCommentsAdapter(emptyList())
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = commentAdapter
 
+        swipeRefreshLayout.setOnRefreshListener {
+            refreshData()
+        }
+
         Handler(Looper.getMainLooper()).postDelayed({
-            getNotificationsComments()
+            loadLocalComments()
         }, 1000)
     }
 
+    private fun refreshData() {
+        loadLocalComments()
+        swipeRefreshLayout.isRefreshing = false
+    }
+
     @SuppressLint("NotifyDataSetChanged")
-    private fun getNotificationsComments() {
-        viewModel.getNotificationsByType(
-            "new_comment",
-            onSuccess = { results ->
-                progressBar.visibility = View.GONE
-                recyclerView.visibility = View.VISIBLE
-                commentAdapter.updateData(results)
-                commentAdapter.notifyDataSetChanged()
-            })
-        viewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
-            if (isLoading) {
-                binding.recyclerView.visibility = View.GONE
-                binding.progressBar7.visibility = View.VISIBLE
-            } else {
-                binding.recyclerView.visibility = View.VISIBLE
-                binding.progressBar7.visibility = View.GONE
-            }
-        })
+    private fun loadLocalComments() {
+        comments.add(Comment2( 1, "perfect full moon...","I like it too", "tomhardy", "", R.drawable.tomhardyava))
+        comments.add(Comment2(2,"perfect full moon...", "\uD83D\uDE0D", "xqllrxx", "", R.drawable.xqllrxxava))
+        comments.add(Comment2(3, "sometimes things go...", "fact\uD83D\uDC4D\uD83D\uDC4D", "rejectness", "", R.drawable.rejectnessava))
+        comments.add(Comment2(4, "we fall in love in...", "really like this season\uD83D\uDE0D", "rejectness", "", R.drawable.rejectnessava))
+
+        commentAdapter.updateData(comments)
+        commentAdapter.notifyDataSetChanged()
+
+        progressBar.visibility = View.GONE
+        recyclerView.visibility = View.VISIBLE
     }
 }

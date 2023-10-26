@@ -1,9 +1,9 @@
 package com.example.threadsapp.api
 
 import com.example.threadsapp.model.AuthModel.DetailResponse
+import com.example.threadsapp.model.HomeModel.Comment
 import com.example.threadsapp.model.HomeModel.PostModel
 import com.example.threadsapp.model.HomeModel.PostView
-import com.example.threadsapp.model.PostModel.Comment
 import com.example.threadsapp.model.PostModel.CommentResponse
 import com.example.threadsapp.model.PostModel.Quote
 import com.example.threadsapp.model.PostModel.Reply

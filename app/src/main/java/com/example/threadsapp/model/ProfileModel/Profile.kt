@@ -8,5 +8,6 @@ data class Profile(
     val website: String,
     var photo: String?,
     val is_private: Boolean,
-    val is_followed: String
+    val is_followed: String,
+    val followers_count: String
 )

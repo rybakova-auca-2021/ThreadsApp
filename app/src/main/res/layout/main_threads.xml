@@ -269,6 +269,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:visibility="gone"
             android:text="@string/_2_replies"
             app:layout_constraintStart_toStartOf="@+id/like_btn"
             app:layout_constraintTop_toBottomOf="@+id/like_btn" />
@@ -277,9 +278,11 @@
             android:id="@+id/likes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:text="@string/_941_likes"
-            app:layout_constraintStart_toEndOf="@+id/divider"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/like_btn"
             app:layout_constraintTop_toTopOf="@+id/replies" />
 
         <TextView
@@ -288,6 +291,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="@string/dot"
+            android:visibility="gone"
             app:layout_constraintStart_toEndOf="@+id/replies"
             app:layout_constraintTop_toTopOf="@+id/replies" />
 
@@ -302,12 +306,11 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:layout_marginTop="10dp"
             android:background="@color/grey_profile"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/replies" />
+            app:layout_constraintTop_toBottomOf="parent" />
 
         <ImageView
             android:id="@+id/subscribe_btn"

@@ -58,12 +58,14 @@ class SearchResultAdapter(
     inner class ViewHolder(private val binding: SearchCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        @SuppressLint("SetTextI18n")
         fun bind(result: UserResult) {
             viewModel.getUserProfile(
                 result.username,
                 onSuccess = { userProfile ->
                     with(binding) {
                         username.text = result.username
+                        numOfFollowers.text = "${userProfile.followers_count} followers"
                         job.text = userProfile.full_name
                         userProfile.photo.let { photoUrl ->
                             if (photoUrl.isNullOrEmpty()) {

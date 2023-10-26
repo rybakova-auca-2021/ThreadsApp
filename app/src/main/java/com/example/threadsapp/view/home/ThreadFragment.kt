@@ -224,9 +224,10 @@ class ThreadFragment : Fragment() {
         commentsViewModel.commentsList(
             id.toString(),
             onSuccess = {
-                comments ->
+                comments, count ->
                 adapter.updateData(comments)
                 adapter.notifyDataSetChanged()
+                binding.replies.text = "$count replies"
             },
             onError = {
                 Toast.makeText(requireContext(), "Try Again", Toast.LENGTH_SHORT).show()

@@ -15,7 +15,7 @@ class CommentListViewModel : ViewModel() {
 
     fun commentsList(
         id: String,
-        onSuccess: (List<CommentView>) -> Unit,
+        onSuccess: (List<CommentView>, Int) -> Unit,
         onError: (String) -> Unit
     ) {
         isLoading.value = true
@@ -31,7 +31,7 @@ class CommentListViewModel : ViewModel() {
                 if (response.isSuccessful) {
                     val results = response.body()
                     if (results != null) {
-                        onSuccess.invoke(results.results)
+                        onSuccess.invoke(results.results, results.count)
                     }
                 } else {
                     onError.invoke("Error fetching comment results")

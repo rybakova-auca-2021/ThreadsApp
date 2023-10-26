@@ -1,5 +1,6 @@
 package com.example.threadsapp.view.home
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
@@ -8,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -49,14 +51,25 @@ class ReplyFragment : Fragment() {
         setPostData()
         setMyData()
         myDataViewModel.getInfo()
+//        setupPostBtn()
     }
+
+//    @SuppressLint("ResourceAsColor")
+//    private fun setupPostBtn() {
+//        if (binding.replyTo.text.isNotEmpty()) {
+//            val color = ContextCompat.getColor(requireContext(), R.color.blue) // Retrieve the color from resources
+//            binding.postBtn.setTextColor(color)
+//            binding.postBtn.isEnabled = true
+//        }
+//    }
+
 
     private fun createComment(id: Int) {
         commentCreateViewModel.createComment(
             id,
             binding.replyTo.text.toString(),
             onSuccess = {
-                findNavController().navigate(R.id.homeFragment)
+                findNavController().navigateUp()
             }
         )
     }
@@ -123,7 +136,7 @@ class ReplyFragment : Fragment() {
 
     private fun setupNavigation() {
         binding.btnBack.setOnClickListener {
-            findNavController().navigate(R.id.homeFragment)
+            findNavController().navigateUp()
         }
         binding.addMedia.setOnClickListener {
             addPhoto()

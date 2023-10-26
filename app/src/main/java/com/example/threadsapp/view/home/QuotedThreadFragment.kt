@@ -47,6 +47,9 @@ class QuotedThreadFragment : Fragment() {
         binding.postBtn.setOnClickListener {
             setupQuote()
         }
+        binding.btnBack.setOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
     private fun setPostData() {

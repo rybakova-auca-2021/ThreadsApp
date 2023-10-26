@@ -191,6 +191,14 @@
             app:argType="integer" />
 
         <action
+            android:id="@+id/action_to_replyFragment"
+            app:destination="@id/replyFragment">
+            <argument
+                android:name="postId"
+                app:argType="integer" />
+        </action>
+
+        <action
             android:id="@+id/action_someoneProfileFragment_to_followFragment"
             app:destination="@id/followFragment">
             <argument

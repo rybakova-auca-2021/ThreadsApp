@@ -1,6 +1,7 @@
 package com.example.threadsapp.view.search
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -20,11 +21,16 @@ import com.bumptech.glide.Glide
 import com.example.threadsapp.R
 import com.example.threadsapp.adapters.ThreadsAdapter
 import com.example.threadsapp.databinding.FragmentSomeoneProfileBinding
+import com.example.threadsapp.model.HomeModel.PostView
+import com.example.threadsapp.view.home.HomeFragmentDirections
 import com.example.threadsapp.view.home.ReplyFragmentArgs
+import com.example.threadsapp.view.home.ThreadFragmentDirections
 import com.example.threadsapp.view.profile.ProfileFragmentDirections
 import com.example.threadsapp.viewModel.followViewModel.FollowSomeoneViewModel
 import com.example.threadsapp.viewModel.followViewModel.MutualFollowViewModel
 import com.example.threadsapp.viewModel.followViewModel.UnfollowViewModel
+import com.example.threadsapp.viewModel.homeViewModel.RepostViewModel
+import com.example.threadsapp.viewModel.postViewModel.LikeUnlikeViewModel
 import com.example.threadsapp.viewModel.postViewModel.UserPostListViewModel
 import com.example.threadsapp.viewModel.profileViewModel.SomeoneProfileViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -35,6 +41,8 @@ class SomeoneProfileFragment : Fragment() {
     private val userPostListViewModel: UserPostListViewModel by viewModels()
     private val followViewModel: FollowSomeoneViewModel by viewModels()
     private val unfollowViewModel: UnfollowViewModel by viewModels()
+    private val likeViewModel: LikeUnlikeViewModel by viewModels()
+    private val repostViewModel: RepostViewModel by viewModels()
     private lateinit var threadsAdapter: ThreadsAdapter
     private lateinit var recyclerView: RecyclerView
     private var userProfileId: Int = -1
@@ -69,6 +77,7 @@ class SomeoneProfileFragment : Fragment() {
             }
         })
         setupGettingData(args.id)
+        setupClicksOnPost()
     }
 
     private fun setupNavigation() {
@@ -101,6 +110,7 @@ class SomeoneProfileFragment : Fragment() {
                         Glide.with(binding.root.context).load(photoUrl).circleCrop().into(binding.profilePhoto)
                     }
                 }
+                binding.numOfFollowers.text = "${userProfile.followers_count} followers"
                 binding.username.text = userProfile.username
                 binding.name.text = userProfile.full_name
 
@@ -115,6 +125,43 @@ class SomeoneProfileFragment : Fragment() {
             },
             onError = { Toast.makeText(requireContext(), "Try Again", Toast.LENGTH_SHORT).show() }
         )
+    }
+    private fun setupClicksOnPost() {
+        threadsAdapter.onClickListener = object : ThreadsAdapter.ListClickListener<PostView> {
+            override fun onClick(data: PostView, position: Int, id: Int) {
+                val bundle = Bundle()
+                bundle.putInt("postId", id)
+                findNavController().navigate(R.id.threadFragment, bundle)
+            }
+
+            override fun onCommentClick(data: PostView, position: Int, id: Int) {
+                val action = SomeoneProfileFragmentDirections.actionToReplyFragment(id)
+                findNavController().navigate(action)
+            }
+
+            override fun onRepostClick(data: PostView, position: Int, id: Int) {
+                showRepostDialog(id)
+            }
+
+            override fun onShareClick(data: PostView, position: Int) {
+                val shareIntent = Intent(Intent.ACTION_SEND)
+                shareIntent.type = "text/plain"
+                shareIntent.putExtra(Intent.EXTRA_TEXT, "Hello, check out this awesome app!")
+
+                val chooserIntent = Intent.createChooser(shareIntent, "Share via")
+                startActivity(chooserIntent)
+            }
+
+            override fun onLikeClick(data: PostView, position: Int, id: Int) {
+                likeOrDislike(id)
+            }
+
+            override fun onPhotoClick(data: PostView, position: Int, id: Int) {
+            }
+
+            override fun onFollowClick(data: PostView, position: Int, id: Int) {
+            }
+        }
     }
 
     @SuppressLint("ResourceAsColor")
@@ -159,6 +206,10 @@ class SomeoneProfileFragment : Fragment() {
         )
     }
 
+    private fun likeOrDislike(id: Int) {
+        likeViewModel.likeOrUnlike(id)
+    }
+
     private fun updateFollowButtonState(text: String) {
         binding.btnFollow.text = text
         val textColorResId =
@@ -194,6 +245,30 @@ class SomeoneProfileFragment : Fragment() {
         val view = layoutInflater.inflate(R.layout.meetball_menu, null)
         dialog.setContentView(view)
         return dialog
+    }
+
+    @SuppressLint("ResourceType")
+    private fun createBottomSheetRepostDialog(): BottomSheetDialog {
+        val dialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogStyle)
+        val view = layoutInflater.inflate(R.layout.home_repost_dialog, null)
+        dialog.setContentView(view)
+        return dialog
+    }
+    private fun showRepostDialog(id: Int) {
+        val dialog = createBottomSheetRepostDialog()
+        val repostBtn = dialog.findViewById<View>(R.id.btn_repost)
+        val quoteBtn = dialog.findViewById<View>(R.id.btn_quote)
+
+        repostBtn?.setOnClickListener {
+            dialog.dismiss()
+            repostViewModel.repost(id)
+        }
+        quoteBtn?.setOnClickListener{
+            val action = HomeFragmentDirections.actionToQuoteFragment(id)
+            findNavController().navigate(action)
+            dialog.dismiss()
+        }
+        dialog.show()
     }
 
     private fun showDialog() {

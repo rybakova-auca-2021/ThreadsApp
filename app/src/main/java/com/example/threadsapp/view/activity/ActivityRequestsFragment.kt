@@ -55,6 +55,10 @@ class ActivityRequestsFragment : Fragment() {
             getNotifications()
         }, 1000)
 
+        swipeRefreshLayout.setOnRefreshListener {
+            refreshData()
+        }
+
         adapter.setOnItemClickListener = object : ActivityRequestAdapter.OnItemClickListener<Notification> {
             override fun onConfirmClick(data: Notification, position: Int, id: Int) {
                 data.related_user?.let { allowRequest(position, it) }
@@ -64,6 +68,11 @@ class ActivityRequestsFragment : Fragment() {
                 data.related_user?.let { declineRequest(position, it) }
             }
         }
+    }
+
+    private fun refreshData() {
+        getNotifications()
+        swipeRefreshLayout.isRefreshing = false
     }
 
     @SuppressLint("NotifyDataSetChanged")

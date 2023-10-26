@@ -60,8 +60,9 @@ class ActivityFollowersAdapter(var followers: List<Notification>, private val vi
 
                         val initialText = when (userProfile.is_followed) {
                             "Mutual Follow" -> "Following"
+                            "Follow in response" -> "Follow"
                             "Followed" -> "Following"
-                            "Follow in response" -> "Requested"
+                            "Pending" -> "Requested"
                             else -> "Follow"
                         }
                         updateFollowButtonState(initialText)
@@ -71,7 +72,7 @@ class ActivityFollowersAdapter(var followers: List<Notification>, private val vi
                             val newText = when (userProfile.is_followed) {
                                 "Mutual Follow" -> "Follow"
                                 "Followed" -> "Follow"
-                                "Follow in response" -> "Follow"
+                                "Pending" -> "Follow"
                                 else -> "Following"
                             }
                             updateFollowButtonState(newText)
